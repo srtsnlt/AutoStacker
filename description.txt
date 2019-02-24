@@ -1,0 +1,49 @@
+Sorry, but this mod is Work In Progress...
+   
+Summary
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+AutoStacker is a mod which is your item collection be more useful!
+For example, RecieverChestSelector is a item: when you pick up drop items, the items stack to chest directry!
+AutoStacker includes below Items!
+   
+Items
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+o RecieverChestSelector
+    When you pick up drop items, the items stack to chest directry!
+    * This item useable to MagicStorage(StorageHeart) insted of chest!
+    
+    useage:
+        Use to placed chest (left   click) : Select stack chest.
+        Use to anything     (rigtht click) : Open selected chest.
+        Right click this item              : On/Off chest stacking (or player inventry stacking).
+    
+    recipie:
+        Require one normal chest on WorkBench.
+   
+o ItemVacuumer
+    When enemy drops items, the items track to you automatically!
+    
+    useage:
+        Right click this  : On/Off tracking.
+    
+    recipie:
+        Require nothing on WorkBench.
+   
+o ItemGrowerChest
+    When 4:30 AM, items stack in chest to be twice!
+    
+    useage:
+        Place chest on ground and deposit in items.
+    
+    recipie:
+        Require one normal chest on WorkBench.
+   
+o HitWireRod
+    When you use this item to wire, trip signal insted of any switchs/lever!
+    
+    useage:
+        Use to placed wire (left click) :Hit Wire!
+    
+    recipie:
+        Require ont wire on WorkBench.
+
