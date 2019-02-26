@@ -12,6 +12,9 @@ o RecieverChestSelector
     When you pick up drop items, the items stack to chest directry!
     * This item useable to MagicStorage(StorageHeart) insted of chest!
     
+    Also, wires on chests(*) has been hit!
+    * Chest only. MagicStorage is not.
+    
     useage:
         Use to placed chest (left   click) : Select stack chest.
         Use to anything     (rigtht click) : Open selected chest.
@@ -30,7 +33,7 @@ o ItemVacuumer
         Require nothing on WorkBench.
    
 o ItemGrowerChest
-    When 4:30 AM, items stack in chest to be twice!
+    At 4:30 AM, items stack in chest to be twice!
     
     useage:
         Place chest on ground and deposit in items.

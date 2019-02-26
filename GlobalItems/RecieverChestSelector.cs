@@ -9,24 +9,23 @@ using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.Localization;
-using Terraria.Localization;
-using MagicStorage;
-using MagicStorage.Components;
 
-namespace AutoStacker
+namespace AutoStacker.GlobalItems
 {
-	class AutoSender : GlobalItem
+	class RecieverChestSelector : GlobalItem
 	{
-		public static Point16 topLeft = new Point16((short)0, (short)0);
-		public static bool autoSendEnabled = false;
+		//public static Point16 topLeft = new Point16((short)0, (short)0);
+		//public static bool autoSendEnabled = false;
 		public static short[] ExcludeItemList = new short[10]{ItemID.CopperCoin, ItemID.SilverCoin, ItemID.GoldCoin, ItemID.PlatinumCoin, ItemID.Heart, ItemID.CandyApple, ItemID.CandyCane, ItemID.Star, ItemID.SugarPlum, ItemID.SoulCake };
 		
 		public override bool OnPickup(Item item, Player player)
 		{
+			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>(mod);
+			
 			//chest
-			if(autoSendEnabled && !ExcludeItemList.Where(x => x == item.type).Any() )
+			if(modPlayer.autoSendEnabled && !ExcludeItemList.Where(x => x == item.type).Any() )
 			{
-				int chestNo=FindChest(topLeft.X,topLeft.Y);
+				int chestNo=FindChest(modPlayer.topLeft.X,modPlayer.topLeft.Y);
 				if(chestNo != -1)
 				{
 					//stack item
@@ -57,14 +56,16 @@ namespace AutoStacker
 						}
 					}
 					
-					Wiring.TripWire(topLeft.X, topLeft.Y, 2, 2);
-					
+					Wiring.TripWire(modPlayer.topLeft.X, modPlayer.topLeft.Y, 2, 2);
 				}
 				
 				//storage heart
-				else if(InjectItem(topLeft, item))
+				else if(AutoStacker.modMagicStorage != null)
 				{
-					item.stack = 0;
+					if(Common.MagicStorageConnecter.InjectItem(modPlayer.topLeft, item))
+					{
+						item.stack = 0;
+					}
 				}
 			}
 			return true;
@@ -81,55 +82,6 @@ namespace AutoStacker
 			else
 				return -1;
 		}
-		
-		//Magic Storage
-		private TEStorageHeart FindHeart(Point16 origin)
-		{
-			if( !TileEntity.ByPosition.ContainsKey(origin) )
-				return null;
-			
-			TEStorageCenter tEStorageCenter = (TEStorageCenter)TileEntity.ByPosition[origin];
-			if(tEStorageCenter == null)
-				return null;
-			
-			TEStorageHeart heart = tEStorageCenter.GetHeart();
-			return heart;
-		}
-		
-		
-		public bool InjectItem(Point16 origin, Item item)
-		{
-			int oldstack = item.stack;
-			
-			TEStorageHeart targetHeart = FindHeart(origin);
-			if (targetHeart == null)
-				return false;
-			
-			targetHeart.DepositItem(item);
-			
-			if (oldstack != item.stack)
-			{
-				HandleStorageItemChange(targetHeart);
-				return true;
-				
-			}
-			return false;
-		}
-		
-		
-		private void HandleStorageItemChange(TEStorageHeart heart)
-		{
-			if (Main.netMode == 2)
-			{
-				NetHelper.SendRefreshNetworkItems(heart.ID);
-			}
-			else if (Main.netMode == 0)
-			{
-				StorageGUI.RefreshItems();
-			}
-		}
 	}
 }
-
-
 

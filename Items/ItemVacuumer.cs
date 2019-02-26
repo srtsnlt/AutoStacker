@@ -35,15 +35,16 @@ namespace AutoStacker.Items
 		public override TagCompound Save()
 		{
 			TagCompound tag = new TagCompound();
-			tag.Set("vacuumSwitch", AutoStackerPlayer.vacuumSwitch);
+			tag.Set("vacuumSwitch", Players.ItemVacuumer.vacuumSwitch);
 			
 			return tag;
 		}
 		
 		public override void Load(TagCompound tag)
 		{
-			AutoStackerPlayer.vacuumSwitch = tag.GetBool("vacuumSwitch");
+			Players.ItemVacuumer.vacuumSwitch=tag.GetBool("vacuumSwitch");
 		}
+		
 		
 		// RightClick
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -54,16 +55,15 @@ namespace AutoStacker.Items
 		
 		public override void RightClick(Player player)
 		{
-			if(AutoStackerPlayer.vacuumSwitch){
-				AutoStackerPlayer.vacuumSwitch=false;
-				Main.NewText("Vacuume ON!!");
-			}else{
-				AutoStackerPlayer.vacuumSwitch=true;
+			if(Players.ItemVacuumer.vacuumSwitch){
+				Players.ItemVacuumer.vacuumSwitch=false;
 				Main.NewText("Vacuume OFF!!");
+			}else{
+				Players.ItemVacuumer.vacuumSwitch=true;
+				Main.NewText("Vacuume ON!!");
 			}
 			item.stack++;
 		}
-		
 		
 		public override void AddRecipes()
 		{
@@ -72,7 +72,5 @@ namespace AutoStacker.Items
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
-		
-		
 	}
 }

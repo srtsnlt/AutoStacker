@@ -1,6 +1,6 @@
 author = srtsnlt
-version = 0.3.6
+version = 0.3.7
 displayName = AutoStacker
-modReferences = MagicStorage
+weakReferences = MagicStorage
 homepage = https://github.com/srtsnlt/AutoStacker
 buildIgnore = obj\*, bin\*, .git\*

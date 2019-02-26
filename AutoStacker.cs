@@ -7,7 +7,7 @@ namespace AutoStacker
 	{
 		
 		internal static AutoStacker instance;
-		internal static AutoSender autoSender;
+		public static Mod modMagicStorage = null;
 		
 		public AutoStacker()
 		{
@@ -20,7 +20,7 @@ namespace AutoStacker
 		public override void Load()
 		{
 			instance = this;
-			autoSender = (AutoSender)GetGlobalItem("AutoSender");
+			modMagicStorage = ModLoader.GetMod("MagicStorage");
 		}
 
 		public override void Unload()

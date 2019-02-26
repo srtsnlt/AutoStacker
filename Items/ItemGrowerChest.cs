@@ -3,11 +3,11 @@ using Terraria.ModLoader;
 
 namespace AutoStacker.Items
 {
-	public class ItemGrowChest : ModItem
+	public class ItemGrowerChest : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Item Grow Chest");
+			DisplayName.SetDefault("Item Grower Chest");
 			Tooltip.SetDefault("This is a modded chest.");
 		}
 
@@ -23,7 +23,7 @@ namespace AutoStacker.Items
 			item.useStyle = 1;
 			item.consumable = true;
 			item.value = 500;
-			item.createTile = mod.TileType("ItemGrowChest");
+			item.createTile = mod.TileType("ItemGrowerChest");
 		}
 		
 		public override void AddRecipes()

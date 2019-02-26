@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -8,20 +9,24 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.Localization;
 using Terraria.ObjectData;
-using MagicStorage;
-using MagicStorage.Components;
 
 namespace AutoStacker.Items
 {
 	public class RecieverChestSelector : ModItem
 	{
+		
+		public Point16 topLeft;
+		public bool autoSendEnabled;
+		
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Reciever Chest Selector");
-			Tooltip.SetDefault("Useage");
-			Tooltip.SetDefault("Click chest : To select chest");
-			Tooltip.SetDefault("Right click : To open selected chest");
-			Tooltip.SetDefault("Right click this item : Deselect/Select Recieve chest");
+			DisplayName.SetDefault("Reciever Chest Selector\n");
+			
+			String tooltip_str = "Useage :\n";
+			tooltip_str       +="Click chest : Select chest\n";
+			tooltip_str       +="Right click : Open selected chest\n";
+			tooltip_str       +="Right click this item : Deselect/Select Recieve chest\n";
+			Tooltip.SetDefault(tooltip_str);
 		}
 		
 		public override void SetDefaults()
@@ -34,25 +39,30 @@ namespace AutoStacker.Items
 			item.useStyle = 1;
 			item.useAnimation = 28;
 			item.useTime = 28;
+			
+			topLeft = new Point16((short)0, (short)0);
+			autoSendEnabled = false;
 		}
+		
 		
 		public override TagCompound Save()
 		{
 			TagCompound tag = new TagCompound();
-			tag.Set("topLeftX", AutoSender.topLeft.X);
-			tag.Set("topLeftY", AutoSender.topLeft.Y);
-			tag.Set("autoSendEnabled", AutoSender.autoSendEnabled);
-			
+			tag.Set("topLeftX", topLeft.X);
+			tag.Set("topLeftY", topLeft.Y);
+			tag.Set("autoSendEnabled", autoSendEnabled);
 			return tag;
 		}
 		
 		public override void Load(TagCompound tag)
 		{
-			AutoSender.topLeft = new Point16(tag.GetShort("topLeftX"), tag.GetShort("topLeftY"));
-			AutoSender.autoSendEnabled = tag.GetBool("autoSendEnabled");
+			if( tag.HasTag("topLeftX") && tag.HasTag("topLeftY") && tag.HasTag("autoSendEnabled") )
+			{
+				topLeft = new Point16(tag.GetShort("topLeftX"), tag.GetShort("topLeftY"));
+				autoSendEnabled = tag.GetBool("autoSendEnabled");
+			}
 		}
 		
-
 		// UseItem
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public override bool AltFunctionUse(Player player)
@@ -62,38 +72,49 @@ namespace AutoStacker.Items
 		
 		public override bool UseItem(Player player)
 		{
+			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>(mod);
+			
+			
 			if (player.altFunctionUse == 0)
 			{
 				Point16 origin = GetOrigin(Player.tileTargetX,Player.tileTargetY);
 				
-				if(FindChest(origin.X,origin.Y) != -1)
+				if(GlobalItems.RecieverChestSelector.FindChest(origin.X,origin.Y) != -1)
 				{
-					AutoSender.topLeft = origin;
-					AutoSender.autoSendEnabled=true;
+					topLeft = origin;
+					modPlayer.topLeft = origin;
+					modPlayer.autoSendEnabled=true;
 					Main.NewText("Reciever Chest Selected to x:"+origin.X+", y:"+origin.Y + " !");
+					
 				}
-				else if(FindHeart(origin) != null)
+				else if(AutoStacker.modMagicStorage != null )
 				{
-					AutoSender.topLeft = origin;
-					AutoSender.autoSendEnabled=true;
-					Main.NewText("Reciever Storage Heart Selected to x:"+origin.X+", y:"+origin.Y + " !");
+					if(callMagicStorageFindHeart(origin))
+					{
+						topLeft = origin;
+						modPlayer.topLeft = origin;
+						modPlayer.autoSendEnabled=true;
+						Main.NewText("Reciever Storage Heart Selected to x:"+origin.X+", y:"+origin.Y + " !");
+						
+					}else{
+						Main.NewText("No chest to be found.");
+					}
 				}
 				else
 				{
 					Main.NewText("No chest to be found.");
 				}
-				
 			}
 			else
 			{
-				int chestNo=FindChest(AutoSender.topLeft.X, AutoSender.topLeft.Y);
+				int chestNo=GlobalItems.RecieverChestSelector.FindChest(topLeft.X, topLeft.Y);
 				if(chestNo != -1)
 				{
 					player.chest = chestNo;
 					Main.playerInventory = true;
 					Main.recBigList = false;
-					player.chestX = AutoSender.topLeft.X;
-					player.chestY = AutoSender.topLeft.Y;
+					player.chestX = topLeft.X;
+					player.chestY = topLeft.Y;
 					
 					Main.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
 				}
@@ -101,6 +122,17 @@ namespace AutoStacker.Items
 			return true;
 		}
 		
+		private bool callMagicStorageFindHeart(Point16 origin)
+		{
+			if(Common.MagicStorageConnecter.FindHeart(origin) == null)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
 		
 		public Point16 GetOrigin(int x, int y)
 		{
@@ -146,31 +178,6 @@ namespace AutoStacker.Items
 			
 		}
 		
-		public static int FindChest(int originX, int originY)
-		{
-			Tile tile = Main.tile[originX, originY];
-			if (tile == null || !tile.active())
-				return -1;
-
-			if (!Chest.isLocked(originX, originY))
-				return Chest.FindChest(originX, originY);
-			else
-				return -1;
-		}
-		
-		//Magic Storage
-		private TEStorageHeart FindHeart(Point16 origin)
-		{
-			if( !TileEntity.ByPosition.ContainsKey(origin) )
-				return null;
-			
-			TEStorageCenter tEStorageCenter = (TEStorageCenter)TileEntity.ByPosition[origin];
-			if(tEStorageCenter == null)
-				return null;
-			
-			TEStorageHeart heart = tEStorageCenter.GetHeart();
-			return heart;
-		}
 		
 		// RightClick
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -181,14 +188,20 @@ namespace AutoStacker.Items
 		
 		public override void RightClick(Player player)
 		{
-			if(AutoSender.autoSendEnabled){
-				AutoSender.autoSendEnabled = false;
+			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>(mod);
+			if(modPlayer.autoSendEnabled)
+			{
+				modPlayer.autoSendEnabled = false;
 				Main.NewText("Reciever Chest Deselected!");
-			}else{
-				if(AutoSender.topLeft.X != 0 && AutoSender.topLeft.Y != 0)
+			}
+			else
+			{
+				if(topLeft.X != 0 && topLeft.Y != 0)
 				{
-					AutoSender.autoSendEnabled = true;
-					Main.NewText("Reciever Chest Selected to x:"+AutoSender.topLeft.X+", y:"+AutoSender.topLeft.Y + " !");
+					modPlayer.autoSendEnabled = true;
+					modPlayer.topLeft = topLeft;
+					
+					Main.NewText("Reciever Chest Selected to x:"+modPlayer.topLeft.X+", y:"+modPlayer.topLeft.Y + " !");
 				}
 			}
 			item.stack++;

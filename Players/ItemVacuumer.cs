@@ -7,24 +7,27 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
-namespace AutoStacker
+namespace AutoStacker.Players
 {
-	public class AutoStackerPlayer : ModPlayer
+	public class ItemVacuumer : ModPlayer
 	{
 		
-		public static bool vacuumSwitch = true;
-		private int moonPhasePrev=Main.moonPhase;
+		public static bool vacuumSwitch;
+		
+		public ItemVacuumer()
+		{
+			vacuumSwitch = false;
+		}
 		
 		public override void PreUpdate()
 		{
-			if(!vacuumSwitch){
+			if(vacuumSwitch){
 				Player player = Main.LocalPlayer;
 				int velocity = 8;
 				foreach (Item item in Main.item)
 				{
 					if (item.active && item.noGrabDelay == 0 && !ItemLoader.GrabStyle(item, player) && ItemLoader.CanPickup(item, player))
 					{
-						//item.beingGrabbed = true;
 						int distanceX   = (int)player.Center.X - (int)item.position.X;
 						int distanceY   = (int)player.Center.Y - (int)item.position.Y;
 						int distanceSum = System.Math.Abs(distanceX) + System.Math.Abs(distanceY);
@@ -43,26 +46,6 @@ namespace AutoStacker
 						}
 					}
 				}
-			}
-			
-			if(moonPhasePrev!=Main.moonPhase){
-				moonPhasePrev=Main.moonPhase;
-				int itemGrowChestType = mod.GetTile("ItemGrowChest").Type;
-				
-				var items = Main.chest.Where( chest => chest != null && Main.tile[chest.x, chest.y] != null && Main.tile[chest.x, chest.y].active() && Main.tile[chest.x, chest.y].type == itemGrowChestType).SelectMany( chest => chest.item );
-				foreach (var item in items)
-				{
-					if(item.stack *2 <= item.maxStack){
-						item.stack *= 2;
-					}
-					else
-					{
-						item.stack = item.maxStack;
-					}
-				}
-				
-				Main.NewText("Items in ItemGrowChest have been Growing...");
-				
 			}
 		}
 	}

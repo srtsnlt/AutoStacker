@@ -10,7 +10,7 @@ using Terraria.ObjectData;
 
 namespace AutoStacker.Tiles
 {
-	public class ItemGrowChest : ModTile
+	public class ItemGrowerChest : ModTile
 	{
 		public override void SetDefaults()
 		{
@@ -33,13 +33,13 @@ namespace AutoStacker.Tiles
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Item Grow Chest");
+			name.SetDefault("Item Grower Chest");
 			AddMapEntry(new Color(200, 200, 200), name, MapChestName);
 			dustType = mod.DustType("Sparkle");
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Containers };
-			chest = "Item Grow Chest";
-			chestDrop = mod.ItemType("ItemGrowChest");
+			chest = "Item Grower Chest";
+			chestDrop = mod.ItemType("ItemGrowerChest");
 		}
 
 		public override bool HasSmartInteract()
@@ -176,10 +176,10 @@ namespace AutoStacker.Tiles
 			}
 			else
 			{
-				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Item Grow Chest";
-				if (player.showItemIconText == "Item Grow Chest")
+				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Item Grower Chest";
+				if (player.showItemIconText == "Item Grower Chest")
 				{
-					player.showItemIcon2 = mod.ItemType("ItemGrowChest");
+					player.showItemIcon2 = mod.ItemType("ItemGrowerChest");
 					player.showItemIconText = "";
 				}
 			}
