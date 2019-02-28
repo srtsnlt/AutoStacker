@@ -18,8 +18,7 @@ namespace AutoStacker.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hit Wire Rod");
-			Tooltip.SetDefault("Useage");
-			Tooltip.SetDefault("Click : Hit Wire");
+			Tooltip.SetDefault("Useage\nClick : Hit Wire");
 		}
 		
 		public override void SetDefaults()

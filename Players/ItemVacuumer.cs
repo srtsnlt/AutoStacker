@@ -12,18 +12,29 @@ namespace AutoStacker.Players
 	public class ItemVacuumer : ModPlayer
 	{
 		
-		public static bool vacuumSwitch;
+		public static bool vacuumSwitch = false;
 		
-		public ItemVacuumer()
+		public override TagCompound Save()
 		{
-			vacuumSwitch = false;
+			TagCompound tag = new TagCompound();
+			tag.Set("vacuumSwitch", vacuumSwitch);
+			
+			return tag;
+		}
+		
+		public override void Load(TagCompound tag)
+		{
+			if(tag.HasTag("vacuumSwitch"))
+			{
+				vacuumSwitch=tag.GetBool("vacuumSwitch");
+			}
 		}
 		
 		public override void PreUpdate()
 		{
 			if(vacuumSwitch){
 				Player player = Main.LocalPlayer;
-				int velocity = 8;
+				int velocity = 12;
 				foreach (Item item in Main.item)
 				{
 					if (item.active && item.noGrabDelay == 0 && !ItemLoader.GrabStyle(item, player) && ItemLoader.CanPickup(item, player))

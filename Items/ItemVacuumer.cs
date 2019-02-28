@@ -19,8 +19,7 @@ namespace AutoStacker.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Item Vacuumer");
-			Tooltip.SetDefault("Useage");
-			Tooltip.SetDefault("Right click this item : ON/OFF Vaccume ");
+			Tooltip.SetDefault("Useage\nRight click this item : ON/OFF Vaccume ");
 		}
 		
 		public override void SetDefaults()
@@ -31,20 +30,6 @@ namespace AutoStacker.Items
 			item.value = 100;
 			item.rare = 1;
 		}
-		
-		public override TagCompound Save()
-		{
-			TagCompound tag = new TagCompound();
-			tag.Set("vacuumSwitch", Players.ItemVacuumer.vacuumSwitch);
-			
-			return tag;
-		}
-		
-		public override void Load(TagCompound tag)
-		{
-			Players.ItemVacuumer.vacuumSwitch=tag.GetBool("vacuumSwitch");
-		}
-		
 		
 		// RightClick
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

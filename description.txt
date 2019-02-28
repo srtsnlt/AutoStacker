@@ -33,7 +33,7 @@ o ItemVacuumer
         Require nothing on WorkBench.
    
 o ItemGrowerChest
-    At 4:30 AM, items stack in chest to be twice!
+    Per day, items in chest to be twice!
     
     useage:
         Place chest on ground and deposit in items.

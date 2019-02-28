@@ -14,19 +14,49 @@ namespace AutoStacker.Items
 {
 	public class RecieverChestSelector : ModItem
 	{
-		
-		public Point16 topLeft;
-		public bool autoSendEnabled;
+		public Point16 topLeft = new Point16((short)-1,(short)-1);
+		public bool active = false;
 		
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Reciever Chest Selector\n");
+			DisplayName.SetDefault("Reciever Chest Selector");
 			
-			String tooltip_str = "Useage :\n";
-			tooltip_str       +="Click chest : Select chest\n";
-			tooltip_str       +="Right click : Open selected chest\n";
-			tooltip_str       +="Right click this item : Deselect/Select Recieve chest\n";
+			String tooltip_str ="Useage \n";
+			tooltip_str       +="  Click chest           : Select chest\n";
+			tooltip_str       +="  Right click           : Open selected chest\n";
+			tooltip_str       +="  Right click this item : ON/OFF auto stack \n";
 			Tooltip.SetDefault(tooltip_str);
+			
+		}
+		
+		public override void ModifyTooltips(List<TooltipLine> tooltips)
+		{
+			if( active )
+			{
+				TooltipLine lineH1 = new TooltipLine(mod, "head1", "Switch [ *** ON *** ]");
+				//lineH1.overrideColor = new Color(100, 100, 255);
+				tooltips.Insert(1,lineH1);
+			}
+			else
+			{
+				TooltipLine lineH1 = new TooltipLine(mod, "head1", "Switch [ ]");
+				//lineH1.overrideColor = new Color(100, 100, 255);
+				tooltips.Insert(1,lineH1);
+			}
+			
+			if(topLeft.X != -1 && topLeft.Y != -1)
+			{
+				TooltipLine lineH2 = new TooltipLine(mod, "head2", "Chest [" + topLeft.X + "," + topLeft.Y + "]\n ");
+				//lineH2.overrideColor = new Color(100, 100, 255);
+				tooltips.Insert(2,lineH2);
+			}
+			else
+			{
+				TooltipLine lineH2 = new TooltipLine(mod, "head2", "Chest [ none ]\n ");
+				//lineH2.overrideColor = new Color(100, 100, 255);
+				tooltips.Insert(2,lineH2);
+			}
+			
 		}
 		
 		public override void SetDefaults()
@@ -40,28 +70,29 @@ namespace AutoStacker.Items
 			item.useAnimation = 28;
 			item.useTime = 28;
 			
-			topLeft = new Point16((short)0, (short)0);
-			autoSendEnabled = false;
 		}
-		
 		
 		public override TagCompound Save()
 		{
 			TagCompound tag = new TagCompound();
+			tag.Set("active", active);
 			tag.Set("topLeftX", topLeft.X);
 			tag.Set("topLeftY", topLeft.Y);
-			tag.Set("autoSendEnabled", autoSendEnabled);
 			return tag;
 		}
 		
 		public override void Load(TagCompound tag)
 		{
-			if( tag.HasTag("topLeftX") && tag.HasTag("topLeftY") && tag.HasTag("autoSendEnabled") )
+			if(tag.HasTag("active"))
+			{
+				active = tag.GetBool("active");
+			}
+			if(tag.HasTag("topLeftX") && tag.HasTag("topLeftY"))
 			{
 				topLeft = new Point16(tag.GetShort("topLeftX"), tag.GetShort("topLeftY"));
-				autoSendEnabled = tag.GetBool("autoSendEnabled");
 			}
 		}
+		
 		
 		// UseItem
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,32 +104,27 @@ namespace AutoStacker.Items
 		public override bool UseItem(Player player)
 		{
 			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>(mod);
-			
-			
 			if (player.altFunctionUse == 0)
 			{
 				Point16 origin = GetOrigin(Player.tileTargetX,Player.tileTargetY);
 				
-				if(GlobalItems.RecieverChestSelector.FindChest(origin.X,origin.Y) != -1)
+				if(GlobalItems.RecieverChestSelector.FindChest(origin.X,origin.Y) != -1 || (AutoStacker.modMagicStorage != null && callMagicStorageFindHeart(origin)))
 				{
-					topLeft = origin;
-					modPlayer.topLeft = origin;
 					modPlayer.autoSendEnabled=true;
-					Main.NewText("Reciever Chest Selected to x:"+origin.X+", y:"+origin.Y + " !");
 					
-				}
-				else if(AutoStacker.modMagicStorage != null )
-				{
-					if(callMagicStorageFindHeart(origin))
+					active=true;
+					if(modPlayer.activeItem != null && modPlayer.activeItem.modItem != null && modPlayer.activeItem.modItem != null)
 					{
-						topLeft = origin;
-						modPlayer.topLeft = origin;
-						modPlayer.autoSendEnabled=true;
-						Main.NewText("Reciever Storage Heart Selected to x:"+origin.X+", y:"+origin.Y + " !");
-						
-					}else{
-						Main.NewText("No chest to be found.");
+						if(!modPlayer.activeItem.Equals(this.item))
+						{
+							((RecieverChestSelector)modPlayer.activeItem.modItem).active = false;
+						}
 					}
+					modPlayer.activeItem = this.item;
+					
+					topLeft=origin;
+					modPlayer.topLeft = origin;
+					Main.NewText("Reciever Chest Selected to x:"+origin.X+", y:"+origin.Y + " !");
 				}
 				else
 				{
@@ -189,21 +215,48 @@ namespace AutoStacker.Items
 		public override void RightClick(Player player)
 		{
 			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>(mod);
-			if(modPlayer.autoSendEnabled)
+			if(  modPlayer.autoSendEnabled  && (topLeft.X == -1 && topLeft.Y == -1) )
 			{
-				modPlayer.autoSendEnabled = false;
-				Main.NewText("Reciever Chest Deselected!");
+				Main.NewText("Reciever chest is not set.Click chest before use.");
 			}
-			else
+			else if(  modPlayer.autoSendEnabled  &&  !(topLeft.X == -1 && topLeft.Y == -1) )
 			{
-				if(topLeft.X != 0 && topLeft.Y != 0)
+				if(this.item.Equals( modPlayer.activeItem ))
 				{
-					modPlayer.autoSendEnabled = true;
-					modPlayer.topLeft = topLeft;
+					modPlayer.autoSendEnabled = false;
 					
-					Main.NewText("Reciever Chest Selected to x:"+modPlayer.topLeft.X+", y:"+modPlayer.topLeft.Y + " !");
+					active=false;
+					Main.NewText("Reciever Chest Deselected!");
+				}
+				else
+				{
+					active=true;
+					if(modPlayer.activeItem != null && modPlayer.activeItem.modItem != null)
+					{
+						((RecieverChestSelector)modPlayer.activeItem.modItem).active = false;
+					}
+					modPlayer.activeItem = this.item;
+					
+					modPlayer.topLeft = topLeft;
+					Main.NewText("Reciever Chest Selected to x:" + modPlayer.topLeft.X + ", y:" + modPlayer.topLeft.Y + " !");
+					
 				}
 			}
+			else if( !modPlayer.autoSendEnabled  && (topLeft.X == -1 && topLeft.Y == -1) )
+			{
+				Main.NewText("Reciever chest is not set.Click chest before use.");
+			}
+			else if( !modPlayer.autoSendEnabled  &&  !(topLeft.X == -1 && topLeft.Y == -1) )
+			{
+				modPlayer.autoSendEnabled = true;
+				
+				active=true;
+				modPlayer.activeItem=this.item;
+				
+				modPlayer.topLeft = topLeft;
+				Main.NewText("Reciever Chest Selected to x:" + modPlayer.topLeft.X + ", y:" + modPlayer.topLeft.Y + " !");
+			}
+			
 			item.stack++;
 		}
 		
@@ -215,5 +268,33 @@ namespace AutoStacker.Items
 			recipe.AddRecipe();
 		}
 		
+		/*
+		~RecieverChestSelector()
+		{
+			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>(mod);
+			modPlayer.topLeftDictionary.Remove(this.item);
+			if(modPlayer.activeItem.Equals( this.item ))
+			{
+				modPlayer.activeItem = null;
+			}
+		}
+		*/
+		
+		public override ModItem Clone()
+		{
+			RecieverChestSelector newItem =(RecieverChestSelector)base.MemberwiseClone();
+			newItem.topLeft = this.topLeft;
+			newItem.active  = this.active;
+			return (ModItem)newItem;
+		}
+		
+		public override ModItem Clone(Item item)
+		{
+			RecieverChestSelector newItem = (RecieverChestSelector)this.NewInstance(item);
+			newItem.topLeft = this.topLeft;
+			newItem.active  = this.active;
+			return (ModItem)newItem;
+		}
+
 	}
 }

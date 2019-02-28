@@ -14,58 +14,58 @@ namespace AutoStacker.GlobalItems
 {
 	class RecieverChestSelector : GlobalItem
 	{
-		//public static Point16 topLeft = new Point16((short)0, (short)0);
-		//public static bool autoSendEnabled = false;
 		public static short[] ExcludeItemList = new short[10]{ItemID.CopperCoin, ItemID.SilverCoin, ItemID.GoldCoin, ItemID.PlatinumCoin, ItemID.Heart, ItemID.CandyApple, ItemID.CandyCane, ItemID.Star, ItemID.SugarPlum, ItemID.SoulCake };
 		
 		public override bool OnPickup(Item item, Player player)
 		{
 			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>(mod);
+			Point16 topLeft=modPlayer.topLeft;
+			
+			if(modPlayer.activeItem == null || (topLeft.X == -1 && topLeft.Y == -1) || !modPlayer.autoSendEnabled || ExcludeItemList.Where(x => x == item.type).Any())
+			{
+				return true;
+			}
 			
 			//chest
-			if(modPlayer.autoSendEnabled && !ExcludeItemList.Where(x => x == item.type).Any() )
+			int chestNo=FindChest(topLeft.X,topLeft.Y);
+			if(chestNo != -1)
 			{
-				int chestNo=FindChest(modPlayer.topLeft.X,modPlayer.topLeft.Y);
-				if(chestNo != -1)
+				//stack item
+				for (int slot = 0; slot < Main.chest[chestNo].item.Length; slot++)
 				{
-					//stack item
-					for (int slot = 0; slot < Main.chest[chestNo].item.Length; slot++)
+					if (Main.chest[chestNo].item[slot].IsAir)
 					{
-						if (Main.chest[chestNo].item[slot].IsAir)
-						{
-							Main.chest[chestNo].item[slot] = item.Clone();
-							item.stack=0;
-							break;
-						}
-						
-						Item chestItem = Main.chest[chestNo].item[slot];
-						if (item.IsTheSameAs(chestItem) && chestItem.stack < chestItem.maxStack)
-						{
-							int spaceLeft = chestItem.maxStack - chestItem.stack;
-							if (spaceLeft >= item.stack)
-							{
-								chestItem.stack += item.stack;
-								item.stack = 0;
-								break;
-							}
-							else
-							{
-								item.stack -= spaceLeft;
-								chestItem.stack = chestItem.maxStack;
-							}
-						}
+						Main.chest[chestNo].item[slot] = item.Clone();
+						item.stack=0;
+						break;
 					}
 					
-					Wiring.TripWire(modPlayer.topLeft.X, modPlayer.topLeft.Y, 2, 2);
-				}
-				
-				//storage heart
-				else if(AutoStacker.modMagicStorage != null)
-				{
-					if(Common.MagicStorageConnecter.InjectItem(modPlayer.topLeft, item))
+					Item chestItem = Main.chest[chestNo].item[slot];
+					if (item.IsTheSameAs(chestItem) && chestItem.stack < chestItem.maxStack)
 					{
-						item.stack = 0;
+						int spaceLeft = chestItem.maxStack - chestItem.stack;
+						if (spaceLeft >= item.stack)
+						{
+							chestItem.stack += item.stack;
+							item.stack = 0;
+							break;
+						}
+						else
+						{
+							item.stack -= spaceLeft;
+							chestItem.stack = chestItem.maxStack;
+						}
 					}
+				}
+				Wiring.TripWire(topLeft.X, topLeft.Y, 2, 2);
+			}
+			
+			//storage heart
+			else if(AutoStacker.modMagicStorage != null)
+			{
+				if(Common.MagicStorageConnecter.InjectItem(topLeft, item))
+				{
+					item.stack = 0;
 				}
 			}
 			return true;
