@@ -8,7 +8,7 @@ AutoStacker includes below Items!
    
 Items
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-o RecieverChestSelector
+[ RecieverChestSelector ]
     When you pick up drop items, the items stack to chest directry!
     * This item useable to MagicStorage(StorageHeart) insted of chest!
     
@@ -23,16 +23,17 @@ o RecieverChestSelector
     recipie:
         Require one normal chest on WorkBench.
    
-o ItemVacuumer
-    When enemy drops items, the items track to you automatically!
+[ Ore Eater ] New!! (sorry, unbalance game difficulty yet...)
+    Summon a pet that serch ores and pick ores or treasures for you!
+    Pets pick power is depend on pickel in your inventory.
     
     useage:
-        Right click this  : On/Off tracking.
+        Set to pet slot.
     
     recipie:
         Require nothing on WorkBench.
    
-o ItemGrowerChest
+[ ItemGrowerChest ]
     Per day, items in chest to be twice!
     
     useage:
@@ -41,7 +42,16 @@ o ItemGrowerChest
     recipie:
         Require one normal chest on WorkBench.
    
-o HitWireRod
+[ ItemVacuumer ]
+    When enemy drops items, the items track to you automatically!
+    
+    useage:
+        Right click this  : On/Off tracking.
+    
+    recipie:
+        Require nothing on WorkBench.
+   
+[ HitWireRod ]
     When you use this item to wire, trip signal insted of any switchs/lever!
     
     useage:

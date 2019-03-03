@@ -28,6 +28,10 @@ namespace AutoStacker.Players
 			{
 				vacuumSwitch=tag.GetBool("vacuumSwitch");
 			}
+			else
+			{
+				vacuumSwitch=false;
+			}
 		}
 		
 		public override void PreUpdate()
