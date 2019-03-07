@@ -2,7 +2,7 @@ Sorry, but this mod is Work In Progress...
    
 Summary
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-AutoStacker is a mod which is your item collection be more useful!
+AutoStacker is a mod which make your item collection be more useful!
 For example, RecieverChestSelector is a item: when you pick up drop items, the items stack to chest directry!
 AutoStacker includes below Items!
    
@@ -23,7 +23,7 @@ Items
     recipie:
         Require one normal chest on WorkBench.
    
-[ Ore Eater ] New!! (sorry, unbalance game difficulty yet...)
+[ Ore Eater ] Update!!
     Summon a pet that serch ores and pick ores or treasures for you!
     Pets pick power is depend on pickel in your inventory.
     
