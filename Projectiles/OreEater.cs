@@ -198,7 +198,7 @@ namespace AutoStacker.Projectiles
 				{
 					
 					projectile.position.X = (float)player.position.X;
-					projectile.position.Y = (float)player.position.Y -4*16;
+					projectile.position.Y = (float)player.position.Y -4*16; //
 				}
 				else
 				{

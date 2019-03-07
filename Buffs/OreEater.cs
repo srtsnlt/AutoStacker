@@ -41,6 +41,10 @@ namespace AutoStacker.Buffs
 						{
 							modPlayer.type=_type;
 							//modPlayer.index = NPC.NewNPC((int)player.position.X, (int)player.position.Y, _type );
+							
+							
+							
+							
 							break;
 						}
 					}

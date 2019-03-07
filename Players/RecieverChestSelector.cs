@@ -61,13 +61,29 @@ namespace AutoStacker.Players
 			}
 		}
 		
+		bool openFlag = false;
 		
 		public override void ResetEffects()
 		{
-			//Item item = Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem];
-			//if (item.type == mod.ItemType("RecieverChestSelector") )
-			if (Main.playerInventory)
+			
+			Item item = Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem];
+			
+			//if (Main.playerInventory)
 			//if( item.type == mod.ItemType("RecieverChestSelector") || Main.playerInventory  )
+			//if (item.type == mod.ItemType("RecieverChestSelector") )
+			
+			if(openFlag && !Main.playerInventory)
+			{
+				openFlag=false;
+			}
+			
+			if (item.type == mod.ItemType("RecieverChestSelector") )
+			{
+				openFlag=true;
+			}
+			
+			
+			if(openFlag)
 			{
 				Terraria.Main.SmartCursorEnabled=false;
 				Player.tileRangeX = Main.Map.MaxWidth;
