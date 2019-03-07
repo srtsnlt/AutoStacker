@@ -18,7 +18,7 @@ namespace AutoStacker.Projectiles
 			Main.projFrames[projectile.type] = 1;
 			Main.projPet[projectile.type] = true;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-			ProjectileID.Sets.LightPet[projectile.type] = true;
+			//ProjectileID.Sets.LightPet[projectile.type] = true;
 		}
 		
 		public override void SetDefaults()
@@ -132,7 +132,7 @@ namespace AutoStacker.Projectiles
 			
 			
 			//light
-			Lighting.AddLight(projectile.position, 0.9f, 0.1f, 0.3f);
+			Lighting.AddLight(projectile.position, 2* 0.9f, 2 * 0.1f, 2* 0.3f);
 			
 			
 			//ore scan & move & pick 
@@ -345,7 +345,7 @@ namespace AutoStacker.Projectiles
 				make_statusAIndex();
 			}
 			
-			if( !_statusAIndex.ContainsKey(0) )
+			if( !_statusAIndex.ContainsKey(0) && !_statusAIndex.ContainsKey(1))
 			{
 				return;
 			}

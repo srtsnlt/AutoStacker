@@ -33,6 +33,16 @@ Items
     recipie:
         Require nothing on WorkBench.
    
+[ Ore Eater Ver.2 ] (old version of OreEater)
+    Summon a pet that serch ores and pick ores or treasures for you!
+    Pets pick power is depend on pickel in your inventory.
+    
+    useage:
+        Set to pet slot.
+    
+    recipie:
+        Require nothing on WorkBench.
+   
 [ ItemGrowerChest ]
     Per day, items in chest to be twice!
     
