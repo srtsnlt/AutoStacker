@@ -61,7 +61,7 @@ namespace AutoStacker.Players
 			}
 		}
 		
-		/*
+		
 		public override void ResetEffects()
 		{
 			//Item item = Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem];
@@ -69,12 +69,11 @@ namespace AutoStacker.Players
 			if (Main.playerInventory)
 			//if( item.type == mod.ItemType("RecieverChestSelector") || Main.playerInventory  )
 			{
+				Terraria.Main.SmartCursorEnabled=false;
 				Player.tileRangeX = Main.Map.MaxWidth;
 				Player.tileRangeY = Main.Map.MaxHeight;
 			}
 		}
-		*/
-		
 	}
 }
 

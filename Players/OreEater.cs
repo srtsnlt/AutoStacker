@@ -15,11 +15,15 @@ namespace AutoStacker.Players
 	public class OreEater : ModPlayer
 	{
 		public bool oreEater = false;
+		public int type = 0;
+		public int index = 0;
 		
 		public Pet pet = new Pet();
+		public bool findRoute = false;
 		
 		public override void ResetEffects()
 		{
+			//Main.npc[index].StrikeNPCNoInteraction(Main.npc[index].lifeMax, 0f, -Main.npc[index].direction, true);
 			oreEater = false;
 		}
 	}
