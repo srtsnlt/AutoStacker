@@ -43,6 +43,15 @@ Items
     recipie:
         Require nothing on WorkBench.
    
+[ Mount Of Discord ] New!!
+    Go through any blocks when you mount!
+    
+    useage:
+        Set to mount slot.
+    
+    recipie:
+        Require nothing on WorkBench.
+   
 [ ItemGrowerChest ]
     Per day, items in chest to be twice!
     

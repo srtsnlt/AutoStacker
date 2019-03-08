@@ -46,10 +46,14 @@ namespace AutoStacker.Projectiles
 		int route_count3 = 0;
 		int route_count4 = 0;
 		
-		int maxSerchNum=72;
+		int maxSerchNum=60;
 		bool goHome=true;
 		System.Random rand = new System.Random();
 		int prevLoop=0;
+		
+		int chestID = -1;
+		
+		
 		
 		public override ModProjectile Clone()
 		{
@@ -84,6 +88,8 @@ namespace AutoStacker.Projectiles
 				pet.initListA();
 				pet.routeListX.Clear();
 				pet.routeListY.Clear();
+				projectile.position=player.position;
+				goHome=true;
 				return;
 			}
 			if (player.dead)
@@ -91,9 +97,6 @@ namespace AutoStacker.Projectiles
 				//modPlayer.ResetEffects();
 				//Main.npc[modPlayer.index].StrikeNPCNoInteraction(Main.npc[modPlayer.index].lifeMax, 0f, -Main.npc[modPlayer.index].direction, true);
 				modPlayer.oreEater = false;
-				pet.initListA();
-				pet.routeListX.Clear();
-				pet.routeListY.Clear();
 			}
 			
 			if (modPlayer.oreEater)
@@ -105,11 +108,11 @@ namespace AutoStacker.Projectiles
 				pet.initListA();
 				pet.routeListX.Clear();
 				pet.routeListY.Clear();
+				projectile.position=player.position;
+				goHome=true;
 			}
-			
-			
-			
-			//scan pick
+	
+			//scan pickel
 			int pickPower = Main.LocalPlayer.inventory.Max(item => item.pick);
 			if( pickPower <= 1)
 			{
@@ -119,20 +122,20 @@ namespace AutoStacker.Projectiles
 			int pickSpeed ;
 			if(Main.LocalPlayer.inventory.Where(item => item.pick > 0).Count() == 0)
 			{
-				pickSpeed = 1;
+				pickSpeed = 30;
 			}
 			else
 			{
-				pickSpeed = Main.LocalPlayer.inventory.Where(item => item.pick > 0).Max(item => item.useTime);
+				pickSpeed = Main.LocalPlayer.inventory.Where(item => item.pick > 0).Min(item => item.useTime);
 			}
-			if( pickSpeed <= 5)
+			if( pickSpeed <= 1)
 			{
-				pickSpeed = 5;
+				pickSpeed = 1;
 			}
 			
 			
 			//light
-			Lighting.AddLight(projectile.position, 2* 0.9f, 2 * 0.1f, 2* 0.3f);
+			Lighting.AddLight(projectile.position, 0.9f, 0.1f, 0.3f);
 			
 			
 			//ore scan & move & pick 
@@ -145,19 +148,18 @@ namespace AutoStacker.Projectiles
 			int routeNo=0;
 			
 			
-			
 			if(!pet.statusAIndex.ContainsKey(3))
 			{
-				if(pet.latestLoop >= maxSerchNum || pet.statusA.Count == 0 || prevLoop == pet.latestLoop)
+				if(pet.latestLoop >= maxSerchNum || prevLoop == pet.latestLoop || pet.statusA.Count == 0 )
 				{
-					originX=(int)projectile.position.X/16;
-					originY=(int)projectile.position.Y/16;
-					prevLoop=pet.latestLoop;
-					pet.serchA(originX,originY , 12, 1, 3, true);
-					if(!pet.statusAIndex.ContainsKey(3))
+					if(pet.latestLoop >= maxSerchNum || prevLoop == pet.latestLoop)
 					{
 						goHome=true;
 					}
+					originX=(int)projectile.position.X/16;
+					originY=(int)projectile.position.Y/16;
+					prevLoop=0;
+					pet.serchA(originX,originY , 12, 1, 3, true);
 				}
 				else
 				{
@@ -177,7 +179,9 @@ namespace AutoStacker.Projectiles
 				projectile.position.X=pet.routeListX[route_count3]*16;
 				projectile.position.Y=pet.routeListY[route_count3]*16;
 				
-				if(rand.Next(60 * pickSpeed  ) >= 5 )
+				//player.position=projectile.position;
+				
+				if(rand.Next(3) <= pickSpeed )
 				{
 					route_count3 -= 1;
 				}
@@ -196,9 +200,11 @@ namespace AutoStacker.Projectiles
 			{
 				if(!pet.statusAIndex.ContainsKey(4))
 				{
-					
+					pet.initListA();
+					pet.routeListX.Clear();
+					pet.routeListY.Clear();
 					projectile.position.X = (float)player.position.X;
-					projectile.position.Y = (float)player.position.Y -4*16; //
+					projectile.position.Y = (float)player.position.Y; //-4*16; 
 				}
 				else
 				{
@@ -211,15 +217,13 @@ namespace AutoStacker.Projectiles
 					projectile.position.X=pet.routeListX[route_count4]*16;
 					projectile.position.Y=pet.routeListY[route_count4]*16;
 					
-					if(rand.Next(60 * pickSpeed) >= 5 )
+					if(rand.Next(3) <= pickSpeed )
 					{
 						route_count4 -= 1;
 					}
 					if(route_count4 == -1)
 					{
-						pet.initListA();
-						pet.routeListX.Clear();
-						pet.routeListY.Clear();
+						route_count4 = 1;
 					}
 				}
 			}
@@ -399,8 +403,13 @@ namespace AutoStacker.Projectiles
 												&& 
 												(
 													TileID.Sets.Ore[tile.type] 
-													|| TileID.Sets.JungleSpecial[tile.type] 
-													|| tile.type == TileID.GemLocks
+													|| tile.type == TileID.ExposedGems
+													|| tile.type == TileID.Sapphire
+													|| tile.type == TileID.Ruby
+													|| tile.type == TileID.Emerald
+													|| tile.type == TileID.Topaz
+													|| tile.type == TileID.Amethyst
+													|| tile.type == TileID.Diamond
 													|| tile.type == TileID.LifeFruit
 													|| tile.type == TileID.Crystals
 													|| tile.type == TileID.Cobweb
@@ -462,8 +471,13 @@ namespace AutoStacker.Projectiles
 						&& 
 						(
 							TileID.Sets.Ore[tile.type] 
-							|| TileID.Sets.JungleSpecial[tile.type] 
-							|| tile.type == TileID.GemLocks
+							|| tile.type == TileID.ExposedGems
+							|| tile.type == TileID.Sapphire
+							|| tile.type == TileID.Ruby
+							|| tile.type == TileID.Emerald
+							|| tile.type == TileID.Topaz
+							|| tile.type == TileID.Amethyst
+							|| tile.type == TileID.Diamond
 							|| tile.type == TileID.LifeFruit
 							|| tile.type == TileID.Crystals
 							|| tile.type == TileID.Cobweb
@@ -475,7 +489,7 @@ namespace AutoStacker.Projectiles
 					else if
 					(
 						_AX[index] == (int)(Main.LocalPlayer.position.X / 16 )
-						&& _AY[index] == (int)(Main.LocalPlayer.position.Y /16 -4)
+						&& _AY[index] == (int)(Main.LocalPlayer.position.Y /16 ) //-4)
 					)
 					{
 						_statusA[_petDictionaryA[_AX[index]][_AY[index]]] = 4;
@@ -617,6 +631,49 @@ namespace AutoStacker.Projectiles
 				_statusAIndex[status].Add(rowNo);
 				rowNo += 1;
 			}
+		}
+		
+		public Point16 GetOrigin(int x, int y)
+		{
+			
+			Tile tile = Main.tile[x, y];
+			if (tile == null || !tile.active())
+				return new Point16(x, y);
+			
+			TileObjectData tileObjectData = TileObjectData.GetTileData(tile.type, 0);
+			if (tileObjectData == null)
+				return new Point16(x, y);
+			
+			//OneByOne
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			if (tileObjectData.Width == 1 && tileObjectData.Height == 1)
+				return new Point16(x, y);
+			
+			//xOffset
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			int xOffset = tile.frameX % tileObjectData.CoordinateFullWidth / tileObjectData.CoordinateWidth ;
+			
+			//yOffset
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			//Rectangle(single)
+			int yOffset;
+			if (tileObjectData.CoordinateHeights.Distinct().Count() == 1)
+			{
+				yOffset = tile.frameY % tileObjectData.CoordinateFullHeight / tileObjectData.CoordinateHeights[0] ;
+			}
+			
+			//Rectangle(complex)
+			else
+			{
+				yOffset = 0;
+				int FullY = tile.frameY % tileObjectData.CoordinateFullHeight;
+				for (int i = 0; i < tileObjectData.CoordinateHeights.Length && FullY >= tileObjectData.CoordinateHeights[i]; i++)
+				{
+					FullY -= tileObjectData.CoordinateHeights[i];
+					yOffset++;
+				}
+			}
+			return new Point16(x - xOffset, y - yOffset);
 		}
 	}
 }

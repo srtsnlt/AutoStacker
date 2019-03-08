@@ -125,30 +125,16 @@ namespace AutoStacker.Projectiles
 					
 					if(
 						TileID.Sets.Ore[petV2.tileType[0]] 
-						|| TileID.Sets.JungleSpecial[petV2.tileType[0]] 
-						|| petV2.tileType[0] == TileID.Amethyst
-						|| petV2.tileType[0] == TileID.AmethystGemspark
-						|| petV2.tileType[0] == TileID.AmethystGemsparkOff
-						|| petV2.tileType[0] == TileID.Topaz
-						|| petV2.tileType[0] == TileID.TopazGemspark
-						|| petV2.tileType[0] == TileID.TopazGemsparkOff
+						|| petV2.tileType[0] == TileID.ExposedGems
 						|| petV2.tileType[0] == TileID.Sapphire
-						|| petV2.tileType[0] == TileID.SapphireGemspark
-						|| petV2.tileType[0] == TileID.SapphireGemsparkOff
-						|| petV2.tileType[0] == TileID.Emerald
-						|| petV2.tileType[0] == TileID.EmeraldGemspark
-						|| petV2.tileType[0] == TileID.EmeraldGemsparkOff
 						|| petV2.tileType[0] == TileID.Ruby
-						|| petV2.tileType[0] == TileID.RubyGemspark
-						|| petV2.tileType[0] == TileID.RubyGemsparkOff
+						|| petV2.tileType[0] == TileID.Emerald
+						|| petV2.tileType[0] == TileID.Topaz
+						|| petV2.tileType[0] == TileID.Amethyst
 						|| petV2.tileType[0] == TileID.Diamond
-						|| petV2.tileType[0] == TileID.DiamondGemspark
-						|| petV2.tileType[0] == TileID.DiamondGemsparkOff
-						|| petV2.tileType[0] == TileID.GemLocks
 						|| petV2.tileType[0] == TileID.LifeFruit
 						|| petV2.tileType[0] == TileID.Crystals
 						|| petV2.tileType[0] == TileID.Cobweb
-						
 					)
 					{
 						modPlayer.player.PickTile((int)petV2.X[0], (int)petV2.Y[0], pickPower);
@@ -294,10 +280,18 @@ namespace AutoStacker.Projectiles
 					}
 					
 					if( 
-						TileID.Sets.Ore[tile.type]
-						|| TileID.Sets.JungleSpecial[tile.type] 
+						TileID.Sets.Ore[tile.type] 
+						|| tile.type == TileID.ExposedGems
+						|| tile.type == TileID.Sapphire
+						|| tile.type == TileID.Ruby
+						|| tile.type == TileID.Emerald
+						|| tile.type == TileID.Topaz
+						|| tile.type == TileID.Amethyst
+						|| tile.type == TileID.Diamond
+						|| tile.type == TileID.LifeFruit
+						|| tile.type == TileID.Crystals
 						|| tile.type == TileID.Cobweb
-					) //|| TileID.Sets.BasicChest[tile.type] )
+					)
 					{
 						addList((int)x, (int)y, tile.type);
 					}
