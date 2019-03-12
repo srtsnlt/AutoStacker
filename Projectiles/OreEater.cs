@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -43,11 +44,11 @@ namespace AutoStacker.Projectiles
 		int originX=0;
 		int originY=0;
 		
-		int route_count3 = 0;
-		int route_count4 = 0;
+		int route_count = -1;
+		int route_count_shift = 0;
+		
 		
 		int maxSerchNum=60;
-		bool goHome=true;
 		System.Random rand = new System.Random();
 		int prevLoop=0;
 		
@@ -60,9 +61,9 @@ namespace AutoStacker.Projectiles
 			OreEater newInstance=(OreEater)base.MemberwiseClone();
 			newInstance.originX=this.originX;
 			newInstance.originY=this.originY;
-			newInstance.route_count3=this.route_count3;
-			newInstance.route_count4=this.route_count4;
-			newInstance.goHome=this.goHome;
+			newInstance.route_count=this.route_count;
+			newInstance.route_count_shift=this.route_count_shift;
+			newInstance.prevLoop=this.prevLoop;
 			
 			return (ModProjectile)newInstance;
 		}
@@ -78,24 +79,25 @@ namespace AutoStacker.Projectiles
 			
 			Player player = Main.player[projectile.owner];
 			Players.OreEater modPlayer = player.GetModPlayer<Players.OreEater>(mod);
+			
+			if(modPlayer.pet == null)
+			{
+				modPlayer.pet = new Pet();
+			}
 			Pet pet=modPlayer.pet;
 			
 			if (!player.active)
 			{
-				//modPlayer.ResetEffects();
-				//Main.npc[modPlayer.index].StrikeNPCNoInteraction(Main.npc[modPlayer.index].lifeMax, 0f, -Main.npc[modPlayer.index].direction, true);
+				Main.npc[modPlayer.index].active=false;
 				projectile.active = false;
 				pet.initListA();
 				pet.routeListX.Clear();
 				pet.routeListY.Clear();
 				projectile.position=player.position;
-				goHome=true;
 				return;
 			}
 			if (player.dead)
 			{
-				//modPlayer.ResetEffects();
-				//Main.npc[modPlayer.index].StrikeNPCNoInteraction(Main.npc[modPlayer.index].lifeMax, 0f, -Main.npc[modPlayer.index].direction, true);
 				modPlayer.oreEater = false;
 			}
 			
@@ -105,13 +107,14 @@ namespace AutoStacker.Projectiles
 			}
 			else
 			{
+				modPlayer.ResetEffects();
+				Main.npc[modPlayer.index].active=false;
 				pet.initListA();
 				pet.routeListX.Clear();
 				pet.routeListY.Clear();
 				projectile.position=player.position;
-				goHome=true;
 			}
-	
+			
 			//scan pickel
 			int pickPower = Main.LocalPlayer.inventory.Max(item => item.pick);
 			if( pickPower <= 1)
@@ -139,91 +142,87 @@ namespace AutoStacker.Projectiles
 			
 			
 			//ore scan & move & pick 
-			int distanceX;
-			int distanceY;
-			int distanceSum;
-			
-			double velocity = 6;
-			
-			int routeNo=0;
-			
-			
-			if(!pet.statusAIndex.ContainsKey(3))
+			if(!pet.statusAIndex.ContainsKey(3) )// && !pet.statusAIndex.ContainsKey(4))
 			{
+				
 				if(pet.latestLoop >= maxSerchNum || prevLoop == pet.latestLoop || pet.statusA.Count == 0 )
 				{
 					if(pet.latestLoop >= maxSerchNum || prevLoop == pet.latestLoop)
 					{
-						goHome=true;
+						projectile.position=player.position;
+						modPlayer.npc.position=projectile.position;
 					}
 					originX=(int)projectile.position.X/16;
 					originY=(int)projectile.position.Y/16;
 					prevLoop=0;
-					pet.serchA(originX,originY , 12, 1, 3, true);
+					route_count_shift=0;
+					pet.serchA(originX,originY , 12, 2, 3, pickPower, true);
 				}
 				else
 				{
 					prevLoop=pet.latestLoop;
-					pet.serchA(originX,originY , 2, 1, 3, false);
+					pet.serchA(originX,originY , 1, 1, 3, pickPower, false);
+					pet.serchA(originX,originY , 2, 1, 3, pickPower, false);
 				}
 			}
 			else
 			{
-				if(goHome || pet.routeListX.Count == 0)
+				int target=-1;
+				if(pet.statusAIndex.ContainsKey(4) )
 				{
-					pet.makeRoute(3, 0, maxSerchNum);
-					route_count3=pet.routeListX.Count -1;
+					target=4;
 				}
-				goHome=false;
+				if(pet.statusAIndex.ContainsKey(3) )
+				{
+					target=3;
+				}
+				if(target == -1)
+				{
+					return;
+				}
 				
-				projectile.position.X=pet.routeListX[route_count3]*16;
-				projectile.position.Y=pet.routeListY[route_count3]*16;
-				
-				//player.position=projectile.position;
-				
-				if(rand.Next(3) <= pickSpeed )
+				//makeRoute
+				if(route_count == -1)
 				{
-					route_count3 -= 1;
-				}
-				if(route_count3 == -1)
-				{
-					modPlayer.player.PickTile(pet.AX[pet.statusAIndex[3][0]], pet.AY[pet.statusAIndex[3][0]], pickPower);
-					
-					pet.initListA();
-					pet.routeListX.Clear();
-					pet.routeListY.Clear();
-				}
-			}
-			
-			
-			if(goHome && !pet.statusAIndex.ContainsKey(3))
-			{
-				if(!pet.statusAIndex.ContainsKey(4))
-				{
-					pet.initListA();
-					pet.routeListX.Clear();
-					pet.routeListY.Clear();
-					projectile.position.X = (float)player.position.X;
-					projectile.position.Y = (float)player.position.Y; //-4*16; 
-				}
-				else
-				{
-					if(pet.routeListX.Count == 0)
+					pet.makeRoute(target, 0, maxSerchNum);
+					route_count=pet.routeListX.Count -1;
+					if(target==4)
 					{
-						pet.makeRoute(4, 0, maxSerchNum);
-						route_count4=pet.routeListX.Count -1;
+						route_count = route_count - route_count_shift;
+						route_count_shift=route_count;
 					}
-					
-					projectile.position.X=pet.routeListX[route_count4]*16;
-					projectile.position.Y=pet.routeListY[route_count4]*16;
-					
-					if(rand.Next(3) <= pickSpeed )
+				}
+				
+				//set velocity
+				projectile.velocity.X = pet.routeListX[route_count]*16 - projectile.position.X;;
+				projectile.velocity.Y = pet.routeListY[route_count]*16 - projectile.position.Y;
+				modPlayer.npc.position=projectile.position;
+				
+				//next cell
+				if(route_count >= 0 && rand.Next( route_count * pickSpeed) <= 16*3 )
+				{
+					route_count -= 1;
+				}
+				
+				
+				//end route
+				if(route_count == -1)
+				{
+					projectile.position.X=pet.routeListX[0]*16;
+					projectile.position.Y=pet.routeListY[0]*16;
+					projectile.velocity.X = 0;
+					projectile.velocity.Y = 0;
+					if(target == 3)
 					{
-						route_count4 -= 1;
+						modPlayer.player.PickTile(pet.AX[pet.statusAIndex[3][0]], pet.AY[pet.statusAIndex[3][0]], pickPower);
+						pet.initListA();
+						pet.routeListX.Clear();
+						pet.routeListY.Clear();
 					}
-					if(route_count4 == -1)
+					else
 					{
-						route_count4 = 1;
+						pet.statusA[pet.statusAIndex[4][0]]=5;
+						pet.make_statusAIndex();
 					}
 				}
 			}
@@ -236,6 +235,34 @@ namespace AutoStacker.Projectiles
 		{
 			initListA();
 			make_statusAIndex();
+			
+			Regex oreRegex=new Regex(" Ore$",RegexOptions.Compiled);
+			
+			Regex gemRegex=new Regex("^Large [a-zA-z]*$",RegexOptions.Compiled);
+			var gemItemId =Main.recipe.Where( recipe => gemRegex.IsMatch( recipe.createItem.Name)).SelectMany( recipe=> recipe.requiredItem ).Select( item => item.type );
+			
+			Item _item = new Item();
+			
+			for(int itemId = 0; itemId < Main.itemTexture.Length; itemId++)
+			{
+				_item.SetDefaults(itemId);
+				if(
+					_item.createTile != -1 
+					&& 
+					(
+						oreRegex.IsMatch(_item.Name) 
+						|| gemItemId.Any( id => id == _item.type )
+						|| _item.Name == "Cobweb"
+					)
+				)
+				{
+					_oreTile[_item.createTile] =true;
+				}
+				else
+				{
+					_oreTile[_item.createTile] =false;
+				}
+			}
 		}
 		
 		private Dictionary<int,Dictionary<int,int>> _petDictionaryA    = new Dictionary<int,Dictionary<int,int>>();
@@ -252,6 +279,10 @@ namespace AutoStacker.Projectiles
 		
 		private double                              root2              = Math.Sqrt(2);
 		public  int                                 latestLoop         = 0;
+		
+		private Dictionary<int,bool>                _oreTile           = new Dictionary<int,bool>();
+		
+		
 		
 		public List<List<int>> petDictionaryAInv
 		{
@@ -331,7 +362,7 @@ namespace AutoStacker.Projectiles
 		}
 		
 		
-		public void serchA(int originX, int originY, int serchTiles,int resultMaxNum, int resultMaxStatus , bool reset=false)
+		public void serchA(int originX, int originY, int serchTiles,int resultMaxNum, int resultMaxStatus, int pickPower, bool reset=false)
 		{
 			if(reset)
 			{
@@ -402,7 +433,10 @@ namespace AutoStacker.Projectiles
 												tile.active() 
 												&& 
 												(
-													TileID.Sets.Ore[tile.type] 
+													(
+														_oreTile.ContainsKey(tile.type)
+														&& _oreTile[tile.type]
+													)
 													|| tile.type == TileID.ExposedGems
 													|| tile.type == TileID.Sapphire
 													|| tile.type == TileID.Ruby
@@ -410,9 +444,11 @@ namespace AutoStacker.Projectiles
 													|| tile.type == TileID.Topaz
 													|| tile.type == TileID.Amethyst
 													|| tile.type == TileID.Diamond
-													|| tile.type == TileID.LifeFruit
-													|| tile.type == TileID.Crystals
 													|| tile.type == TileID.Cobweb
+													|| tile.type == TileID.Pots
+													|| tile.type == TileID.Heart
+													|| tile.type == TileID.LifeFruit
+													
 												)
 											)
 										)
@@ -470,7 +506,10 @@ namespace AutoStacker.Projectiles
 						&& tile.active() 
 						&& 
 						(
-							TileID.Sets.Ore[tile.type] 
+							(
+								_oreTile.ContainsKey(tile.type) 
+								&& _oreTile[tile.type]
+							)
 							|| tile.type == TileID.ExposedGems
 							|| tile.type == TileID.Sapphire
 							|| tile.type == TileID.Ruby
@@ -478,10 +517,12 @@ namespace AutoStacker.Projectiles
 							|| tile.type == TileID.Topaz
 							|| tile.type == TileID.Amethyst
 							|| tile.type == TileID.Diamond
-							|| tile.type == TileID.LifeFruit
-							|| tile.type == TileID.Crystals
 							|| tile.type == TileID.Cobweb
+							|| tile.type == TileID.Pots
+							|| tile.type == TileID.Heart
+							|| tile.type == TileID.LifeFruit
 						)
+						
 					)
 					{
 						_statusA[_petDictionaryA[_AX[index]][_AY[index]]] = 3;
@@ -503,7 +544,7 @@ namespace AutoStacker.Projectiles
 			
 			make_statusAIndex();
 			latestLoop += 1;
-			serchA(originX, originY, serchTiles -1 ,resultMaxNum, resultMaxStatus, false );
+			serchA(originX, originY, serchTiles -1 ,resultMaxNum, resultMaxStatus, pickPower, false );
 			
 		}
 		

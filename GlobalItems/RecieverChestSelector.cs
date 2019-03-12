@@ -21,7 +21,14 @@ namespace AutoStacker.GlobalItems
 			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>(mod);
 			Point16 topLeft=modPlayer.topLeft;
 			
-			if(modPlayer.activeItem == null || (topLeft.X == -1 && topLeft.Y == -1) || !modPlayer.autoSendEnabled || ExcludeItemList.Where(x => x == item.type).Any())
+			if
+			(
+				modPlayer.activeItem == null 
+				|| (topLeft.X == -1 && topLeft.Y == -1) 
+				|| !modPlayer.autoSendEnabled 
+				|| ExcludeItemList.Where(x => x == item.type).Any()
+				|| item.stack <= 0
+			)
 			{
 				return true;
 			}

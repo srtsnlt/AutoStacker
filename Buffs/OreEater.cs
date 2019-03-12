@@ -25,7 +25,17 @@ namespace AutoStacker.Buffs
 		
 		public override void Update(Player player, ref int buffIndex)
 		{
+			if(!Terraria.Program.LoadedEverything )//&& Terraria.Main.tilesLoaded))
+			{
+				return;
+			}
+			
 			Players.OreEater modPlayer = player.GetModPlayer<Players.OreEater>(mod);
+			if(modPlayer.pet == null)
+			{
+				modPlayer.pet = new Projectiles.Pet();
+			}
+			
 			if(!modPlayer.oreEater)
 			{
 				modPlayer.oreEater = true;
@@ -38,7 +48,15 @@ namespace AutoStacker.Buffs
 						if(Main.npcTexture[_type].ToString() == "AutoStacker/NPCs/OreEater")
 						{
 							modPlayer.type=_type;
-							//modPlayer.index = NPC.NewNPC((int)player.position.X, (int)player.position.Y, _type );
+							
+							foreach(var npc in Main.npc.Where( npc => npc.type == _type ))
+							{
+								npc.active = false;
+							}
+							
+							modPlayer.index = NPC.NewNPC((int)player.position.X, (int)player.position.Y, _type );
+							modPlayer.npc = Main.npc[modPlayer.index];
+							
 							Projectiles.Pet pet=modPlayer.pet;
 							pet.initListA();
 							pet.routeListX.Clear();
