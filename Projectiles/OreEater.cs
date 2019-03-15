@@ -85,6 +85,7 @@ namespace AutoStacker.Projectiles
 				modPlayer.pet = new Pet();
 			}
 			Pet pet=modPlayer.pet;
+			pet.delayLoad();
 			
 			if (!player.active)
 			{
@@ -236,34 +237,45 @@ namespace AutoStacker.Projectiles
 			initListA();
 			make_statusAIndex();
 			
-			Regex oreRegex=new Regex(" Ore$",RegexOptions.Compiled);
+			//gemItemId =(List<int>)Main.recipe.Where( recipe => gemRegex.IsMatch( recipe.createItem.Name)).SelectMany( recipe=> recipe.requiredItem ).Select( item => item.type ).Cast<List<int>>();
 			
-			Regex gemRegex=new Regex("^Large [a-zA-z]*$",RegexOptions.Compiled);
-			var gemItemId =Main.recipe.Where( recipe => gemRegex.IsMatch( recipe.createItem.Name)).SelectMany( recipe=> recipe.requiredItem ).Select( item => item.type );
-			
-			Item _item = new Item();
-			
-			for(int itemId = 0; itemId < Main.itemTexture.Length; itemId++)
+		}
+		
+		private static Regex oreRegex=new Regex(" Ore$",RegexOptions.Compiled);
+		private static Regex gemRegex=new Regex("^Large [a-zA-z]*$",RegexOptions.Compiled);
+		private static List<int> gemItemId = new List<int>();
+		private static Item _item = new Item();
+		private static int itemId = 0;
+		private static Dictionary<int,bool> _oreTile = new Dictionary<int,bool>();
+		
+		public void delayLoad()
+		{
+			if(itemId < Main.itemTexture.Length)
 			{
-				_item.SetDefaults(itemId);
-				if(
-					_item.createTile != -1 
-					&& 
-					(
-						oreRegex.IsMatch(_item.Name) 
-						|| gemItemId.Any( id => id == _item.type )
-						|| _item.Name == "Cobweb"
+				for(int count=0; count<50 && itemId < Main.itemTexture.Length; count++)
+				{
+					_item.SetDefaults(itemId);
+					if(
+						_item.createTile != -1 
+						&& 
+						(
+							oreRegex.IsMatch(_item.Name) 
+							|| gemItemId.Any( id => id == _item.type )
+							|| _item.Name == "Cobweb"
+						)
 					)
-				)
-				{
-					_oreTile[_item.createTile] =true;
-				}
-				else
-				{
-					_oreTile[_item.createTile] =false;
+					{
+						_oreTile[_item.createTile] =true;
+					}
+					else
+					{
+						_oreTile[_item.createTile] =false;
+					}
+					itemId += 1;
 				}
 			}
 		}
+		
 		
 		private Dictionary<int,Dictionary<int,int>> _petDictionaryA    = new Dictionary<int,Dictionary<int,int>>();
 		private List<List<int>>                     _petDictionaryAInv = new List<List<int>>();
@@ -275,13 +287,11 @@ namespace AutoStacker.Projectiles
 		private List<int>                           _routeAY           = new List<int>();
 		private List<double>                        _nA                = new List<double>();
 		
-		private Dictionary<int,List<int>>           _statusAIndex      = new Dictionary<int,List<int>>();
 		
 		private double                              root2              = Math.Sqrt(2);
 		public  int                                 latestLoop         = 0;
 		
-		private Dictionary<int,bool>                _oreTile           = new Dictionary<int,bool>();
-		
+		private Dictionary<int,List<int>>           _statusAIndex      = new Dictionary<int,List<int>>();
 		
 		
 		public List<List<int>> petDictionaryAInv

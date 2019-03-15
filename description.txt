@@ -1,90 +1,102 @@
 Sorry, but this mod is Work In Progress...
-   
+ 
 Summary
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AutoStacker is a mod which make your item collection be more useful!
 For example, RecieverChestSelector is a item: when you pick up drop items, the items stack to chest directry!
 AutoStacker includes below Items!
-   
+ 
+ 
 Items
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ RecieverChestSelector ] Update!!
-    When you pick up drop items, the items stack to chest directry!
-    * This item useable to MagicStorage(StorageHeart) insted of chest!
-    
-    Also, wires on chests(*) has been hit!
-    * Chest only. MagicStorage is not.
-    
-    useage:
-        Use to placed chest (left   click) : Select stack chest.
-        Use to anything     (rigtht click) : Open selected chest.
-        Right click this item              : On/Off chest stacking (or player inventry stacking).
-    
-    recipie:
-        Require one normal chest on WorkBench.
-   
+[ RecieverChestSelector ] 
+ When you pick up drop items, the items stack to chest directry!
+ * This item useable to MagicStorage(StorageHeart) insted of chest!
+ 
+ Also, wires on chests(*) has been hit!
+ * Chest only. MagicStorage is not.
+ 
+ useage:
+     Use to placed chest (left   click) : Select stack chest.
+     Use to anything     (rigtht click) : Open selected chest.
+     Right click this item              : On/Off chest stacking (or player inventry stacking).
+ 
+ recipie:
+     Require one normal chest on WorkBench.
+ 
+ 
 [ Ore Eater ] Update!!
-    Summon a pet that serch ores and pick ores or treasures for you!
-    Pets pick power is depend on pickel in your inventory.
-    
-    useage:
-        Set to pet slot.
-    
-    recipie:
-        Require nothing on WorkBench.
-   
+ Summon a pet that serch ores and pick ores or treasures for you!
+ Pets pick power is depend on pickel in your inventory.
+ 
+ useage:
+     Set to pet slot.
+ 
+ recipie:
+     Require nothing on WorkBench.
+ 
+ 
 [ Ore Eater Ver.2 ]
-    Summon a pet that serch ores and pick ores or treasures for you!
-    Pets pick power is depend on pickel in your inventory.
-    
-    useage:
-        Set to pet slot.
-    
-    recipie:
-        Require nothing on WorkBench.
-   
-[ Mount Of Discord ] 
-    Go through any blocks when you mount!
-    
-    useage:
-        Set to mount slot.
-    
-    recipie:
-        Require nothing on WorkBench.
-   
-[ ItemGrowerChest ]
-    Per day, items in chest to be twice!
-    
-    useage:
-        Place chest on ground and deposit in items.
-    
-    recipie:
-        Require one normal chest on WorkBench.
-   
-[ ItemVacuumer ]
-    When enemy drops items, the items track to you automatically!
-    
-    useage:
-        Right click this  : On/Off tracking.
-    
-    recipie:
-        Require nothing on WorkBench.
-   
-[ HitWireRod ]
-    When you use this item to wire, trip signal insted of any switchs/lever!
-    
-    useage:
-        Use to placed wire (left click) :Hit Wire!
-    
-    recipie:
-        Require ont wire on WorkBench.
+ Summon a pet that serch ores and pick ores or treasures for you!
+ Pets pick power is depend on pickel in your inventory.
 
+ useage:
+     Set to pet slot.
+
+ recipie:
+     Require nothing on WorkBench.
+ 
+ 
+[ Mount Of Discord ] 
+ Go through any blocks when you mount!
+ 
+ useage:
+     Set to mount slot.
+ 
+ recipie:
+     Require nothing on WorkBench.
+ 
+ 
+[ ItemGrowerChest ]
+ Per day, items in chest to be twice!
+ 
+ useage:
+     Place chest on ground and deposit in items.
+ 
+ recipie:
+     Require one normal chest on WorkBench.
+ 
+ 
+[ ItemVacuumer ]
+ When enemy drops items, the items track to you automatically!
+ 
+ useage:
+     Right click this  : On/Off tracking.
+ 
+ recipie:
+     Require nothing on WorkBench.
+ 
+ 
+[ HitWireRod ]
+ When you use this item to wire, trip signal insted of any switchs/lever!
+ 
+ useage:
+     Use to placed wire (left click) :Hit Wire!
+ 
+ recipie:
+     Require ont wire on WorkBench.
+ 
+ 
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 v0.3.15
+ o Ore Eater
+    Performance improvement of item loading
+
+v0.3.15
  o RecieverChestSelector
     bugfix
-
+ 
  o Ore Eater
     AI program fix.
     Be able to pick mod ores and show position in minimap.
