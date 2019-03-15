@@ -36,7 +36,7 @@ Items
      Require nothing on WorkBench.
  
  
-[ Ore Eater Ver.2 ]
+[ Ore Eater Ver.2 ] Update!!
  Summon a pet that serch ores and pick ores or treasures for you!
  Pets pick power is depend on pickel in your inventory.
 
@@ -89,7 +89,14 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-v0.3.15
+v0.3.17
+ o Ore Eater
+    bugfix
+ 
+ o Ore Eater Ver.2
+    Changed AI to [Ore eater] base.
+ 
+v0.3.16
  o Ore Eater
     Performance improvement of item loading
 

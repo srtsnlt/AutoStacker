@@ -53,7 +53,7 @@ namespace AutoStacker.Projectiles
 		int prevLoop=0;
 		
 		int chestID = -1;
-		int targetPrev=4;
+		
 		
 		
 		public override ModProjectile Clone()
@@ -64,7 +64,6 @@ namespace AutoStacker.Projectiles
 			newInstance.route_count=this.route_count;
 			newInstance.route_count_shift=this.route_count_shift;
 			newInstance.prevLoop=this.prevLoop;
-			newInstance.targetPrev=this.targetPrev;
 			
 			return (ModProjectile)newInstance;
 		}
@@ -144,12 +143,12 @@ namespace AutoStacker.Projectiles
 			
 			
 			//ore scan & move & pick 
-			if(!pet.statusAIndex.ContainsKey(3) && !pet.statusAIndex.ContainsKey(4) )
+			if(!pet.statusAIndex.ContainsKey(3) )// && !pet.statusAIndex.ContainsKey(4))
 			{
+				
 				if(pet.latestLoop >= maxSerchNum || prevLoop == pet.latestLoop || pet.statusA.Count == 0 )
 				{
 					if(pet.latestLoop >= maxSerchNum || prevLoop == pet.latestLoop)
-					//if(prevLoop == pet.latestLoop)
 					{
 						projectile.position=player.position;
 						modPlayer.npc.position=projectile.position;
@@ -170,15 +169,15 @@ namespace AutoStacker.Projectiles
 			else
 			{
 				int target=-1;
+				if(pet.statusAIndex.ContainsKey(4) )
+				{
+					target=4;
+				}
 				if(pet.statusAIndex.ContainsKey(3) )
 				{
 					target=3;
 				}
-				else if(pet.statusAIndex.ContainsKey(4) )
-				{
-					target=4;
-				}
-				else
+				if(target == -1)
 				{
 					return;
 				}
@@ -196,8 +195,8 @@ namespace AutoStacker.Projectiles
 				}
 				
 				//set velocity
-				projectile.velocity.X = pet.routeListX[route_count]*16 - projectile.position.X -8;
-				projectile.velocity.Y = pet.routeListY[route_count]*16 - projectile.position.Y -8;
+				projectile.velocity.X = pet.routeListX[route_count]*16 - projectile.position.X;;
+				projectile.velocity.Y = pet.routeListY[route_count]*16 - projectile.position.Y;
 				modPlayer.npc.position=projectile.position;
 				
 				//next cell
@@ -220,26 +219,14 @@ namespace AutoStacker.Projectiles
 						pet.initListA();
 						pet.routeListX.Clear();
 						pet.routeListY.Clear();
-						targetPrev=3;
 					}
 					else
 					{
-						if(targetPrev==3)
-						{
-							pet.initListA();
-							pet.routeListX.Clear();
-							pet.routeListY.Clear();
-						}
-						else
-						{
-							pet.statusA[pet.statusAIndex[4][0]]=5;
-							pet.make_statusAIndex();
-						}
-						targetPrev=4;
+						pet.statusA[pet.statusAIndex[4][0]]=5;
+						pet.make_statusAIndex();
 					}
 				}
 			}
-			modPlayer.npc.life=modPlayer.npc.lifeMax;
 		}
 	}
 	
@@ -250,10 +237,13 @@ namespace AutoStacker.Projectiles
 			initListA();
 			make_statusAIndex();
 			
+			//gemItemId =(List<int>)Main.recipe.Where( recipe => gemRegex.IsMatch( recipe.createItem.Name)).SelectMany( recipe=> recipe.requiredItem ).Select( item => item.type ).Cast<List<int>>();
+			
 		}
 		
-		private static Regex oreRegex =new Regex(" Ore$",RegexOptions.Compiled);
-		private static Regex gemRegex =new Regex("^Large [a-zA-z]*$",RegexOptions.Compiled);
+		private static Regex oreRegex=new Regex(" Ore$",RegexOptions.Compiled);
+		private static Regex gemRegex=new Regex("^Large [a-zA-z]*$",RegexOptions.Compiled);
+		private static List<int> gemItemId = new List<int>();
 		private static Item _item = new Item();
 		private static int itemId = 0;
 		private static Dictionary<int,bool> _oreTile = new Dictionary<int,bool>();
@@ -262,7 +252,7 @@ namespace AutoStacker.Projectiles
 		{
 			if(itemId < Main.itemTexture.Length)
 			{
-				for(int count=0; count<10 && itemId < Main.itemTexture.Length; count++)
+				for(int count=0; count<50 && itemId < Main.itemTexture.Length; count++)
 				{
 					_item.SetDefaults(itemId);
 					if(
@@ -270,7 +260,7 @@ namespace AutoStacker.Projectiles
 						&& 
 						(
 							oreRegex.IsMatch(_item.Name) 
-							|| Main.recipe.Where( recipe => gemRegex.IsMatch( recipe.createItem.Name)).SelectMany( recipe=> recipe.requiredItem ).Select(item => item.type).Any( id => id == _item.type )
+							|| gemItemId.Any( id => id == _item.type )
 							|| _item.Name == "Cobweb"
 						)
 					)
@@ -482,7 +472,7 @@ namespace AutoStacker.Projectiles
 							}
 						}
 					}
-					_statusA[index] = 1;
+					_statusA[_petDictionaryA[_AX[index]][_AY[index]]] = 1;
 				}
 			}
 			
@@ -491,48 +481,28 @@ namespace AutoStacker.Projectiles
 			{
 				foreach(int index in _statusAIndex[1])
 				{
-					double cur = _nA[index];
-					int x=_AX[index];
-					int y=_AY[index];
 					for(int dX=-1; dX <= 1; dX++)
 					{
 						for(int dY=-1; dY <= 1; dY++ )
 						{
 							if(
-								(dY == 0 && dX == 0)
-								|| !_petDictionaryA.ContainsKey(x + dX)
-								|| !_petDictionaryA[x + dX].ContainsKey(y + dY)
-								||
-								(
-									_statusA[_petDictionaryA[x + dX][y + dY]] != 0
-									&& _statusA[_petDictionaryA[x + dX][y + dY]] != 1
-									&& _statusA[_petDictionaryA[x + dX][y + dY]] != 2
-								)
+								dY == 0 && dX == 0
+								|| !_petDictionaryA.ContainsKey(_AX[index] + dX)
+								|| !_petDictionaryA[_AX[index] + dX].ContainsKey(_AY[index] + dY)
 							)
 							{
 								continue;
 							}
-							
-							double match;
-							if(dX ==0 || dY ==0)
+							double cur   = _nA[_petDictionaryA[_AX[index] + dX][_AY[index] + dY]];
+							double match = _nA[_petDictionaryA[_AX[index]][_AY[index]]] + (double)( dX ==0 || dY ==0 ? 1 : root2);
+							if(match <= cur)
 							{
-								match = _nA[_petDictionaryA[x + dX][y + dY]] + 1d;
-							}
-							else
-							{
-								match = _nA[_petDictionaryA[x + dX][y + dY]] + root2;
-							}
-							
-							if(match < cur)
-							{
-								_nA[index]=match;
-								cur=match;
-								_routeAX[index] = x + dX;
-								_routeAY[index] = y + dY;
+								_routeAX[_petDictionaryA[_AX[index]][_AY[index]]] = _AX[index];
+								_routeAY[_petDictionaryA[_AX[index]][_AY[index]]] = _AY[index];
 							}
 						}
 					}
-					_statusA[index] = 2;
+					_statusA[_petDictionaryA[_AX[index]][_AY[index]]] = 2;
 				}
 			}
 			
@@ -567,15 +537,12 @@ namespace AutoStacker.Projectiles
 						&&
 						(
 							tileUpper ==  null
-							||
-							(
-								tileUpper.type != TileID.Containers
-								&&tileUpper.type != TileID.DemonAltar
-							)
+							&&tileUpper.type != TileID.Containers
+							&&tileUpper.type != TileID.DemonAltar
 						)
 					)
 					{
-						_statusA[index] = 3;
+						_statusA[_petDictionaryA[_AX[index]][_AY[index]]] = 3;
 					}
 					else if
 					(
@@ -583,11 +550,11 @@ namespace AutoStacker.Projectiles
 						&& _AY[index] == (int)(Main.LocalPlayer.position.Y /16 ) //-4)
 					)
 					{
-						_statusA[index] = 4;
+						_statusA[_petDictionaryA[_AX[index]][_AY[index]]] = 4;
 					}
 					else
 					{
-						_statusA[index] = 5;
+						_statusA[_petDictionaryA[_AX[index]][_AY[index]]] = 5;
 					}
 				}
 			}
@@ -611,32 +578,16 @@ namespace AutoStacker.Projectiles
 				routeListY.Add(_AY[_statusAIndex[status][routeNo]]);
 				for(int count=0; count <= maxSerchNum;count ++)
 				{
-					int x=routeListX[routeListX.Count-1];
-					int y=routeListY[routeListY.Count-1];
-					
-					if(
-						!_petDictionaryA.ContainsKey(x)
-						|| !_petDictionaryA[x].ContainsKey(y)
-					)
+					routeListX.Add( _routeAX[_petDictionaryA[routeListX[routeListX.Count-1]][routeListY[routeListY.Count-1]]]);
+					routeListY.Add( _routeAY[_petDictionaryA[routeListX[routeListX.Count-1]][routeListY[routeListY.Count-1]]]);
+					if(_nA[_petDictionaryA[routeListX[routeListX.Count-1]][routeListY[routeListY.Count-1]]] == 0)
 					{
-						initListA();
-						routeListX.Clear();
-						routeListY.Clear();
 						break;
-					}
-					
-					{
-						routeListX.Add( _routeAX[_petDictionaryA[x][y]] );
-						routeListY.Add( _routeAY[_petDictionaryA[x][y]] );
-					
-						if(_nA[_petDictionaryA[routeListX[routeListX.Count-1]][routeListY[routeListY.Count-1]]] == 0)
-						{
-							break;
-						}
 					}
 				}
 			}
 		}
+		
 		
 		
 		private void addListA(int x, int y, int status,int routeX,int routeY, double n)

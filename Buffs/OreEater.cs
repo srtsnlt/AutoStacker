@@ -17,8 +17,8 @@ namespace AutoStacker.Buffs
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Annoying Light");
-			Description.SetDefault("Ugh, soooo annoying");
+			DisplayName.SetDefault("Ore Eater");
+			Description.SetDefault("");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.vanityPet[Type] = true;
 		}
