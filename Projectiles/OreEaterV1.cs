@@ -11,17 +11,16 @@ using Terraria.DataStructures;
 
 namespace AutoStacker.Projectiles
 {
-	public class OreEaterV2 : OreEaterBase
+	public class OreEaterV1 : OreEaterBase
 	{
-		string displayName="Ore Eater Ver.2";
+		string displayName="Ore Eater Ver.1";
 		
-		public OreEaterV2()
+		public OreEaterV1()
 		{
-			this.maxSerchNum= 60;
-			this.speed=16 * 2;
-			this.light = 1f;
+			this.maxSerchNum= 30;
+			this.speed=16 * 1;
+			this.light = 0f;
 		}
-		
 		
 		public override void AI()
 		{
@@ -35,14 +34,14 @@ namespace AutoStacker.Projectiles
 			
 			if(modPlayer.pet == null)
 			{
-				modPlayer.pet = (PetBase)new PetV2();
+				modPlayer.pet = (PetBase)new PetV1();
 			}
 			AI2(player, modPlayer, (PetBase)modPlayer.pet);
 			
 		}
 	}
 	
-	public class PetV2 : PetBase
+	public class PetV1 : PetBase
 	{
 		public override bool checkCanMove(int index, int dX, int dY)
 		{

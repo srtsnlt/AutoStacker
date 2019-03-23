@@ -11,17 +11,16 @@ using Terraria.DataStructures;
 
 namespace AutoStacker.Projectiles
 {
-	public class OreEaterV2 : OreEaterBase
+	public class OreEaterV3 : OreEaterBase
 	{
-		string displayName="Ore Eater Ver.2";
+		string displayName="Ore Eater Ver.3";
 		
-		public OreEaterV2()
+		public OreEaterV3()
 		{
-			this.maxSerchNum= 60;
-			this.speed=16 * 2;
-			this.light = 1f;
+			this.maxSerchNum= 20;
+			this.speed=16 * 3;
+			this.light = 2f;
 		}
-		
 		
 		public override void AI()
 		{
@@ -35,14 +34,14 @@ namespace AutoStacker.Projectiles
 			
 			if(modPlayer.pet == null)
 			{
-				modPlayer.pet = (PetBase)new PetV2();
+				modPlayer.pet = (PetBase)new PetV3();
 			}
 			AI2(player, modPlayer, (PetBase)modPlayer.pet);
 			
 		}
 	}
 	
-	public class PetV2 : PetBase
+	public class PetV3 : PetBase
 	{
 		public override bool checkCanMove(int index, int dX, int dY)
 		{
@@ -58,7 +57,7 @@ namespace AutoStacker.Projectiles
 				&& AX[index] + dX > 1
 				&& AY[index] + dY < Main.Map.MaxHeight
 				&& AY[index] + dY > 1
-				&& Main.Map.IsRevealed(AX[index] + dX,AY[index] + dY)
+				//&& Main.Map.IsRevealed(AX[index] + dX,AY[index] + dY)
 				&&
 				(
 					tile == null 
@@ -71,23 +70,23 @@ namespace AutoStacker.Projectiles
 							||
 							(
 								tile.active() 
-								&& 
-								(
-									(
-										oreTile.ContainsKey(tile.type)
-										&& oreTile[tile.type]
-									)
-									|| tile.type == TileID.ExposedGems
-									|| tile.type == TileID.Sapphire
-									|| tile.type == TileID.Ruby
-									|| tile.type == TileID.Emerald
-									|| tile.type == TileID.Topaz
-									|| tile.type == TileID.Amethyst
-									|| tile.type == TileID.Diamond
-									|| tile.type == TileID.Heart
-									|| tile.type == TileID.LifeFruit
-									|| tile.type == TileID.Pots
-								)
+								//&& 
+								//(
+								//	(
+								//		oreTile.ContainsKey(tile.type)
+								//		&& oreTile[tile.type]
+								//	)
+								//	|| tile.type == TileID.ExposedGems
+								//	|| tile.type == TileID.Sapphire
+								//	|| tile.type == TileID.Ruby
+								//	|| tile.type == TileID.Emerald
+								//	|| tile.type == TileID.Topaz
+								//	|| tile.type == TileID.Amethyst
+								//	|| tile.type == TileID.Diamond
+								//	|| tile.type == TileID.Heart
+								//	|| tile.type == TileID.LifeFruit
+								//	|| tile.type == TileID.Pots
+								//)
 							)
 						)
 					)

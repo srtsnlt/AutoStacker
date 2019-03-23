@@ -4,25 +4,25 @@ using Terraria.ModLoader;
 
 namespace AutoStacker.Items
 {
-	public class OreEaterV2 : ModItem
+	public class OreEaterV4 : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ore Eater Ver.2");
-			string str = "Summons a Pet Ore Eater Ver.2\n";
+			DisplayName.SetDefault("Ore Eater Ver.4");
+			string str = "Summons a Pet Ore Eater Ver.4\n";
 			str +=       " \n";
-			str +=       "ore serch range: 60\n";
-			str +=       "speed          : 2\n";
-			str +=       "through block  : disenable\n";
-			str +=       "light          : dark";
-			Tooltip.SetDefault(str);
+			str +=       "ore serch range: 40\n";
+			str +=       "speed          : 4\n";
+			str +=       "through block  : enable\n";
+			str +=       "light          : very bright";
+
 		}
 
 		public override void SetDefaults()
 		{
 			item.damage = 0;
 			item.useStyle = 1;
-			item.shoot = mod.ProjectileType("OreEaterV2");
+			item.shoot = mod.ProjectileType("OreEaterV4");
 			item.width = 16;
 			item.height = 30;
 			item.UseSound = SoundID.Item2;
@@ -31,7 +31,7 @@ namespace AutoStacker.Items
 			item.rare = 8;
 			item.noMelee = true;
 			item.value = Item.sellPrice(0, 5, 50, 0);
-			item.buffType = mod.BuffType("OreEaterV2");
+			item.buffType = mod.BuffType("OreEaterV4");
 		}
 
 		public override void AddRecipes()

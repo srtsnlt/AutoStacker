@@ -8,26 +8,26 @@ using Terraria.Utilities;
 namespace AutoStacker.NPCs
 {
 	[AutoloadHead]
-	public class OreEater : ModNPC
+	public class OreEaterV1 : ModNPC
 	{
 		public override string Texture
 		{
 			get
 			{
-				return "AutoStacker/NPCs/OreEater";
+				return "AutoStacker/NPCs/OreEaterV1";
 			}
 		}
 		
 		public override bool Autoload(ref string name)
 		{
-			name = "Ore Eater";
+			name = "Ore Eater Ver.1";
 			return true;
 		}
 
 		
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ore Eater");
+			DisplayName.SetDefault("Ore Eater Ver.1");
 		}
 		
 		

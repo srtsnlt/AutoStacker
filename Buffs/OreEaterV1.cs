@@ -13,11 +13,11 @@ using Terraria.ModLoader;
 
 namespace AutoStacker.Buffs
 {
-	public class OreEater : ModBuff
+	public class OreEaterV1 : ModBuff
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Ore Eater");
+			DisplayName.SetDefault("Ore Eater Ver.1");
 			Description.SetDefault("");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.vanityPet[Type] = true;
@@ -25,43 +25,37 @@ namespace AutoStacker.Buffs
 		
 		public override void Update(Player player, ref int buffIndex)
 		{
-			if(!Terraria.Program.LoadedEverything )//&& Terraria.Main.tilesLoaded))
+			if(!Terraria.Program.LoadedEverything )
 			{
 				return;
 			}
 			
 			Players.OreEater modPlayer = player.GetModPlayer<Players.OreEater>(mod);
-			if(modPlayer.pet == null)
-			{
-				modPlayer.pet = new Projectiles.Pet();
-			}
 			
-			if(!modPlayer.oreEater)
+			if(!modPlayer.oreEaterEnable)
 			{
-				modPlayer.oreEater = true;
-				bool petProjectileNotSpawned = player.ownedProjectileCounts[mod.ProjectileType("OreEater")] <= 0;
+				modPlayer.oreEaterEnable = true;
+				bool petProjectileNotSpawned = player.ownedProjectileCounts[mod.ProjectileType("OreEaterV1")] <= 0;
 				if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer)
 				{
-					Projectile.NewProjectile(player.position.X + (float)(player.width / 2), player.position.Y + (float)(player.height / 2), 0f, 0f, mod.ProjectileType("OreEater"), 0, 0f, player.whoAmI, 0f, 0f);
+					
 					for (int _type=Main.npcTexture.Length-1; _type >= 0; _type--)
 					{
-						if(Main.npcTexture[_type].ToString() == "AutoStacker/NPCs/OreEater")
+						string npcTexture = Main.npcTexture[_type].ToString();
+						if(npcTexture == "AutoStacker/NPCs/OreEaterV1")
 						{
-							modPlayer.type=_type;
-							
 							foreach(var npc in Main.npc.Where( npc => npc.type == _type ))
 							{
 								npc.active = false;
 							}
-							
 							modPlayer.index = NPC.NewNPC((int)player.position.X, (int)player.position.Y, _type );
 							modPlayer.npc = Main.npc[modPlayer.index];
 							
-							Projectiles.Pet pet=modPlayer.pet;
-							pet.initListA();
-							pet.routeListX.Clear();
-							pet.routeListY.Clear();
-							
+							Projectile.NewProjectile(player.position.X + (float)(player.width / 2), player.position.Y + (float)(player.height / 2), 0f, 0f, mod.ProjectileType("OreEaterV1"), 0, 0f, player.whoAmI, 0f, 0f);
+							//modPlayer.pet.initListA();
+							//modPlayer.pet.routeListX.Clear();
+							//modPlayer.pet.routeListY.Clear();
+							modPlayer.pet = new Projectiles.PetV1();
 							break;
 						}
 					}

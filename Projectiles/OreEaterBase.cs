@@ -11,15 +11,15 @@ using Terraria.DataStructures;
 
 namespace AutoStacker.Projectiles
 {
-	public class OreEater : ModProjectile
+	public class OreEaterBase : ModProjectile
 	{
+		string displayName="Ore Eater Base";
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ore Eater");
+			DisplayName.SetDefault(displayName);
 			Main.projFrames[projectile.type] = 1;
 			Main.projPet[projectile.type] = true;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-			//ProjectileID.Sets.LightPet[projectile.type] = true;
 		}
 		
 		public override void SetDefaults()
@@ -48,17 +48,19 @@ namespace AutoStacker.Projectiles
 		int route_count_shift = 0;
 		
 		
-		int maxSerchNum=60;
+		public int maxSerchNum=60;
 		System.Random rand = new System.Random();
 		int prevLoop=0;
 		
 		int chestID = -1;
 		int targetPrev=4;
 		
+		public int speed = 16*3;
+		public float light = 0f;
 		
 		public override ModProjectile Clone()
 		{
-			OreEater newInstance=(OreEater)base.MemberwiseClone();
+			OreEaterBase newInstance=(OreEaterBase)base.MemberwiseClone();
 			newInstance.originX=this.originX;
 			newInstance.originY=this.originY;
 			newInstance.route_count=this.route_count;
@@ -68,24 +70,27 @@ namespace AutoStacker.Projectiles
 			
 			return (ModProjectile)newInstance;
 		}
-
 		
+		//public override void AI()
+		//{
+		//	if(!Terraria.Program.LoadedEverything )//&& Terraria.Main.tilesLoaded))
+		//	{
+		//		return;
+		//	}
+		//	
+		//	Player player = Main.player[projectile.owner];
+		//	Players.OreEater modPlayer = player.GetModPlayer<Players.OreEater>(mod);
+		//	
+		//	if(modPlayer.pet == null)
+		//	{
+		//		modPlayer.pet = new PetBase();
+		//	}
+		//	AI2(player, modPlayer, modPlayer.pet);
+		//	
+		//}
 		
-		public override void AI()
+		public void AI2(Player player, Players.OreEater modPlayer, PetBase pet)
 		{
-			if(!Terraria.Program.LoadedEverything )//&& Terraria.Main.tilesLoaded))
-			{
-				return;
-			}
-			
-			Player player = Main.player[projectile.owner];
-			Players.OreEater modPlayer = player.GetModPlayer<Players.OreEater>(mod);
-			
-			if(modPlayer.pet == null)
-			{
-				modPlayer.pet = new Pet();
-			}
-			Pet pet=modPlayer.pet;
 			pet.delayLoad();
 			
 			if (!player.active)
@@ -98,12 +103,13 @@ namespace AutoStacker.Projectiles
 				projectile.position=player.position;
 				return;
 			}
+			
 			if (player.dead)
 			{
-				modPlayer.oreEater = false;
+				modPlayer.oreEaterEnable = false;
 			}
 			
-			if (modPlayer.oreEater)
+			if (modPlayer.oreEaterEnable)
 			{
 				projectile.timeLeft = 2;
 			}
@@ -140,7 +146,7 @@ namespace AutoStacker.Projectiles
 			
 			
 			//light
-			Lighting.AddLight(projectile.position, 0.9f, 0.1f, 0.3f);
+			Lighting.AddLight(projectile.position, 0.9f * light, 0.1f * light, 0.3f * light);
 			
 			
 			//ore scan & move & pick 
@@ -201,7 +207,7 @@ namespace AutoStacker.Projectiles
 				modPlayer.npc.position=projectile.position;
 				
 				//next cell
-				if(route_count >= 0 && rand.Next( route_count * pickSpeed) <= 16*3 )
+				if(route_count >= 0 && rand.Next( route_count * pickSpeed) <= speed )
 				{
 					route_count -= 1;
 				}
@@ -243,9 +249,9 @@ namespace AutoStacker.Projectiles
 		}
 	}
 	
-	public class Pet
+	public class PetBase
 	{
-		public Pet()
+		public PetBase()
 		{
 			initListA();
 			make_statusAIndex();
@@ -260,28 +266,41 @@ namespace AutoStacker.Projectiles
 		
 		public void delayLoad()
 		{
+			if(itemId == 0)
+			{
+				Main.NewText("Ore Eater : Item data loading...");
+			}
+			
+			
 			if(itemId < Main.itemTexture.Length)
 			{
-				for(int count=0; count<10 && itemId < Main.itemTexture.Length; count++)
-				{
-					_item.SetDefaults(itemId);
-					if(
-						_item.createTile != -1 
-						&& 
-						(
-							oreRegex.IsMatch(_item.Name) 
-							|| Main.recipe.Where( recipe => gemRegex.IsMatch( recipe.createItem.Name)).SelectMany( recipe=> recipe.requiredItem ).Select(item => item.type).Any( id => id == _item.type )
-							|| _item.Name == "Cobweb"
-						)
+				_item.SetDefaults(itemId);
+				if(
+					_item.createTile != -1 
+					&& 
+					(
+						oreRegex.IsMatch(_item.Name) 
+						|| Main.recipe.Where( recipe => gemRegex.IsMatch( recipe.createItem.Name)).SelectMany( recipe=> recipe.requiredItem ).Select(item => item.type).Any( id => id == _item.type )
+						|| _item.Name == "Cobweb"
+						|| _item.Name == "Meteorite"
+						|| _item.Name == "Hellstone"
+						|| _item.Name == "Crystal Heart"
+						|| _item.Name == "Life Fruit"
+						
 					)
-					{
-						_oreTile[_item.createTile] =true;
-					}
-					else
-					{
-						_oreTile[_item.createTile] =false;
-					}
-					itemId += 1;
+				)
+				{
+					oreTile[_item.createTile] =true;
+				}
+				else
+				{
+					oreTile[_item.createTile] =false;
+				}
+				itemId += 1;
+				
+				if(itemId == Main.itemTexture.Length)
+				{
+					Main.NewText("Ore Eater : Loading complete!");
 				}
 			}
 		}
@@ -381,6 +400,18 @@ namespace AutoStacker.Projectiles
 			}
 		}
 		
+		public Dictionary<int,bool> oreTile
+		{
+			get
+			{
+				return _oreTile;
+			}
+			set
+			{
+				_oreTile=value;
+			}
+		}
+		
 		
 		public void serchA(int originX, int originY, int serchTiles,int resultMaxNum, int resultMaxStatus, int pickPower, bool reset=false)
 		{
@@ -429,53 +460,7 @@ namespace AutoStacker.Projectiles
 							
 							tile = Main.tile[_AX[index], _AY[index]];
 							
-							if
-							(
-								(
-									!_petDictionaryA.ContainsKey(_AX[index] + dX) 
-									|| !_petDictionaryA[_AX[index] + dX].ContainsKey(_AY[index] + dY) 
-								)
-								&& _AX[index] + dX < Main.Map.MaxWidth
-								&& _AX[index] + dX > 1
-								&& _AY[index] + dY < Main.Map.MaxHeight
-								&& _AY[index] + dY > 1
-								&& Main.Map.IsRevealed(_AX[index] + dX,_AY[index] + dY)
-								&&
-								(
-									tile == null 
-									||
-									(
-										tile != null 
-										&&
-										(
-											!tile.active()
-											||
-											(
-												tile.active() 
-												&& 
-												(
-													(
-														_oreTile.ContainsKey(tile.type)
-														&& _oreTile[tile.type]
-													)
-													|| tile.type == TileID.ExposedGems
-													|| tile.type == TileID.Sapphire
-													|| tile.type == TileID.Ruby
-													|| tile.type == TileID.Emerald
-													|| tile.type == TileID.Topaz
-													|| tile.type == TileID.Amethyst
-													|| tile.type == TileID.Diamond
-													|| tile.type == TileID.Cobweb
-													|| tile.type == TileID.Pots
-													|| tile.type == TileID.Heart
-													|| tile.type == TileID.LifeFruit
-													
-												)
-											)
-										)
-									)
-								)
-							)
+							if(checkCanMove(index, dX, dY))
 							{
 								//add node
 								addListA(_AX[index] + dX, _AY[index] + dY, 0, _AX[index], _AY[index], int.MaxValue );
@@ -541,39 +526,7 @@ namespace AutoStacker.Projectiles
 			{
 				foreach(int index in _statusAIndex[2])
 				{
-					tile = Main.tile[_AX[index], _AY[index]];
-					tileUpper = Main.tile[_AX[index], _AY[index]-1];
-					if (
-						tile != null 
-						&& tile.active() 
-						&& 
-						(
-							(
-								_oreTile.ContainsKey(tile.type) 
-								&& _oreTile[tile.type]
-							)
-							|| tile.type == TileID.ExposedGems
-							|| tile.type == TileID.Sapphire
-							|| tile.type == TileID.Ruby
-							|| tile.type == TileID.Emerald
-							|| tile.type == TileID.Topaz
-							|| tile.type == TileID.Amethyst
-							|| tile.type == TileID.Diamond
-							|| tile.type == TileID.Cobweb
-							|| tile.type == TileID.Pots
-							|| tile.type == TileID.Heart
-							|| tile.type == TileID.LifeFruit
-						)
-						&&
-						(
-							tileUpper ==  null
-							||
-							(
-								tileUpper.type != TileID.Containers
-								&&tileUpper.type != TileID.DemonAltar
-							)
-						)
-					)
+					if(checkCanPick(index))
 					{
 						_statusA[index] = 3;
 					}
@@ -598,6 +551,111 @@ namespace AutoStacker.Projectiles
 			
 		}
 		
+		public virtual bool checkCanMove(int index, int dX, int dY)
+		{
+			Tile tile = Main.tile[_AX[index], _AY[index]];
+			
+			if
+			(
+				(
+					!_petDictionaryA.ContainsKey(_AX[index] + dX) 
+					|| !_petDictionaryA[_AX[index] + dX].ContainsKey(_AY[index] + dY) 
+				)
+				&& _AX[index] + dX < Main.Map.MaxWidth
+				&& _AX[index] + dX > 1
+				&& _AY[index] + dY < Main.Map.MaxHeight
+				&& _AY[index] + dY > 1
+				&& Main.Map.IsRevealed(_AX[index] + dX,_AY[index] + dY)
+				&&
+				(
+					tile == null 
+					||
+					(
+						tile != null 
+						&&
+						(
+							!tile.active()
+							||
+							(
+								tile.active() 
+								&& 
+								(
+									(
+										_oreTile.ContainsKey(tile.type)
+										&& _oreTile[tile.type]
+									)
+									|| tile.type == TileID.ExposedGems
+									|| tile.type == TileID.Sapphire
+									|| tile.type == TileID.Ruby
+									|| tile.type == TileID.Emerald
+									|| tile.type == TileID.Topaz
+									|| tile.type == TileID.Amethyst
+									|| tile.type == TileID.Diamond
+									|| tile.type == TileID.Heart
+									|| tile.type == TileID.LifeFruit
+									|| tile.type == TileID.Pots
+								)
+							)
+						)
+					)
+				)
+			)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
+		private bool checkCanPick(int index)
+		{
+			if(index >= _AX.Count || index >= _AY.Count || index <= -1)
+			{
+				return false;
+			}
+			
+			Tile tile = Main.tile[_AX[index], _AY[index]];
+			Tile tileUpper = Main.tile[_AX[index], _AY[index]-1];
+			if (
+				tile != null 
+				&& tile.active() 
+				&& 
+				(
+					(
+						_oreTile.ContainsKey(tile.type) 
+						&& _oreTile[tile.type]
+					)
+					|| tile.type == TileID.ExposedGems
+					|| tile.type == TileID.Sapphire
+					|| tile.type == TileID.Ruby
+					|| tile.type == TileID.Emerald
+					|| tile.type == TileID.Topaz
+					|| tile.type == TileID.Amethyst
+					|| tile.type == TileID.Diamond
+					|| tile.type == TileID.Heart
+					|| tile.type == TileID.LifeFruit
+					|| tile.type == TileID.Pots
+				)
+				&&
+				(
+					tileUpper ==  null
+					||
+					(
+						tileUpper.type != TileID.Containers
+						&&tileUpper.type != TileID.DemonAltar
+					)
+				)
+			)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 		
 		public List<int> routeListX = new List<int>();
 		public List<int> routeListY = new List<int>();

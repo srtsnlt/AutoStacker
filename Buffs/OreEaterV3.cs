@@ -13,11 +13,11 @@ using Terraria.ModLoader;
 
 namespace AutoStacker.Buffs
 {
-	public class OreEaterV2 : ModBuff
+	public class OreEaterV3 : ModBuff
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Ore Eater Ver.2");
+			DisplayName.SetDefault("Ore Eater Ver.3");
 			Description.SetDefault("");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.vanityPet[Type] = true;
@@ -35,14 +35,14 @@ namespace AutoStacker.Buffs
 			if(!modPlayer.oreEaterEnable)
 			{
 				modPlayer.oreEaterEnable = true;
-				bool petProjectileNotSpawned = player.ownedProjectileCounts[mod.ProjectileType("OreEaterV2")] <= 0;
+				bool petProjectileNotSpawned = player.ownedProjectileCounts[mod.ProjectileType("OreEaterV3")] <= 0;
 				if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer)
 				{
 					
 					for (int _type=Main.npcTexture.Length-1; _type >= 0; _type--)
 					{
 						string npcTexture = Main.npcTexture[_type].ToString();
-						if(npcTexture == "AutoStacker/NPCs/OreEaterV2")
+						if(npcTexture == "AutoStacker/NPCs/OreEaterV3")
 						{
 							foreach(var npc in Main.npc.Where( npc => npc.type == _type ))
 							{
@@ -51,11 +51,11 @@ namespace AutoStacker.Buffs
 							modPlayer.index = NPC.NewNPC((int)player.position.X, (int)player.position.Y, _type );
 							modPlayer.npc = Main.npc[modPlayer.index];
 							
-							Projectile.NewProjectile(player.position.X + (float)(player.width / 2), player.position.Y + (float)(player.height / 2), 0f, 0f, mod.ProjectileType("OreEaterV2"), 0, 0f, player.whoAmI, 0f, 0f);
+							Projectile.NewProjectile(player.position.X + (float)(player.width / 2), player.position.Y + (float)(player.height / 2), 0f, 0f, mod.ProjectileType("OreEaterV3"), 0, 0f, player.whoAmI, 0f, 0f);
 							//modPlayer.pet.initListA();
 							//modPlayer.pet.routeListX.Clear();
 							//modPlayer.pet.routeListY.Clear();
-							modPlayer.pet = new Projectiles.PetV2();
+							modPlayer.pet = new Projectiles.PetV3();
 							break;
 						}
 					}

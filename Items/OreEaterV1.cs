@@ -4,19 +4,25 @@ using Terraria.ModLoader;
 
 namespace AutoStacker.Items
 {
-	public class OreEater : ModItem
+	public class OreEaterV1 : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ore Eater");
-			Tooltip.SetDefault("Summons a Pet Ore Eater");
+			DisplayName.SetDefault("Ore Eater Ver.1");
+			string str = "Summons a Pet Ore Eater Ver.1\n";
+			str +=       " \n";
+			str +=       "ore serch range: 30\n";
+			str +=       "speed          : 1\n";
+			str +=       "through block  : disenable\n";
+			str +=       "light          : none";
+			Tooltip.SetDefault(str);
 		}
 
 		public override void SetDefaults()
 		{
 			item.damage = 0;
 			item.useStyle = 1;
-			item.shoot = mod.ProjectileType("OreEater");
+			item.shoot = mod.ProjectileType("OreEaterV1");
 			item.width = 16;
 			item.height = 30;
 			item.UseSound = SoundID.Item2;
@@ -25,7 +31,7 @@ namespace AutoStacker.Items
 			item.rare = 8;
 			item.noMelee = true;
 			item.value = Item.sellPrice(0, 5, 50, 0);
-			item.buffType = mod.BuffType("OreEater");
+			item.buffType = mod.BuffType("OreEaterV1");
 		}
 
 		public override void AddRecipes()
@@ -40,6 +46,11 @@ namespace AutoStacker.Items
 		{
 			if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
 			{
+				player.ClearBuff(mod.BuffType("OreEaterV1"));
+				player.ClearBuff(mod.BuffType("OreEaterV2"));
+				player.ClearBuff(mod.BuffType("OreEaterV3"));
+				player.ClearBuff(mod.BuffType("OreEaterV4"));
+				
 				player.AddBuff(item.buffType, 3600, true);
 			}
 		}
