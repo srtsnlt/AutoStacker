@@ -9,7 +9,7 @@ AutoStacker includes below Items!
  
 Items
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ RecieverChestSelector ] 
+[ RecieverChestSelector ] Update!!
  When you pick up drop items, the items stack to chest directry!
  * This item useable to MagicStorage(StorageHeart) insted of chest!
  
@@ -25,7 +25,7 @@ Items
      Require one normal chest on WorkBench.
  
  
-[ Ore Eater (Ver.1,2,3,4) ] Update!!
+[ Ore Eater (Ver.1,2,3,4) ] 
  Summon a pet that serch ores and pick ores or treasures for you!
  Pets pick power is depend on pickel in your inventory.
  
@@ -36,7 +36,7 @@ Items
      Require nothing on WorkBench.
  
  
- [ ReflectionField ] New!!
+ [ ReflectionField ] 
  When set to accesary slot, Reflect monsters and attacks.
  
  useage:
@@ -88,9 +88,13 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.19
+ o RecieverChestSelector
+    ItemCheckList Mod can check send item.
+ 
 v0.3.18
  o Ore Eater
-    Subdividing version
+    Subdividing version (and bugfix)
     See Item tool tip
  
  o ReflectionField

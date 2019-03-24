@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -15,12 +16,13 @@ namespace AutoStacker.GlobalItems
 	class RecieverChestSelector : GlobalItem
 	{
 		public static short[] ExcludeItemList = new short[10]{ItemID.CopperCoin, ItemID.SilverCoin, ItemID.GoldCoin, ItemID.PlatinumCoin, ItemID.Heart, ItemID.CandyApple, ItemID.CandyCane, ItemID.Star, ItemID.SugarPlum, ItemID.SoulCake };
+		private static Dictionary<int,List<int>> depositQue = new Dictionary<int,List<int>>();
+		
 		
 		public override bool OnPickup(Item item, Player player)
 		{
 			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>(mod);
 			Point16 topLeft=modPlayer.topLeft;
-			
 			if
 			(
 				modPlayer.activeItem == null 
@@ -33,6 +35,34 @@ namespace AutoStacker.GlobalItems
 				return true;
 			}
 			
+			if(!depositQue.ContainsKey(item.type))
+			{
+				depositQue[item.type] = new List<int>();
+			}
+			depositQue[item.type].Add(item.stack);
+			return true;
+		}
+		
+		public override void UpdateInventory(Item item, Player player)
+		{
+			if(depositQue.ContainsKey(item.type))
+			{
+				Item depositItem=item.Clone();
+				depositItem.stack=depositQue[item.type].Sum( stack => stack );
+				item.stack -= depositItem.stack;
+				if(depositItem.stack > 0)
+				{
+					depositQue.Remove(item.type);
+					deposit(depositItem, player);
+				}
+			}
+		}
+		
+		public bool deposit(Item item, Player player)
+		{
+			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>(mod);
+			Point16 topLeft=modPlayer.topLeft;
+			
 			//chest
 			int chestNo=FindChest(topLeft.X,topLeft.Y);
 			if(chestNo != -1)
@@ -40,7 +70,7 @@ namespace AutoStacker.GlobalItems
 				//stack item
 				for (int slot = 0; slot < Main.chest[chestNo].item.Length; slot++)
 				{
-					if (Main.chest[chestNo].item[slot].IsAir)
+					if (Main.chest[chestNo].item[slot].stack==0)
 					{
 						Main.chest[chestNo].item[slot] = item.Clone();
 						item.stack=0;
@@ -75,6 +105,12 @@ namespace AutoStacker.GlobalItems
 					item.stack = 0;
 				}
 			}
+			
+			if(item.stack > 0)
+			{
+				player.GetItem(Main.myPlayer, item, false, false);
+			}
+			
 			return true;
 		}
 		
