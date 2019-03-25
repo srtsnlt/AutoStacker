@@ -10,11 +10,12 @@ namespace AutoStacker.Items
 		{
 			DisplayName.SetDefault("Ore Eater Ver.2");
 			string str = "Summons a Pet Ore Eater Ver.2\n";
-			str +=       " \n";
-			str +=       "ore serch range: 60\n";
-			str +=       "speed          : 2\n";
-			str +=       "through block  : disenable\n";
-			str +=       "light          : dark";
+			str +=       "[status] \n";
+			str +=       "ore serch range      : 40\n";
+			str +=       "speed                : 3\n";
+			str +=       "through block        : enable\n";
+			str +=       "through unreveal map : disenable\n";
+			str +=       "light                : dark";
 			Tooltip.SetDefault(str);
 		}
 

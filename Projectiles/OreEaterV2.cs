@@ -17,11 +17,10 @@ namespace AutoStacker.Projectiles
 		
 		public OreEaterV2()
 		{
-			this.maxSerchNum= 60;
-			this.speed=16 * 2;
+			this.maxSerchNum= 40;
+			this.speed=16 * 3;
 			this.light = 1f;
 		}
-		
 		
 		public override void AI()
 		{
@@ -71,23 +70,23 @@ namespace AutoStacker.Projectiles
 							||
 							(
 								tile.active() 
-								&& 
-								(
-									(
-										oreTile.ContainsKey(tile.type)
-										&& oreTile[tile.type]
-									)
-									|| tile.type == TileID.ExposedGems
-									|| tile.type == TileID.Sapphire
-									|| tile.type == TileID.Ruby
-									|| tile.type == TileID.Emerald
-									|| tile.type == TileID.Topaz
-									|| tile.type == TileID.Amethyst
-									|| tile.type == TileID.Diamond
-									|| tile.type == TileID.Heart
-									|| tile.type == TileID.LifeFruit
-									|| tile.type == TileID.Pots
-								)
+								//&& 
+								//(
+								//	(
+								//		oreTile.ContainsKey(tile.type)
+								//		&& oreTile[tile.type]
+								//	)
+								//	|| tile.type == TileID.ExposedGems
+								//	|| tile.type == TileID.Sapphire
+								//	|| tile.type == TileID.Ruby
+								//	|| tile.type == TileID.Emerald
+								//	|| tile.type == TileID.Topaz
+								//	|| tile.type == TileID.Amethyst
+								//	|| tile.type == TileID.Diamond
+								//	|| tile.type == TileID.Heart
+								//	|| tile.type == TileID.LifeFruit
+								//	|| tile.type == TileID.Pots
+								//)
 							)
 						)
 					)

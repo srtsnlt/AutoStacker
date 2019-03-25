@@ -25,8 +25,8 @@ namespace AutoStacker.Items
 			item.accessory = true;
 		}
 		
-		int reflectDictance=16*16;
-		int awayDictance=16*12;
+		int reflectDictance=16*8;
+		int awayDictance=16*6;
 		
 		
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -41,6 +41,26 @@ namespace AutoStacker.Items
 					continue;
 				}
 				Vector2 distance= player.Center - npc.Center;
+				float distanceOffset = (float)(Math.Max(npc.width, npc.height) * 0.5);
+				
+				if(distanceOffset > Math.Abs(distance.X))
+				{
+					distance.X += (float)((distance.X >= 0 ? -1 : 1));
+				}
+				else
+				{
+					distance.X += (float)((distance.X >= 0 ? -1 : 1) * distanceOffset);
+				}
+				
+				if(distanceOffset > Math.Abs(distance.Y))
+				{
+					distance.Y += (float)((distance.Y >= 0 ? -1 : 1));
+				}
+				else
+				{
+					distance.Y += (float)((distance.Y >= 0 ? -1 : 1) * distanceOffset);
+				}
+				
 				float distanceSum = Math.Abs(distance.X) + Math.Abs(distance.Y);
 				if(distanceSum <= reflectDictance)
 				{
@@ -48,9 +68,11 @@ namespace AutoStacker.Items
 					npc.velocity.Y = distance.Y >= 0 ? -1 * Math.Abs(npc.velocity.Y) : Math.Abs(npc.velocity.Y);
 					if(distanceSum <= awayDictance)
 					{
-						npc.velocity.X = distance.X >= 0 ? -16 + (distanceSum/awayDictance)*16 : 16 - (distanceSum/awayDictance)*16;
-						npc.velocity.Y = distance.Y >= 0 ? -16 + (distanceSum/awayDictance)*16 : 16 - (distanceSum/awayDictance)*16;
+						npc.velocity.X  = distance.X >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
+						npc.velocity.Y  = distance.Y >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
 						
+						npc.position.X += distance.X >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
+						npc.position.Y += distance.Y >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
 						
 					}
 				}
@@ -64,6 +86,26 @@ namespace AutoStacker.Items
 				}
 				
 				Vector2 distance= player.Center - projectile.Center;
+				float distanceOffset = (float)(Math.Max(projectile.width, projectile.height) * 0.5);
+				
+				if(distanceOffset > Math.Abs(distance.X))
+				{
+					distance.X += (float)((distance.X >= 0 ? -1 : 1));
+				}
+				else
+				{
+					distance.X += (float)((distance.X >= 0 ? -1 : 1) * distanceOffset);
+				}
+				
+				if(distanceOffset > Math.Abs(distance.Y))
+				{
+					distance.Y += (float)((distance.Y >= 0 ? -1 : 1));
+				}
+				else
+				{
+					distance.Y += (float)((distance.Y >= 0 ? -1 : 1) * distanceOffset);
+				}
+				
 				float distanceSum = Math.Abs(distance.X) + Math.Abs(distance.Y);
 				if(distanceSum <= reflectDictance)
 				{
@@ -71,8 +113,12 @@ namespace AutoStacker.Items
 					projectile.velocity.Y = distance.Y >= 0 ? -1 * Math.Abs(projectile.velocity.Y) : Math.Abs(projectile.velocity.Y);
 					if(distanceSum <= awayDictance)
 					{
-						projectile.velocity.X = distance.X >= 0 ? -16 + (distanceSum/awayDictance)*16 : 16 - (distanceSum/awayDictance)*16;
-						projectile.velocity.Y = distance.Y >= 0 ? -16 + (distanceSum/awayDictance)*16 : 16 - (distanceSum/awayDictance)*16;
+						projectile.velocity.X = distance.X >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
+						projectile.velocity.Y = distance.Y >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
+						
+						projectile.position.X = distance.X >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
+						projectile.position.Y = distance.Y >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
+						
 					}
 					projectile.friendly = true;
 				}

@@ -13,8 +13,7 @@ Items
  When you pick up drop items, the items stack to chest directry!
  * This item useable to MagicStorage(StorageHeart) insted of chest!
  
- Also, wires on chests(*) has been hit!
- * Chest only. MagicStorage is not.
+ Also, wires on chests has been hit!
  
  useage:
      Use to placed chest (left   click) : Select stack chest.
@@ -88,6 +87,13 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.20
+ o Ore Eater
+    Balance adjustment
+ 
+ o ReflectionField
+    more powerfuley reflect
+ 
 v0.3.19
  o RecieverChestSelector
     ItemCheckList Mod can check send item.

@@ -18,7 +18,7 @@ namespace AutoStacker.Projectiles
 		public OreEaterV4()
 		{
 			this.maxSerchNum= 40;
-			this.speed=16 * 4;
+			this.speed=16 * 5;
 			this.light = 3f;
 		}
 		
