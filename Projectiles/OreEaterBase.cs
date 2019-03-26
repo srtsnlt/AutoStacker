@@ -268,7 +268,7 @@ namespace AutoStacker.Projectiles
 		{
 			if(itemId == 0)
 			{
-				Main.NewText("Ore Eater : Item data loading...");
+				Main.NewText("AutoStacker[Ore Eater]:Item data loading...");
 			}
 			
 			
@@ -300,7 +300,7 @@ namespace AutoStacker.Projectiles
 				
 				if(itemId == Main.itemTexture.Length)
 				{
-					Main.NewText("Ore Eater : Loading complete!");
+					Main.NewText("AutoStacker[Ore Eater]: Item data loading Complete!");
 				}
 			}
 		}

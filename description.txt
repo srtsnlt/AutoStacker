@@ -9,7 +9,7 @@ AutoStacker includes below Items!
  
 Items
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ RecieverChestSelector ] Update!!
+[ RecieverChestSelector ] 
  When you pick up drop items, the items stack to chest directry!
  * This item useable to MagicStorage(StorageHeart) insted of chest!
  
@@ -35,8 +35,19 @@ Items
      Require nothing on WorkBench.
  
  
+ [ Witch's Cauldron ] New!!
+ This's chest item, 'about' day after you store(game time), change quite another item!
+ * The item is reborn! So,I recommend to store worthless items(like a wooden arrow)...
+ 
+ useage:
+     After placement, deposit worthless item.
+ 
+ recipie:
+     Require one normal chest on WorkBench.
+ 
+ 
  [ ReflectionField ] 
- When set to accesary slot, Reflect monsters and attacks.
+ When set to accesary slot, Reflect monsters and attacks!
  
  useage:
      Set to accesary slot.
@@ -87,6 +98,10 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.21
+ o Witch's Cauldron
+    New!!
+ 
 v0.3.20
  o Ore Eater
     Balance adjustment

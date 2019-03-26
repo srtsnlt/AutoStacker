@@ -125,39 +125,39 @@ namespace AutoStacker.Worlds
 			*/
 			
 		}
-	}
-	
-	public class ChestItem
-	{
-		public int type;
-		public int stack;
-		public int prefix;
-		public int maxStack;
 		
-		public long maxGrowPassTime2;
-		public long totalGrowPassTime2;
-		
-		public ChestItem()
+		class ChestItem
 		{
-			type=0;
-			stack=0;
-			prefix=0;
-			maxStack=0;
+			public int type;
+			public int stack;
+			public int prefix;
+			public int maxStack;
 			
-			maxGrowPassTime2=0;
-			totalGrowPassTime2=0;
+			public long maxGrowPassTime2;
+			public long totalGrowPassTime2;
 			
-		}
-		
-		public void init(int type_, int stack_, int prefix_ ,int maxStack_)
-		{
-			type=type_;
-			stack=stack_;
-			prefix=prefix_;
-			maxStack=maxStack_;
+			public ChestItem()
+			{
+				type=0;
+				stack=0;
+				prefix=0;
+				maxStack=0;
+				
+				maxGrowPassTime2=0;
+				totalGrowPassTime2=0;
+				
+			}
 			
-			maxGrowPassTime2  =(long) ( (double)Math.Log(maxStack_,2)*86400);
-			totalGrowPassTime2=(long) ( (double)Math.Log(stack_,   2)*86400);
+			public void init(int type_, int stack_, int prefix_ ,int maxStack_)
+			{
+				type=type_;
+				stack=stack_;
+				prefix=prefix_;
+				maxStack=maxStack_;
+				
+				maxGrowPassTime2  =(long) ( (double)Math.Log(maxStack_,2)*86400);
+				totalGrowPassTime2=(long) ( (double)Math.Log(stack_,   2)*86400);
+			}
 		}
 	}
 }
