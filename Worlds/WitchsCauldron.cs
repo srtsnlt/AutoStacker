@@ -72,7 +72,7 @@ namespace AutoStacker.Worlds
 									//nothing
 								}
 							}
-							while(chest.item[itemNo].stack == 0);
+							while(chest.item[itemNo].stack == 0 || chest.item[itemNo].IsAir);
 							
 						}
 					}

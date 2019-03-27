@@ -98,6 +98,10 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.22
+ o RecieverChestSelector
+    bugfix
+ 
 v0.3.21
  o Witch's Cauldron
     New!!

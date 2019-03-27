@@ -30,6 +30,7 @@ namespace AutoStacker.GlobalItems
 				|| !modPlayer.autoSendEnabled 
 				|| ExcludeItemList.Where(x => x == item.type).Any()
 				|| item.stack <= 0
+				|| item.IsAir
 			)
 			{
 				return true;
@@ -47,12 +48,20 @@ namespace AutoStacker.GlobalItems
 		{
 			if(depositQue.ContainsKey(item.type))
 			{
+				
+				
 				Item depositItem=item.Clone();
 				depositItem.stack=depositQue[item.type].Sum( stack => stack );
+				depositQue.Remove(item.type);
+				
 				item.stack -= depositItem.stack;
+				if(item.stack <= 0)
+				{
+					item.SetDefaults(0, true);
+				}
+				
 				if(depositItem.stack > 0)
 				{
-					depositQue.Remove(item.type);
 					deposit(depositItem, player);
 				}
 			}
@@ -73,7 +82,7 @@ namespace AutoStacker.GlobalItems
 					if (Main.chest[chestNo].item[slot].stack==0)
 					{
 						Main.chest[chestNo].item[slot] = item.Clone();
-						item.stack=0;
+						item.SetDefaults(0, true);
 						break;
 					}
 					
@@ -84,7 +93,7 @@ namespace AutoStacker.GlobalItems
 						if (spaceLeft >= item.stack)
 						{
 							chestItem.stack += item.stack;
-							item.stack = 0;
+							item.SetDefaults(0, true);
 							break;
 						}
 						else
@@ -102,11 +111,11 @@ namespace AutoStacker.GlobalItems
 			{
 				if(Common.MagicStorageConnecter.InjectItem(topLeft, item))
 				{
-					item.stack = 0;
+					item.SetDefaults(0, true);
 				}
 			}
 			
-			if(item.stack > 0)
+			if(!item.IsAir)
 			{
 				player.GetItem(Main.myPlayer, item, false, false);
 			}
