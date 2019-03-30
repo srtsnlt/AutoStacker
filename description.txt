@@ -35,12 +35,24 @@ Items
      Require nothing on WorkBench.
  
  
- [ Witch's Cauldron ] New!!
+ [ Witch's Cauldron ] 
  This's chest item, 'about' day after you store(game time), change quite another item!
  * The item is reborn! So,I recommend to store worthless items(like a wooden arrow)...
  
  useage:
      After placement, deposit worthless item.
+ 
+ recipie:
+     Require one normal chest on WorkBench.
+ 
+ 
+ [ Witch's Pot ] New!!
+ Only one use of "Witch's Cauldron"!
+ When hit wire, chest items change quite another item!
+ * After hit wire, Witch's Pot change to normal chest.
+ 
+ useage:
+     After placement, deposit worthless item and Hit wire!
  
  recipie:
      Require one normal chest on WorkBench.
@@ -76,7 +88,7 @@ Items
      Require one normal chest on WorkBench.
  
  
-[ ItemVacuumer ]
+[ ItemVacuumer ] Update!!
  When enemy drops items, the items track to you automatically!
  
  useage:
@@ -98,6 +110,13 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.23
+ o Witch's Pot 
+    New!!
+ 
+ o ItemVacuumer
+    Vacuum Speed Up!
+ 
 v0.3.22
  o RecieverChestSelector
     bugfix

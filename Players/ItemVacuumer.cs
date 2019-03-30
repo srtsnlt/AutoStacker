@@ -48,15 +48,15 @@ namespace AutoStacker.Players
 						int distanceSum = System.Math.Abs(distanceX) + System.Math.Abs(distanceY);
 						if(distanceSum > 0){
 							if( item.velocity.X <= 1 && item.velocity.Y <= 1){
-								item.velocity.X = velocity * distanceX / distanceSum;
-								item.velocity.Y = velocity * distanceY / distanceSum;
+								item.velocity.X = (float)(velocity * distanceX / distanceSum + distanceX * 0.0125);
+								item.velocity.Y = (float)(velocity * distanceY / distanceSum + distanceY * 0.0125);
 								item.position.X += item.velocity.X;
 								item.position.Y += item.velocity.Y;
 							}
 							else
 							{
-								item.velocity.X = velocity * distanceX / distanceSum;
-								item.velocity.Y = velocity * distanceY / distanceSum;
+								item.velocity.X = (float)(velocity * distanceX / distanceSum + distanceX * 0.0125);
+								item.velocity.Y = (float)(velocity * distanceY / distanceSum + distanceY * 0.0125);
 							}
 						}
 					}

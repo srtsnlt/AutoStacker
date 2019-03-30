@@ -591,6 +591,7 @@ namespace AutoStacker.Projectiles
 									|| tile.type == TileID.Topaz
 									|| tile.type == TileID.Amethyst
 									|| tile.type == TileID.Diamond
+									|| tile.type == TileID.Crystals
 									|| tile.type == TileID.Heart
 									|| tile.type == TileID.LifeFruit
 									|| tile.type == TileID.Pots
@@ -634,6 +635,7 @@ namespace AutoStacker.Projectiles
 					|| tile.type == TileID.Topaz
 					|| tile.type == TileID.Amethyst
 					|| tile.type == TileID.Diamond
+					|| tile.type == TileID.Crystals
 					|| tile.type == TileID.Heart
 					|| tile.type == TileID.LifeFruit
 					|| tile.type == TileID.Pots
