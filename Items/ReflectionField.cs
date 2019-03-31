@@ -80,7 +80,7 @@ namespace AutoStacker.Items
 			
 			foreach(Projectile projectile in Main.projectile)
 			{
-				if(projectile.friendly)
+				if( projectile.friendly || Main.player[projectile.owner] == player )
 				{
 					continue;
 				}
@@ -113,11 +113,11 @@ namespace AutoStacker.Items
 					projectile.velocity.Y = distance.Y >= 0 ? -1 * Math.Abs(projectile.velocity.Y) : Math.Abs(projectile.velocity.Y);
 					if(distanceSum <= awayDictance)
 					{
-						projectile.velocity.X = distance.X >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
-						projectile.velocity.Y = distance.Y >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
+						projectile.velocity.X  = distance.X >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
+						projectile.velocity.Y  = distance.Y >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
 						
-						projectile.position.X = distance.X >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
-						projectile.position.Y = distance.Y >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
+						projectile.position.X += distance.X >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
+						projectile.position.Y += distance.Y >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
 						
 					}
 					projectile.friendly = true;

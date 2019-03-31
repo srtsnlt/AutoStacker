@@ -16,8 +16,10 @@ namespace AutoStacker.GlobalNPCs
 		{
 			if(player.name == "MinionHouse")
 			{
-				safeRangeX  = 0;
-				safeRangeY  = 0;
+				spawnRangeX /= 2;
+				spawnRangeY /= 2;
+				safeRangeX   = 0;
+				safeRangeY   = 0;
 			}
 		}
 		

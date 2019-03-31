@@ -9,7 +9,7 @@ AutoStacker includes below Items!
  
 Items
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ RecieverChestSelector ] 
+[ Reciever Chest Selector ] 
  When you pick up drop items, the items stack to chest directry!
  * This item useable to MagicStorage(StorageHeart) insted of chest!
  
@@ -24,7 +24,7 @@ Items
      Require one normal chest on WorkBench.
  
  
-[ Ore Eater (Ver.1,2,3,4) ] 
+[ Ore Eater ] 
  Summon a pet that serch ores and pick ores or treasures for you!
  Pets pick power is depend on pickel in your inventory.
  
@@ -33,6 +33,17 @@ Items
  
  recipie:
      Require nothing on WorkBench.
+ 
+ 
+[ Minion House ] New!!
+ Minions are attack the enemies when you deposit summon weapon in this chest!
+ So, You obtain the chance that you get items without adventure!
+ 
+ useage:
+     After placement, deposit summon weapon.
+ 
+ recipie:
+     Require one normal chest on WorkBench.
  
  
  [ Witch's Cauldron ] 
@@ -46,7 +57,7 @@ Items
      Require one normal chest on WorkBench.
  
  
- [ Witch's Pot ] New!!
+ [ Witch's Pot ] 
  Only one use of "Witch's Cauldron"!
  When hit wire, chest items change quite another item!
  * After hit wire, Witch's Pot change to normal chest.
@@ -58,7 +69,7 @@ Items
      Require one normal chest on WorkBench.
  
  
- [ ReflectionField ] 
+ [ Reflection Field ] 
  When set to accesary slot, Reflect monsters and attacks!
  
  useage:
@@ -78,7 +89,7 @@ Items
      Require nothing on WorkBench.
  
  
-[ ItemGrowerChest ]
+[ Item Grower Chest ]
  Per day, items in chest to be twice!
  
  useage:
@@ -88,7 +99,7 @@ Items
      Require one normal chest on WorkBench.
  
  
-[ ItemVacuumer ] Update!!
+[ Item Vacuumer ] 
  When enemy drops items, the items track to you automatically!
  
  useage:
@@ -98,7 +109,7 @@ Items
      Require nothing on WorkBench.
  
  
-[ HitWireRod ]
+[ Hit Wire Rod ]
  When you use this item to wire, trip signal insted of any switchs/lever!
  
  useage:
@@ -110,6 +121,13 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.24
+ o Minion House
+    New!!
+ 
+ o ReflectionField
+    bugfix
+ 
 v0.3.23
  o Witch's Pot 
     New!!
