@@ -12,12 +12,22 @@ namespace AutoStacker.GlobalNPCs
 {
 	public class MinionHouse : GlobalNPC
 	{
+		
+		public virtual void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
+		{
+			if(player.name == "MinionHouse")
+			{
+				spawnRate *= 2;
+			}
+		}
+		
+		
 		public override void EditSpawnRange(Player player, ref int spawnRangeX, ref int spawnRangeY, ref int safeRangeX, ref int safeRangeY)
 		{
 			if(player.name == "MinionHouse")
 			{
-				spawnRangeX /= 2;
-				spawnRangeY /= 2;
+				spawnRangeX /= 4;
+				spawnRangeY /= 4;
 				safeRangeX   = 0;
 				safeRangeY   = 0;
 			}

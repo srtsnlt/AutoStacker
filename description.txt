@@ -35,7 +35,7 @@ Items
      Require nothing on WorkBench.
  
  
-[ Minion House ] New!!
+[ Minion House ] Update!
  Minions are attack the enemies when you deposit summon weapon in this chest!
  So, You obtain the chance that you get items without adventure!
  
@@ -121,6 +121,10 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.25
+ o Minion House
+    adjust spawn rate
+ 
 v0.3.24
  o Minion House
     New!!
