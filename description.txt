@@ -121,6 +121,10 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.28
+ o Ore Eater
+    game balance - change recipie
+    
 v0.3.27
  o Reflection Field
     bugfix

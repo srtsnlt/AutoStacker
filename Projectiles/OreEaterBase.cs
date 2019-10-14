@@ -269,6 +269,20 @@ namespace AutoStacker.Projectiles
 			if(_tileId == 0)
 			{
 				Main.NewText("AutoStacker[Ore Eater]:Item data loading...");
+				_oreTile[TileID.ExposedGems] =true;
+				_oreTile[TileID.Sapphire] =true;
+				_oreTile[TileID.Ruby] =true;
+				_oreTile[TileID.Emerald] =true;
+				_oreTile[TileID.Topaz] =true;
+				_oreTile[TileID.Amethyst] =true;
+				_oreTile[TileID.Diamond] =true;
+				_oreTile[TileID.Crystals] =true;
+				_oreTile[TileID.Heart] =true;
+				_oreTile[TileID.LifeFruit] =true;
+				_oreTile[TileID.Pots] =true;
+				_oreTile[TileID.Cobweb] =true;
+				_oreTile[TileID.Heart] =true;
+				_oreTile[TileID.LifeFruit] =true;
 			}
 			
 			if(_tileId < Main.tileTexture.Length)
@@ -281,27 +295,9 @@ namespace AutoStacker.Projectiles
 				{
 					_oreTile[_tileId] =true;
 				}
-				else
-				{
-					_oreTile[_tileId] =false;
-				}
 				_tileId += 1;
 				if(_tileId == Main.tileTexture.Length)
 				{
-					_oreTile[TileID.ExposedGems] =true;
-					_oreTile[TileID.Sapphire] =true;
-					_oreTile[TileID.Ruby] =true;
-					_oreTile[TileID.Emerald] =true;
-					_oreTile[TileID.Topaz] =true;
-					_oreTile[TileID.Amethyst] =true;
-					_oreTile[TileID.Diamond] =true;
-					_oreTile[TileID.Crystals] =true;
-					_oreTile[TileID.Heart] =true;
-					_oreTile[TileID.LifeFruit] =true;
-					_oreTile[TileID.Pots] =true;
-					_oreTile[TileID.Cobweb] =true;
-					_oreTile[TileID.Heart] =true;
-					_oreTile[TileID.LifeFruit] =true;
 					//Main.recipe.Where( recipe => recipe.createItem.modItem != null && recipe.createItem.modItem.DisplayName != null && gemRegex.IsMatch( recipe.createItem.modItem.DisplayName.GetDefault() )).SelectMany( recipe => recipe.requiredItem ).Where(item => item.createTile != null && item.createTile != -1 ).Any(item => _oreTile[item.createTile] = true );
 					Main.NewText("AutoStacker[Ore Eater]: Item data loading Complete!");
 				}
@@ -451,6 +447,8 @@ namespace AutoStacker.Projectiles
 			{
 				foreach(int index in _statusAIndex[0])
 				{
+					int x=_AX[index];
+					int y=_AY[index];
 					for(int dX=-1; dX <= 1; dX++)
 					{
 						for(int dY=-1; dY <= 1; dY++ )
@@ -460,12 +458,9 @@ namespace AutoStacker.Projectiles
 								continue;
 							}
 							
-							tile = Main.tile[_AX[index], _AY[index]];
-							
-							if(checkCanMove(index, dX, dY, pickPower))
+							if(checkCanMove(index, dX, dY, pickPower)) 
 							{
-								//add node
-								addListA(_AX[index] + dX, _AY[index] + dY, 0, _AX[index], _AY[index], int.MaxValue );
+								addListA(x + dX, y + dY, 0, x, y, int.MaxValue );
 							}
 						}
 					}
@@ -499,7 +494,6 @@ namespace AutoStacker.Projectiles
 							{
 								continue;
 							}
-							
 							double match;
 							if(dX ==0 || dY ==0)
 							{
@@ -579,15 +573,7 @@ namespace AutoStacker.Projectiles
 							||
 							(
 								tile.active() 
-								
-								&& 
-								(
-									(
-										_oreTile.ContainsKey(tile.type)
-										&& _oreTile[tile.type]
-									)
-								)
-								
+								&& _oreTile.ContainsKey(tile.type)
 							)
 						)
 					)
@@ -680,13 +666,7 @@ namespace AutoStacker.Projectiles
 
 			if (
 				tile.active() 
-				&& 
-				(
-					(
-						_oreTile.ContainsKey(tile.type) 
-						&& _oreTile[tile.type]
-					)
-				)
+				&& _oreTile.ContainsKey(tile.type) 
 				&&
 				(
 					tileUpper ==  null

@@ -4,20 +4,20 @@ using Terraria.ModLoader;
 
 namespace AutoStacker.Items
 {
-	public class OreEaterV3 : ModItem
+	public class OreEaterV5 : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ore Eater Ver.3");
-			string str = "Summons a Pet Ore Eater Ver.3\n";
+			DisplayName.SetDefault("Ore Eater Ver.5");
+			string str = "Summons a Pet Ore Eater Ver.5\n";
 			str +=       "[status] \n";
-			str +=       "ore serch range      : 30\n";
-			str +=       "speed                : 3\n";
+			str +=       "ore serch range      : 50\n";
+			str +=       "speed                : 5\n";
 			str +=       "pick in water        : enable\n";
 			str +=       "pick in lava         : enable\n";
-			str +=       "through block        : disenable\n";
-			str +=       "through unreveal map : disenable\n";
-			str +=       "light                : bright";
+			str +=       "through block        : enable\n";
+			str +=       "through unreveal map : enable\n";
+			str +=       "light                : super bright";
 			Tooltip.SetDefault(str);
 		}
 
@@ -25,7 +25,7 @@ namespace AutoStacker.Items
 		{
 			item.damage = 0;
 			item.useStyle = 1;
-			item.shoot = mod.ProjectileType("OreEaterV3");
+			item.shoot = mod.ProjectileType("OreEaterV5");
 			item.width = 16;
 			item.height = 30;
 			item.UseSound = SoundID.Item2;
@@ -34,14 +34,14 @@ namespace AutoStacker.Items
 			item.rare = 8;
 			item.noMelee = true;
 			item.value = Item.sellPrice(0, 5, 50, 0);
-			item.buffType = mod.BuffType("OreEaterV3");
+			item.buffType = mod.BuffType("OreEaterV5");
 		}
 
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null,"OreEaterV2", 1);
-			recipe.AddIngredient(Terraria.ID.ItemID.ObsidianSkinPotion, 10);
+			recipe.AddIngredient(null,"OreEaterV4", 1);
+			recipe.AddIngredient(Terraria.ID.ItemID.TeleportationPotion, 10);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

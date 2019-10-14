@@ -13,11 +13,12 @@ namespace AutoStacker.Items
 			str +=       "[status] \n";
 			str +=       "ore serch range      : 40\n";
 			str +=       "speed                : 5\n";
-			str +=       "through block        : enable\n";
-			str +=       "through unreveal map : enable\n";
+			str +=       "pick in water        : enable\n";
+			str +=       "pick in lava         : enable\n";
+			str +=       "through block        : disenable\n";
+			str +=       "through unreveal map : disenable\n";
 			str +=       "light                : very bright";
 			Tooltip.SetDefault(str);
-
 		}
 
 		public override void SetDefaults()
@@ -39,6 +40,8 @@ namespace AutoStacker.Items
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(null,"OreEaterV3", 1);
+			recipe.AddIngredient(Terraria.ID.ItemID.WormholePotion, 10);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
@@ -52,6 +55,7 @@ namespace AutoStacker.Items
 				player.ClearBuff(mod.BuffType("OreEaterV2"));
 				player.ClearBuff(mod.BuffType("OreEaterV3"));
 				player.ClearBuff(mod.BuffType("OreEaterV4"));
+				player.ClearBuff(mod.BuffType("OreEaterV5"));
 				
 				player.AddBuff(item.buffType, 3600, true);
 			}

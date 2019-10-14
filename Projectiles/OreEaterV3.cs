@@ -17,7 +17,7 @@ namespace AutoStacker.Projectiles
 		
 		public OreEaterV3()
 		{
-			this.maxSerchNum= 20;
+			this.maxSerchNum= 30;
 			this.speed=16 * 3;
 			this.light = 2f;
 		}
@@ -57,7 +57,13 @@ namespace AutoStacker.Projectiles
 				&& AX[index] + dX > 1
 				&& AY[index] + dY < Main.Map.MaxHeight
 				&& AY[index] + dY > 1
-				//&& Main.Map.IsRevealed(AX[index] + dX,AY[index] + dY)
+				&& Main.Map.IsRevealed(AX[index] + dX,AY[index] + dY)
+				//&& 
+				//(
+				//	tile.liquid == 0 
+				//	|| tile.liquid == 1 
+				//	|| tile.liquid == 2 
+				//)
 				&&
 				(
 					tile == null 
@@ -69,25 +75,12 @@ namespace AutoStacker.Projectiles
 							!tile.active()
 							||
 							(
-								tile.active() 
-								//&& 
-								//(
-								//	(
-								//		oreTile.ContainsKey(tile.type)
-								//		&& oreTile[tile.type]
-								//	)
-								//	|| tile.type == TileID.ExposedGems
-								//	|| tile.type == TileID.Sapphire
-								//	|| tile.type == TileID.Ruby
-								//	|| tile.type == TileID.Emerald
-								//	|| tile.type == TileID.Topaz
-								//	|| tile.type == TileID.Amethyst
-								//	|| tile.type == TileID.Diamond
-								//	|| tile.type == TileID.Crystals
-								//	|| tile.type == TileID.Heart
-								//	|| tile.type == TileID.LifeFruit
-								//	|| tile.type == TileID.Pots
-								//)
+								tile.active()
+								&& 
+								(
+									oreTile.ContainsKey(tile.type)
+									&& oreTile[tile.type]
+								)
 							)
 						)
 					)

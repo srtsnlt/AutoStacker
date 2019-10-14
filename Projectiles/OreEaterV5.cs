@@ -11,15 +11,15 @@ using Terraria.DataStructures;
 
 namespace AutoStacker.Projectiles
 {
-	public class OreEaterV2 : OreEaterBase
+	public class OreEaterV5 : OreEaterBase
 	{
-		string displayName="Ore Eater Ver.2";
+		string displayName="Ore Eater Ver.5";
 		
-		public OreEaterV2()
+		public OreEaterV5()
 		{
-			this.maxSerchNum= 20;
-			this.speed=16 * 3;
-			this.light = 1f;
+			this.maxSerchNum= 40;
+			this.speed=16 * 5;
+			this.light = 4f;
 		}
 		
 		public override void AI()
@@ -34,14 +34,14 @@ namespace AutoStacker.Projectiles
 			
 			if(modPlayer.pet == null)
 			{
-				modPlayer.pet = (PetBase)new PetV2();
+				modPlayer.pet = (PetBase)new PetV5();
 			}
 			AI2(player, modPlayer, (PetBase)modPlayer.pet);
 			
 		}
 	}
 	
-	public class PetV2 : PetBase
+	public class PetV5 : PetBase
 	{
 		public override bool checkCanMove(int index, int dX, int dY, int pickPower)
 		{
@@ -57,34 +57,34 @@ namespace AutoStacker.Projectiles
 				&& AX[index] + dX > 1
 				&& AY[index] + dY < Main.Map.MaxHeight
 				&& AY[index] + dY > 1
-				&& Main.Map.IsRevealed(AX[index] + dX,AY[index] + dY)
-				&& 
-				(
-					//tile.liquid == 0 
-					//|| tile.liquid == 1 
-					tile.liquid == 2
-				)
-				&&
-				(
-					tile == null 
-					||
-					(
-						tile != null 
-						&&
-						(
-							!tile.active()
-							||
-							(
-								tile.active()
-								&& 
-								(
-									oreTile.ContainsKey(tile.type)
-									&& oreTile[tile.type]
-								)
-							)
-						)
-					)
-				)
+				//&& Main.Map.IsRevealed(AX[index] + dX,AY[index] + dY)
+				//&& 
+				//(
+				//	tile.liquid == 0 
+				//	|| tile.liquid == 1 
+				//	|| tile.liquid == 2 
+				//)
+				//&&
+				//(
+				//	tile == null 
+				//	||
+				//	(
+				//		tile != null 
+				//		&&
+				//		(
+				//			!tile.active()
+				//			||
+				//			(
+				//				tile.active()
+				//				&& 
+				//				(
+				//					oreTile.ContainsKey(tile.type)
+				//					&& oreTile[tile.type]
+				//				)
+				//			)
+				//		)
+				//	)
+				//)
 			)
 			{
 				return true;

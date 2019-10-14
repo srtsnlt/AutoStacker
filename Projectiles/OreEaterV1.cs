@@ -17,8 +17,8 @@ namespace AutoStacker.Projectiles
 		
 		public OreEaterV1()
 		{
-			this.maxSerchNum= 60;
-			this.speed=16 * 4;
+			this.maxSerchNum= 10;
+			this.speed=16 * 3;
 			this.light = 0f;
 		}
 		
@@ -58,6 +58,12 @@ namespace AutoStacker.Projectiles
 				&& AY[index] + dY < Main.Map.MaxHeight
 				&& AY[index] + dY > 1
 				&& Main.Map.IsRevealed(AX[index] + dX,AY[index] + dY)
+				&& 
+				(
+					tile.liquid == 0 
+					|| tile.liquid == 1 
+					|| tile.liquid == 2
+				)
 				&&
 				(
 					tile == null 
@@ -69,7 +75,7 @@ namespace AutoStacker.Projectiles
 							!tile.active()
 							||
 							(
-								tile.active() 
+								tile.active()
 								&& 
 								(
 									oreTile.ContainsKey(tile.type)
@@ -77,6 +83,7 @@ namespace AutoStacker.Projectiles
 								)
 							)
 						)
+						
 					)
 				)
 			)
