@@ -24,7 +24,7 @@ Items
      Require one normal chest on WorkBench.
  
  
-[ Ore Eater ] Update!
+[ Ore Eater ] 
  Summon a pet that serch ores and pick ores or treasures for you!
  Pets pick power is depend on pickel in your inventory.
  
@@ -121,6 +121,10 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.27
+ o Reflection Field
+    bugfix
+
 v0.3.26
  o Ore Eater
     loading speed up

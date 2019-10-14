@@ -83,7 +83,7 @@ namespace AutoStacker.Items
 				//if( projectile.owner == player.whoAmI && projectile.whoAmI == player.whoAmI && projectile.friendly)
 				//if( projectile.friendly || (projectile.owner == player.whoAmI && projectile.whoAmI == player.whoAmI))
 				//if(projectile.owner == player.whoAmI)
-				if( projectile.owner == player.whoAmI  && (projectile.whoAmI == player.whoAmI || projectile.friendly))
+				if( projectile.owner == player.whoAmI  && (projectile.whoAmI == player.whoAmI || projectile.friendly) || projectile.minion)
 				{
 					continue;
 				}

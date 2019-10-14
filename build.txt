@@ -1,5 +1,5 @@
 author = srtsnlt
-version = 0.3.26
+version = 0.3.27
 displayName = AutoStacker
 weakReferences = MagicStorage
 homepage = https://github.com/srtsnlt/AutoStacker
