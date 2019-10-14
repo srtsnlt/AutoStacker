@@ -24,7 +24,7 @@ Items
      Require one normal chest on WorkBench.
  
  
-[ Ore Eater ] 
+[ Ore Eater ] Update!
  Summon a pet that serch ores and pick ores or treasures for you!
  Pets pick power is depend on pickel in your inventory.
  
@@ -35,7 +35,7 @@ Items
      Require nothing on WorkBench.
  
  
-[ Minion House ] Update!
+[ Minion House ] 
  Minions are attack the enemies when you deposit summon weapon in this chest!
  So, You obtain the chance that you get items without adventure!
  
@@ -69,7 +69,7 @@ Items
      Require one normal chest on WorkBench.
  
  
- [ Reflection Field ] 
+ [ Reflection Field ] Update!
  When set to accesary slot, Reflect monsters and attacks!
  
  useage:
@@ -121,6 +121,14 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.26
+ o Ore Eater
+    loading speed up
+    bugfix
+    
+ o Reflection Field
+    bugfix
+
 v0.3.25
  o Minion House
     adjust spawn rate

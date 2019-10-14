@@ -103,7 +103,7 @@ namespace AutoStacker.Items
 		
 		public override bool UseItem(Player player)
 		{
-			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>(mod);
+			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>();
 			if (player.altFunctionUse == 0)
 			{
 				Point16 origin = GetOrigin(Player.tileTargetX,Player.tileTargetY);
@@ -214,7 +214,7 @@ namespace AutoStacker.Items
 		
 		public override void RightClick(Player player)
 		{
-			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>(mod);
+			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>();
 			if(  modPlayer.autoSendEnabled  && (topLeft.X == -1 && topLeft.Y == -1) )
 			{
 				Main.NewText("Reciever chest is not set.Click chest before use.");

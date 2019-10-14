@@ -24,14 +24,13 @@ namespace AutoStacker.Tiles
 			TileID.Sets.HasOutlines[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
 			TileObjectData.newTile.Origin = new Point16(1, 0);
-			TileObjectData.newTile.CoordinateHeights = new int[] { 16,16,16 };
+			TileObjectData.newTile.CoordinateHeights = new int[] { 32,16 };
 			TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
 			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
 			TileObjectData.newTile.AnchorInvalidTiles = new int[] { 127 };
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide , TileObjectData.newTile.Width, 0);
-			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Witch's Cauldron");
 			AddMapEntry(new Color(200, 200, 200), name, MapChestName);
@@ -40,6 +39,7 @@ namespace AutoStacker.Tiles
 			adjTiles = new int[] { TileID.Containers };
 			chest = "Witch's Cauldron";
 			chestDrop = mod.ItemType("WitchsCauldron");
+			TileObjectData.addTile(Type);
 		}
 		
 		

@@ -21,7 +21,7 @@ namespace AutoStacker.Items
 			item.rare = 2;
 			item.UseSound = SoundID.Item79;
 			item.noMelee = true;
-			item.mountType = mod.MountType<Mounts.MountOfDiscord>();
+			item.mountType = ModContent.MountType<Mounts.MountOfDiscord>();
 		}
 		
 		public override void AddRecipes()

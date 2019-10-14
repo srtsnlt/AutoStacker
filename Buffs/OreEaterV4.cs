@@ -30,7 +30,7 @@ namespace AutoStacker.Buffs
 				return;
 			}
 			
-			Players.OreEater modPlayer = player.GetModPlayer<Players.OreEater>(mod);
+			Players.OreEater modPlayer = player.GetModPlayer<Players.OreEater>();
 			
 			if(!modPlayer.oreEaterEnable)
 			{

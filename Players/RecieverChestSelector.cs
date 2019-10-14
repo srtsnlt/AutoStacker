@@ -47,9 +47,9 @@ namespace AutoStacker.Players
 				itemNo = tag.GetInt("activeItem");
 				
 				Main.NewText(itemNo);
-				Main.NewText(mod.ItemType<Items.RecieverChestSelector>());
+				Main.NewText(ModContent.ItemType<Items.RecieverChestSelector>());
 				
-				if( itemNo > 0 && itemNo < this.player.inventory.Length && this.player.inventory[itemNo].type == mod.ItemType<Items.RecieverChestSelector>() )
+				if( itemNo > 0 && itemNo < this.player.inventory.Length && this.player.inventory[itemNo].type == ModContent.ItemType<Items.RecieverChestSelector>() )
 				{
 					activeItem = this.player.inventory[itemNo];
 				}

@@ -30,7 +30,7 @@ namespace AutoStacker.Projectiles
 			}
 			
 			Player player = Main.player[projectile.owner];
-			Players.OreEater modPlayer = player.GetModPlayer<Players.OreEater>(mod);
+			Players.OreEater modPlayer = player.GetModPlayer<Players.OreEater>();
 			
 			if(modPlayer.pet == null)
 			{
@@ -43,7 +43,7 @@ namespace AutoStacker.Projectiles
 	
 	public class PetV4 : PetBase
 	{
-		public override bool checkCanMove(int index, int dX, int dY)
+		public override bool checkCanMove(int index, int dX, int dY, int pickPower)
 		{
 			Tile tile = Main.tile[AX[index], AY[index]];
 			

@@ -21,7 +21,7 @@ namespace AutoStacker.GlobalItems
 		
 		public override bool OnPickup(Item item, Player player)
 		{
-			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>(mod);
+			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>();
 			Point16 topLeft=modPlayer.topLeft;
 			if
 			(
@@ -69,7 +69,7 @@ namespace AutoStacker.GlobalItems
 		
 		public bool deposit(Item item, Player player)
 		{
-			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>(mod);
+			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>();
 			Point16 topLeft=modPlayer.topLeft;
 			
 			//chest

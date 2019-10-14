@@ -258,53 +258,55 @@ namespace AutoStacker.Projectiles
 			
 		}
 		
-		private static Regex oreRegex =new Regex(" Ore$",RegexOptions.Compiled);
-		private static Regex gemRegex =new Regex("^Large [a-zA-z]*$",RegexOptions.Compiled);
-		private static Item _item = new Item();
-		private static int itemId = 0;
+		private static Regex oreRegex =new Regex("Ore$|OreTile$",RegexOptions.Compiled);
+		private static Regex gemRegex =new Regex("^Large",RegexOptions.Compiled);
+		private static int _tileId = 0;
 		private static Dictionary<int,bool> _oreTile = new Dictionary<int,bool>();
+		Item _item = new Item();
 		
 		public void delayLoad()
 		{
-			if(itemId == 0)
+			if(_tileId == 0)
 			{
 				Main.NewText("AutoStacker[Ore Eater]:Item data loading...");
 			}
 			
-			
-			if(itemId < Main.itemTexture.Length)
+			if(_tileId < Main.tileTexture.Length)
 			{
-				_item.SetDefaults(itemId);
+				ModTile _tile = TileLoader.GetTile(_tileId);
 				if(
-					_item.createTile != -1 
-					&& 
-					(
-						oreRegex.IsMatch(_item.Name) 
-						|| Main.recipe.Where( recipe => gemRegex.IsMatch( recipe.createItem.Name)).SelectMany( recipe=> recipe.requiredItem ).Select(item => item.type).Any( id => id == _item.type )
-						|| _item.Name == "Cobweb"
-						|| _item.Name == "Meteorite"
-						|| _item.Name == "Hellstone"
-						|| _item.Name == "Crystal Heart"
-						|| _item.Name == "Life Fruit"
-						
-					)
+					Terraria.ID.TileID.Sets.Ore[_tileId]
+					||(_tile != null && _tile.Name != null && oreRegex.IsMatch(_tile.Name) )
 				)
 				{
-					oreTile[_item.createTile] =true;
+					_oreTile[_tileId] =true;
 				}
 				else
 				{
-					oreTile[_item.createTile] =false;
+					_oreTile[_tileId] =false;
 				}
-				itemId += 1;
-				
-				if(itemId == Main.itemTexture.Length)
+				_tileId += 1;
+				if(_tileId == Main.tileTexture.Length)
 				{
+					_oreTile[TileID.ExposedGems] =true;
+					_oreTile[TileID.Sapphire] =true;
+					_oreTile[TileID.Ruby] =true;
+					_oreTile[TileID.Emerald] =true;
+					_oreTile[TileID.Topaz] =true;
+					_oreTile[TileID.Amethyst] =true;
+					_oreTile[TileID.Diamond] =true;
+					_oreTile[TileID.Crystals] =true;
+					_oreTile[TileID.Heart] =true;
+					_oreTile[TileID.LifeFruit] =true;
+					_oreTile[TileID.Pots] =true;
+					_oreTile[TileID.Cobweb] =true;
+					_oreTile[TileID.Heart] =true;
+					_oreTile[TileID.LifeFruit] =true;
+					//Main.recipe.Where( recipe => recipe.createItem.modItem != null && recipe.createItem.modItem.DisplayName != null && gemRegex.IsMatch( recipe.createItem.modItem.DisplayName.GetDefault() )).SelectMany( recipe => recipe.requiredItem ).Where(item => item.createTile != null && item.createTile != -1 ).Any(item => _oreTile[item.createTile] = true );
 					Main.NewText("AutoStacker[Ore Eater]: Item data loading Complete!");
 				}
 			}
 		}
-		
 		
 		private Dictionary<int,Dictionary<int,int>> _petDictionaryA    = new Dictionary<int,Dictionary<int,int>>();
 		private List<List<int>>                     _petDictionaryAInv = new List<List<int>>();
@@ -460,7 +462,7 @@ namespace AutoStacker.Projectiles
 							
 							tile = Main.tile[_AX[index], _AY[index]];
 							
-							if(checkCanMove(index, dX, dY))
+							if(checkCanMove(index, dX, dY, pickPower))
 							{
 								//add node
 								addListA(_AX[index] + dX, _AY[index] + dY, 0, _AX[index], _AY[index], int.MaxValue );
@@ -526,7 +528,7 @@ namespace AutoStacker.Projectiles
 			{
 				foreach(int index in _statusAIndex[2])
 				{
-					if(checkCanPick(index))
+					if(checkCanPick(index, pickPower))
 					{
 						_statusA[index] = 3;
 					}
@@ -551,10 +553,9 @@ namespace AutoStacker.Projectiles
 			
 		}
 		
-		public virtual bool checkCanMove(int index, int dX, int dY)
+		public virtual bool checkCanMove(int index, int dX, int dY,int pickPower)
 		{
 			Tile tile = Main.tile[_AX[index], _AY[index]];
-			
 			if
 			(
 				(
@@ -578,39 +579,60 @@ namespace AutoStacker.Projectiles
 							||
 							(
 								tile.active() 
+								
 								&& 
 								(
 									(
 										_oreTile.ContainsKey(tile.type)
 										&& _oreTile[tile.type]
 									)
-									|| tile.type == TileID.ExposedGems
-									|| tile.type == TileID.Sapphire
-									|| tile.type == TileID.Ruby
-									|| tile.type == TileID.Emerald
-									|| tile.type == TileID.Topaz
-									|| tile.type == TileID.Amethyst
-									|| tile.type == TileID.Diamond
-									|| tile.type == TileID.Crystals
-									|| tile.type == TileID.Heart
-									|| tile.type == TileID.LifeFruit
-									|| tile.type == TileID.Pots
 								)
+								
 							)
 						)
 					)
 				)
 			)
 			{
-				return true;
 			}
 			else
 			{
 				return false;
 			}
+
+			if ((tile.type == 211 && pickPower < 200)
+				|| ((tile.type == 25 || tile.type == 203) && pickPower < 65)
+				|| (tile.type == 117 && pickPower < 65)
+				|| (tile.type == 37 && pickPower < 50)
+				|| (tile.type == 404 && pickPower < 65)
+				|| ((tile.type == 22 || tile.type == 204) && (double)_AY[index] > Main.worldSurface && pickPower < 55)
+				|| (tile.type == 56 && pickPower < 65)
+				|| (tile.type == 58 && pickPower < 65)
+				|| ((tile.type == 226 || tile.type == 237) && pickPower < 210)
+				|| (Main.tileDungeon[tile.type] && pickPower < 65)
+				|| ((double)_AX[index] < (double)Main.maxTilesX * 0.35 || (double)_AX[index] > (double)Main.maxTilesX * 0.65)
+				|| (tile.type == 107 && pickPower < 100)
+				|| (tile.type == 108 && pickPower < 110)
+				|| (tile.type == 111 && pickPower < 150)
+				|| (tile.type == 221 && pickPower < 100)
+				|| (tile.type == 222 && pickPower < 110)
+				|| (tile.type == 223 && pickPower < 150)
+			)
+			{
+				return false;
+			}
+
+			int check=1;
+			TileLoader.PickPowerCheck(tile, pickPower, ref check);
+			if(check == 0)
+			{
+				return false;
+			}
+			
+			return true;
 		}
 		
-		private bool checkCanPick(int index)
+		private bool checkCanPick(int index, int pickPower)
 		{
 			if(index >= _AX.Count || index >= _AY.Count || index <= -1)
 			{
@@ -619,26 +641,51 @@ namespace AutoStacker.Projectiles
 			
 			Tile tile = Main.tile[_AX[index], _AY[index]];
 			Tile tileUpper = Main.tile[_AX[index], _AY[index]-1];
+
+			if(tile == null )
+			{
+				return false;
+			}
+
+			//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+			if ((tile.type == 211 && pickPower < 200)
+				|| ((tile.type == 25 || tile.type == 203) && pickPower < 65)
+				|| (tile.type == 117 && pickPower < 65)
+				|| (tile.type == 37 && pickPower < 50)
+				|| (tile.type == 404 && pickPower < 65)
+//				|| ((tile.type == 22 || tile.type == 204) && (double)_AY[index] > Main.worldSurface && pickPower < 55)
+				|| (tile.type == 56 && pickPower < 65)
+				|| (tile.type == 58 && pickPower < 65)
+				|| ((tile.type == 226 || tile.type == 237) && pickPower < 210)
+				|| (Main.tileDungeon[tile.type] && pickPower < 65)
+//				|| ((double)_AX[index] < (double)Main.maxTilesX * 0.35 || (double)_AX[index] > (double)Main.maxTilesX * 0.65)
+				|| (tile.type == 107 && pickPower < 100)
+				|| (tile.type == 108 && pickPower < 110)
+				|| (tile.type == 111 && pickPower < 150)
+				|| (tile.type == 221 && pickPower < 100)
+				|| (tile.type == 222 && pickPower < 110)
+				|| (tile.type == 223 && pickPower < 150)
+			)
+			{
+				return false;
+			}
+
+			int check=1;
+			TileLoader.PickPowerCheck(tile, pickPower, ref check);
+			if(check == 0)
+			{
+				return false;
+			}
+			//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
 			if (
-				tile != null 
-				&& tile.active() 
+				tile.active() 
 				&& 
 				(
 					(
 						_oreTile.ContainsKey(tile.type) 
 						&& _oreTile[tile.type]
 					)
-					|| tile.type == TileID.ExposedGems
-					|| tile.type == TileID.Sapphire
-					|| tile.type == TileID.Ruby
-					|| tile.type == TileID.Emerald
-					|| tile.type == TileID.Topaz
-					|| tile.type == TileID.Amethyst
-					|| tile.type == TileID.Diamond
-					|| tile.type == TileID.Crystals
-					|| tile.type == TileID.Heart
-					|| tile.type == TileID.LifeFruit
-					|| tile.type == TileID.Pots
 				)
 				&&
 				(

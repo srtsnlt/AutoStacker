@@ -13,7 +13,7 @@ namespace AutoStacker.Players
 	{
 		public override void OnEnterWorld(Player player)
 		{
-			Worlds.MinionHouse minionHouse = mod.GetModWorld<Worlds.MinionHouse>();
+			Worlds.MinionHouse minionHouse = ModContent.GetInstance<Worlds.MinionHouse>();
 			minionHouse.init();
 		}
 	}

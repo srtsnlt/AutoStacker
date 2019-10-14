@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -53,8 +55,8 @@ namespace AutoStacker.Worlds
 					{
 						if(Main.player[playerNo]==null || !Main.player[playerNo].active)
 						{
-							
 							Main.player[playerNo]        = (Player)Main.player[Main.myPlayer].Clone();
+
 							minionHousePlayer[chestNo]   = Main.player[playerNo];
 							minionHousePlayerNo[chestNo] = playerNo;
 							minionHousePlayerAi[chestNo] = 0;
@@ -176,7 +178,4 @@ namespace AutoStacker.Worlds
 			}
 		}
 	}
-	
-	
-	
 }

@@ -13,7 +13,7 @@ namespace AutoStacker.Mounts
 		{
 			mountData.spawnDust = 226;
 			mountData.spawnDustNoGravity = true;
-			mountData.buff = mod.BuffType<Buffs.MountOfDiscord>();
+			mountData.buff = ModContent.BuffType<Buffs.MountOfDiscord>();
 			mountData.heightBoost = 0;
 			mountData.flightTimeMax = Int32.MaxValue;
 			mountData.fatigueMax = Int32.MaxValue;

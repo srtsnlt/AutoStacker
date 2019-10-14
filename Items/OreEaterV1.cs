@@ -12,7 +12,7 @@ namespace AutoStacker.Items
 			string str = "Summons a Pet Ore Eater Ver.1\n";
 			str +=       "[status] \n";
 			str +=       "ore serch range      : 60\n";
-			str +=       "speed                : 2\n";
+			str +=       "speed                : 4\n";
 			str +=       "through block        : disenable\n";
 			str +=       "through unreveal map : disenable\n";
 			str +=       "light                : none";

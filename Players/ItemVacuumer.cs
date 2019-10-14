@@ -36,7 +36,8 @@ namespace AutoStacker.Players
 		
 		public override void PreUpdate()
 		{
-			if(vacuumSwitch){
+			if(vacuumSwitch)
+			{
 				Player player = Main.LocalPlayer;
 				int velocity = 12;
 				foreach (Item item in Main.item)
@@ -46,7 +47,8 @@ namespace AutoStacker.Players
 						int distanceX   = (int)player.Center.X - (int)item.position.X;
 						int distanceY   = (int)player.Center.Y - (int)item.position.Y;
 						int distanceSum = System.Math.Abs(distanceX) + System.Math.Abs(distanceY);
-						if(distanceSum > 0){
+						if(distanceSum > 0)
+						{
 							if( item.velocity.X <= 1 && item.velocity.Y <= 1){
 								item.velocity.X = (float)(velocity * distanceX / distanceSum + distanceX * 0.0125);
 								item.velocity.Y = (float)(velocity * distanceY / distanceSum + distanceY * 0.0125);

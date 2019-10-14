@@ -80,7 +80,10 @@ namespace AutoStacker.Items
 			
 			foreach(Projectile projectile in Main.projectile)
 			{
-				if( projectile.friendly || Main.player[projectile.owner] == player )
+				//if( projectile.owner == player.whoAmI && projectile.whoAmI == player.whoAmI && projectile.friendly)
+				//if( projectile.friendly || (projectile.owner == player.whoAmI && projectile.whoAmI == player.whoAmI))
+				//if(projectile.owner == player.whoAmI)
+				if( projectile.owner == player.whoAmI  && (projectile.whoAmI == player.whoAmI || projectile.friendly))
 				{
 					continue;
 				}
@@ -121,6 +124,8 @@ namespace AutoStacker.Items
 						
 					}
 					projectile.friendly = true;
+					projectile.owner = player.whoAmI;
+					projectile.whoAmI = player.whoAmI;
 				}
 			}
 		}

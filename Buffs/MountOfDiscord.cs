@@ -16,7 +16,7 @@ namespace AutoStacker.Buffs
 		
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.mount.SetMount(mod.MountType<Mounts.MountOfDiscord>(), player);
+			player.mount.SetMount(ModContent.MountType<Mounts.MountOfDiscord>(), player);
 			player.buffTime[buffIndex] = 10;
 			
 			player.velocity.X=0.0f;

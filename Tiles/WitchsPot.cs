@@ -219,7 +219,7 @@ namespace AutoStacker.Tiles
 			int chestNo = Chest.FindChest(left, top);
 			Chest chest = Main.chest[chestNo];
 			
-			Worlds.WitchsPot witchsPot=mod.GetModWorld<Worlds.WitchsPot>();
+			Worlds.WitchsPot witchsPot=ModContent.GetInstance<Worlds.WitchsPot>();
 			witchsPot.chestNo.Add(chestNo);
 		}
 		
