@@ -29,7 +29,8 @@ namespace AutoStacker.Items
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Chest,1);
+			recipe.AddIngredient(null,"WitchsCauldron", 1);
+			recipe.AddIngredient(ItemID.Switch,1);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

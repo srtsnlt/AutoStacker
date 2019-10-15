@@ -28,6 +28,7 @@ namespace AutoStacker.Items
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddTile(TileID.WorkBenches);
+			recipe.AddIngredient(Terraria.ID.ItemID.Glass, 9999);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

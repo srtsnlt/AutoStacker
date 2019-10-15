@@ -12,8 +12,13 @@ namespace AutoStacker.Players
 	public class ItemVacuumer : ModPlayer
 	{
 		
-		public static bool vacuumSwitch = false;
+		public static bool vacuumSwitch=false;
 		
+		public ItemVacuumer()
+		{
+			vacuumSwitch = false;
+		}
+
 		public override TagCompound Save()
 		{
 			TagCompound tag = new TagCompound();

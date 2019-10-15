@@ -268,18 +268,6 @@ namespace AutoStacker.Items
 			recipe.AddRecipe();
 		}
 		
-		/*
-		~RecieverChestSelector()
-		{
-			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>(mod);
-			modPlayer.topLeftDictionary.Remove(this.item);
-			if(modPlayer.activeItem.Equals( this.item ))
-			{
-				modPlayer.activeItem = null;
-			}
-		}
-		*/
-		
 		public override ModItem Clone()
 		{
 			RecieverChestSelector newItem =(RecieverChestSelector)base.MemberwiseClone();

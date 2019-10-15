@@ -144,6 +144,7 @@ namespace AutoStacker.Items
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddTile(TileID.WorkBenches);
+			recipe.AddIngredient(ItemID.MagicMirror,3);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

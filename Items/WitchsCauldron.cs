@@ -28,11 +28,50 @@ namespace AutoStacker.Items
 		
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			ModRecipe recipe;
+			
+			recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Chest,1);
+			recipe.AddIngredient(ItemID.BlackCounterweight,1);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
+
+			recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.Chest,1);
+			recipe.AddIngredient(ItemID.BlueCounterweight,1);
+			recipe.AddTile(TileID.WorkBenches);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+
+			recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.Chest,1);
+			recipe.AddIngredient(ItemID.GreenCounterweight,1);
+			recipe.AddTile(TileID.WorkBenches);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+
+			recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.Chest,1);
+			recipe.AddIngredient(ItemID.PurpleCounterweight,1);
+			recipe.AddTile(TileID.WorkBenches);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+
+			recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.Chest,1);
+			recipe.AddIngredient(ItemID.RedCounterweight,1);
+			recipe.AddTile(TileID.WorkBenches);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+
+			recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.Chest,1);
+			recipe.AddIngredient(ItemID.YellowCounterweight,1);
+			recipe.AddTile(TileID.WorkBenches);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+
 		}
 		
 	}

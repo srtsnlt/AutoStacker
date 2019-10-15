@@ -45,7 +45,7 @@ namespace AutoStacker.Items
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Wire,1);
+			recipe.AddIngredient(ItemID.Wire,100);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
