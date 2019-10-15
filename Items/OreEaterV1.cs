@@ -44,6 +44,13 @@ namespace AutoStacker.Items
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
+
+			ModRecipe recipe2 = new ModRecipe(mod);
+			recipe2.AddIngredient(Terraria.ID.ItemID.LeadPickaxe, 3);
+			recipe2.AddTile(TileID.WorkBenches);
+			recipe2.SetResult(this);
+			recipe2.AddRecipe();
+
 		}
 
 		public override void UseStyle(Player player)
