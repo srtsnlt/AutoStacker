@@ -124,7 +124,13 @@ History
 v0.3.28
  o Ore Eater
     game balance - change recipie
-    
+ 
+ o Item Vacuumer
+    bugfix
+ 
+ o All Items
+    change recipe
+ 
 v0.3.27
  o Reflection Field
     bugfix
