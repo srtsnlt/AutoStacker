@@ -82,7 +82,7 @@ namespace AutoStacker.NPCs
 			return "";
 		}
 		
-		public virtual bool CheckActive()
+		public override bool CheckActive()
 		{
 			return false;
 		}

@@ -9,7 +9,6 @@ using Terraria.ID;
 using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
-using Terraria.ModLoader;
 
 namespace AutoStacker.Buffs
 {

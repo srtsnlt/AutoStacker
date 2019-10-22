@@ -9,7 +9,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
-using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.Localization;
 using System.Threading.Tasks;
@@ -38,11 +37,12 @@ namespace AutoStacker.Players
 		public override void Load(TagCompound tag)
 		{
 			int itemNo;
-			if( tag.HasTag("autoSendEnabled") )
+			
+			if( tag.ContainsKey("autoSendEnabled") )
 			{
 				autoSendEnabled=tag.GetBool("autoSendEnabled");
 			}
-			if( tag.HasTag("activeItem") )
+			if( tag.ContainsKey("activeItem") )
 			{
 				itemNo = tag.GetInt("activeItem");
 				
@@ -55,7 +55,7 @@ namespace AutoStacker.Players
 				}
 			}
 			
-			if(tag.HasTag("topLeftX") && tag.HasTag("topLeftY"))
+			if(tag.ContainsKey("topLeftX") && tag.ContainsKey("topLeftY"))
 			{
 				topLeft = new Point16(tag.GetShort("topLeftX"), tag.GetShort("topLeftY"));
 			}

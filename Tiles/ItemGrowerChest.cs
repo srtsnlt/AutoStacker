@@ -82,6 +82,7 @@ namespace AutoStacker.Tiles
 			Chest.DestroyChest(i, j);
 		}
 
+		[Obsolete]
 		public override void RightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;

@@ -83,11 +83,11 @@ namespace AutoStacker.Items
 		
 		public override void Load(TagCompound tag)
 		{
-			if(tag.HasTag("active"))
+			if(tag.ContainsKey("active"))
 			{
 				active = tag.GetBool("active");
 			}
-			if(tag.HasTag("topLeftX") && tag.HasTag("topLeftY"))
+			if(tag.ContainsKey("topLeftX") && tag.ContainsKey("topLeftY"))
 			{
 				topLeft = new Point16(tag.GetShort("topLeftX"), tag.GetShort("topLeftY"));
 			}

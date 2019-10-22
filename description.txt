@@ -32,7 +32,11 @@ Items
      Set to pet slot.
  
  recipie:
-     Require nothing on WorkBench.
+     v1 Require any IronPickaxe on WorkBench.
+     v2 Require v1 and 4 GillsPotions on WorkBench.
+     v3 Require v1 and 4 ObsidianSkinPotions on WorkBench.
+     v4 Require v1 and 4 WormholePotions on WorkBench.
+     v4 Require v1 and 4 TeleportationPotions on WorkBench.
  
  
 [ Minion House ] 
@@ -43,7 +47,7 @@ Items
      After placement, deposit summon weapon.
  
  recipie:
-     Require one normal chest on WorkBench.
+     Require one normal chest and 9999 Wood on WorkBench.
  
  
  [ Witch's Cauldron ] 
@@ -54,7 +58,7 @@ Items
      After placement, deposit worthless item.
  
  recipie:
-     Require one normal chest on WorkBench.
+     Require one normal chest and any Counterweight on WorkBench.
  
  
  [ Witch's Pot ] 
@@ -66,7 +70,7 @@ Items
      After placement, deposit worthless item and Hit wire!
  
  recipie:
-     Require one normal chest on WorkBench.
+     Require one normal chest and Switch on WorkBench.
  
  
  [ Reflection Field ] Update!
@@ -76,7 +80,7 @@ Items
      Set to accesary slot.
  
  recipie:
-     Require nothing on WorkBench.
+     Require 3 MagicMirrors on WorkBench.
  
  
 [ Mount Of Discord ] 
@@ -86,14 +90,14 @@ Items
      Set to mount slot.
  
  recipie:
-     Require nothing on WorkBench.
+     Require 9999 Glass on WorkBench.
  
  
 [ Item Grower Chest ]
  Per day, items in chest to be twice!
  
  useage:
-     Place chest on ground and deposit in items.
+     Place chest and 99 GrassSeeds on ground and deposit in items.
  
  recipie:
      Require one normal chest on WorkBench.
@@ -106,7 +110,7 @@ Items
      Right click this  : On/Off tracking.
  
  recipie:
-     Require nothing on WorkBench.
+     Require ReinforcedFishingPole on WorkBench.
  
  
 [ Hit Wire Rod ]
@@ -122,14 +126,11 @@ Items
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 v0.3.28
- o Ore Eater
+ o All Items
     game balance - change recipie
- 
+
  o Item Vacuumer
     bugfix
- 
- o All Items
-    change recipe
  
 v0.3.27
  o Reflection Field

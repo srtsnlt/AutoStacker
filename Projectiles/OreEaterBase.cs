@@ -51,7 +51,6 @@ namespace AutoStacker.Projectiles
 		public int maxSerchNum=60;
 		System.Random rand = new System.Random();
 		int prevLoop=0;
-		
 		int chestID = -1;
 		int targetPrev=4;
 		
@@ -281,8 +280,8 @@ namespace AutoStacker.Projectiles
 				_oreTile[TileID.LifeFruit] =true;
 				_oreTile[TileID.Pots] =true;
 				_oreTile[TileID.Cobweb] =true;
-				_oreTile[TileID.Heart] =true;
-				_oreTile[TileID.LifeFruit] =true;
+				_oreTile[TileID.Obsidian] =true;
+				
 			}
 			
 			if(_tileId < Main.tileTexture.Length)
@@ -439,9 +438,6 @@ namespace AutoStacker.Projectiles
 				return;
 			}
 			
-			Tile tile;
-			Tile tileUpper;
-			
 			//fined next tile
 			if(_statusAIndex.ContainsKey(0))
 			{
@@ -586,23 +582,23 @@ namespace AutoStacker.Projectiles
 				return false;
 			}
 
-			if ((tile.type == 211 && pickPower < 200)
-				|| ((tile.type == 25 || tile.type == 203) && pickPower < 65)
-				|| (tile.type == 117 && pickPower < 65)
-				|| (tile.type == 37 && pickPower < 50)
-				|| (tile.type == 404 && pickPower < 65)
-				|| ((tile.type == 22 || tile.type == 204) && (double)_AY[index] > Main.worldSurface && pickPower < 55)
-				|| (tile.type == 56 && pickPower < 65)
-				|| (tile.type == 58 && pickPower < 65)
-				|| ((tile.type == 226 || tile.type == 237) && pickPower < 210)
-				|| (Main.tileDungeon[tile.type] && pickPower < 65)
-				|| ((double)_AX[index] < (double)Main.maxTilesX * 0.35 || (double)_AX[index] > (double)Main.maxTilesX * 0.65)
-				|| (tile.type == 107 && pickPower < 100)
-				|| (tile.type == 108 && pickPower < 110)
-				|| (tile.type == 111 && pickPower < 150)
-				|| (tile.type == 221 && pickPower < 100)
-				|| (tile.type == 222 && pickPower < 110)
-				|| (tile.type == 223 && pickPower < 150)
+			if ((tile.type == 211 && pickPower <= 200)
+				|| ((tile.type == 25 || tile.type == 203) && pickPower <= 65)
+				|| (tile.type == 117 && pickPower <= 65)
+				|| (tile.type == 37 && pickPower <= 50)
+				|| (tile.type == 404 && pickPower <= 65)
+				//|| ((tile.type == 22 || tile.type == 204) && (double)_AY[index] > Main.worldSurface && pickPower <= 55)
+				|| (tile.type == 56 && pickPower <= 65)
+				|| (tile.type == 58 && pickPower <= 65)
+				|| ((tile.type == 226 || tile.type == 237) && pickPower <= 210)
+				|| (Main.tileDungeon[tile.type] && pickPower <= 65)
+				//|| ((double)_AX[index] < (double)Main.maxTilesX * 0.35 || (double)_AX[index] > (double)Main.maxTilesX * 0.65)
+				|| (tile.type == 107 && pickPower <= 100)
+				|| (tile.type == 108 && pickPower <= 110)
+				|| (tile.type == 111 && pickPower <= 150)
+				|| (tile.type == 221 && pickPower <= 100)
+				|| (tile.type == 222 && pickPower <= 110)
+				|| (tile.type == 223 && pickPower <= 150)
 			)
 			{
 				return false;
@@ -634,23 +630,23 @@ namespace AutoStacker.Projectiles
 			}
 
 			//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-			if ((tile.type == 211 && pickPower < 200)
-				|| ((tile.type == 25 || tile.type == 203) && pickPower < 65)
-				|| (tile.type == 117 && pickPower < 65)
-				|| (tile.type == 37 && pickPower < 50)
-				|| (tile.type == 404 && pickPower < 65)
+			if ((tile.type == 211 && pickPower <= 200)
+				|| ((tile.type == 25 || tile.type == 203) && pickPower <= 65)
+				|| (tile.type == 117 && pickPower <= 65)
+				|| (tile.type == 37 && pickPower <= 50)
+				|| (tile.type == 404 && pickPower <= 65)
 //				|| ((tile.type == 22 || tile.type == 204) && (double)_AY[index] > Main.worldSurface && pickPower < 55)
-				|| (tile.type == 56 && pickPower < 65)
-				|| (tile.type == 58 && pickPower < 65)
-				|| ((tile.type == 226 || tile.type == 237) && pickPower < 210)
-				|| (Main.tileDungeon[tile.type] && pickPower < 65)
+				|| (tile.type == 56 && pickPower <= 65)
+				|| (tile.type == 58 && pickPower <= 65)
+				|| ((tile.type == 226 || tile.type == 237) && pickPower <= 210)
+				|| (Main.tileDungeon[tile.type] && pickPower <= 65)
 //				|| ((double)_AX[index] < (double)Main.maxTilesX * 0.35 || (double)_AX[index] > (double)Main.maxTilesX * 0.65)
-				|| (tile.type == 107 && pickPower < 100)
-				|| (tile.type == 108 && pickPower < 110)
-				|| (tile.type == 111 && pickPower < 150)
-				|| (tile.type == 221 && pickPower < 100)
-				|| (tile.type == 222 && pickPower < 110)
-				|| (tile.type == 223 && pickPower < 150)
+				|| (tile.type == 107 && pickPower <= 100)
+				|| (tile.type == 108 && pickPower <= 110)
+				|| (tile.type == 111 && pickPower <= 150)
+				|| (tile.type == 221 && pickPower <= 100)
+				|| (tile.type == 222 && pickPower <= 110)
+				|| (tile.type == 223 && pickPower <= 150)
 			)
 			{
 				return false;

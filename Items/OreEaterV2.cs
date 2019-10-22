@@ -41,7 +41,7 @@ namespace AutoStacker.Items
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(null,"OreEaterV1", 1);
-			recipe.AddIngredient(Terraria.ID.ItemID.GillsPotion, 10);
+			recipe.AddIngredient(Terraria.ID.ItemID.GillsPotion, 4);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

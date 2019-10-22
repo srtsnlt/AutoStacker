@@ -52,11 +52,14 @@ namespace AutoStacker.Items
 		
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			ModRecipe recipe;
+
+			recipe = new ModRecipe(mod);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.AddIngredient(ItemID.MechanicsRod,1);
+			recipe.AddIngredient(ItemID.ReinforcedFishingPole,1);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
+
 		}
 	}
 }

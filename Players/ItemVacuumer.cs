@@ -29,7 +29,7 @@ namespace AutoStacker.Players
 		
 		public override void Load(TagCompound tag)
 		{
-			if(tag.HasTag("vacuumSwitch"))
+			if(tag.ContainsKey("vacuumSwitch"))
 			{
 				vacuumSwitch=tag.GetBool("vacuumSwitch");
 			}

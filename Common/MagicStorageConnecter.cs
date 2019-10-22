@@ -6,7 +6,6 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.Localization;
 using MagicStorage;
