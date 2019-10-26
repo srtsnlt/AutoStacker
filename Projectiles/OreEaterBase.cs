@@ -281,7 +281,6 @@ namespace AutoStacker.Projectiles
 				_oreTile[TileID.Pots] =true;
 				_oreTile[TileID.Cobweb] =true;
 				_oreTile[TileID.Obsidian] =true;
-				
 			}
 			
 			if(_tileId < Main.tileTexture.Length)

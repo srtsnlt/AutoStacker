@@ -125,6 +125,16 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.29
+ o Item Vacuumer
+    add V2
+ 
+ o Reciever Chest Selector
+    bugfix
+
+ o Reflection Field
+    bugfix
+
 v0.3.28
  o All Items
     game balance - change recipie

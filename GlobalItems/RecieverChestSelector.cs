@@ -15,7 +15,7 @@ namespace AutoStacker.GlobalItems
 	class RecieverChestSelector : GlobalItem
 	{
 		public static short[] ExcludeItemList = new short[10]{ItemID.CopperCoin, ItemID.SilverCoin, ItemID.GoldCoin, ItemID.PlatinumCoin, ItemID.Heart, ItemID.CandyApple, ItemID.CandyCane, ItemID.Star, ItemID.SugarPlum, ItemID.SoulCake };
-		private static Dictionary<int,List<int>> depositQue = new Dictionary<int,List<int>>();
+		private static Dictionary<int,List<int>> deleteQue = new Dictionary<int,List<int>>();
 		
 		
 		public override bool OnPickup(Item item, Player player)
@@ -35,34 +35,33 @@ namespace AutoStacker.GlobalItems
 				return true;
 			}
 			
-			if(!depositQue.ContainsKey(item.type))
+			//Item depositItem=item.Clone();
+			if(deposit(item.Clone(), player))
 			{
-				depositQue[item.type] = new List<int>();
+				item.SetDefaults(0, true);
+				if(!deleteQue.ContainsKey(item.type))
+				{
+					deleteQue[item.type] = new List<int>();
+				}
+				deleteQue[item.type].Add(item.stack);
 			}
-			depositQue[item.type].Add(item.stack);
+			else
+			{
+				player.GetItem(player.whoAmI, item.Clone(), false, false);
+			}
 			return true;
 		}
 		
 		public override void UpdateInventory(Item item, Player player)
 		{
-			if(depositQue.ContainsKey(item.type))
+			if(deleteQue.ContainsKey(item.type))
 			{
-				
-				
-				Item depositItem=item.Clone();
-				depositItem.stack=depositQue[item.type].Sum( stack => stack );
-				depositQue.Remove(item.type);
-				
-				item.stack -= depositItem.stack;
+				item.stack -= deleteQue[item.type].Sum( stack => stack );
 				if(item.stack <= 0)
 				{
 					item.SetDefaults(0, true);
 				}
-				
-				if(depositItem.stack > 0)
-				{
-					deposit(depositItem, player);
-				}
+				deleteQue.Remove(item.type);
 			}
 		}
 		
@@ -82,7 +81,8 @@ namespace AutoStacker.GlobalItems
 					{
 						Main.chest[chestNo].item[slot] = item.Clone();
 						item.SetDefaults(0, true);
-						break;
+						Wiring.TripWire(topLeft.X, topLeft.Y, 2, 2);
+						return true;
 					}
 					
 					Item chestItem = Main.chest[chestNo].item[slot];
@@ -93,7 +93,8 @@ namespace AutoStacker.GlobalItems
 						{
 							chestItem.stack += item.stack;
 							item.SetDefaults(0, true);
-							break;
+							Wiring.TripWire(topLeft.X, topLeft.Y, 2, 2);
+							return true;
 						}
 						else
 						{
@@ -102,7 +103,6 @@ namespace AutoStacker.GlobalItems
 						}
 					}
 				}
-				Wiring.TripWire(topLeft.X, topLeft.Y, 2, 2);
 			}
 			
 			//storage heart
@@ -111,15 +111,10 @@ namespace AutoStacker.GlobalItems
 				if(Common.MagicStorageConnecter.InjectItem(topLeft, item))
 				{
 					item.SetDefaults(0, true);
+					return true;
 				}
 			}
-			
-			if(!item.IsAir)
-			{
-				player.GetItem(Main.myPlayer, item, false, false);
-			}
-			
-			return true;
+			return false;
 		}
 		
 		public static int FindChest(int originX, int originY)

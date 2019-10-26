@@ -80,14 +80,19 @@ namespace AutoStacker.Items
 			
 			foreach(Projectile projectile in Main.projectile)
 			{
-				//if( projectile.owner == player.whoAmI && projectile.whoAmI == player.whoAmI && projectile.friendly)
-				//if( projectile.friendly || (projectile.owner == player.whoAmI && projectile.whoAmI == player.whoAmI))
-				//if(projectile.owner == player.whoAmI)
-				if( projectile.owner == player.whoAmI  && (projectile.whoAmI == player.whoAmI || projectile.friendly) || projectile.minion)
+				if( 
+					projectile.whoAmI == Main.myPlayer 
+					|| projectile.damage == 0 
+					|| projectile.friendly 
+					|| (
+							projectile.minion 
+							&& projectile.OwnerMinionAttackTargetNPC is null
+						)
+				)
 				{
 					continue;
 				}
-				
+
 				Vector2 distance= player.Center - projectile.Center;
 				float distanceOffset = (float)(Math.Max(projectile.width, projectile.height) * 0.5);
 				
@@ -123,9 +128,9 @@ namespace AutoStacker.Items
 						projectile.position.Y += distance.Y >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
 						
 					}
-					projectile.friendly = true;
 					projectile.owner = player.whoAmI;
 					projectile.whoAmI = player.whoAmI;
+					projectile.damage *= 2;
 				}
 			}
 		}
