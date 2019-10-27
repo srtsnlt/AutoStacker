@@ -207,9 +207,9 @@ namespace AutoStacker.Tiles
 			else
 			{
 				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Witch's Pot";
-				if (player.showItemIconText == "Witch's Pot")
+				if (player.showItemIconText == "Auto Picker")
 				{
-					player.showItemIcon2 = mod.ItemType("WitchsPot");
+					player.showItemIcon2 = mod.ItemType("AutoPicker");
 					player.showItemIconText = "";
 				}
 			}
@@ -239,17 +239,17 @@ namespace AutoStacker.Tiles
 			{
 				Point16 Origin = GetOrigin(picker.X,picker.Y);
 				int fieldChest = FindChest(Origin.X,Origin.Y);
-				if(fieldChest == -1)
+				if(fieldChest == -1 || Main.chest[fieldChest].item.Where(chestItem => chestItem.stack > 0).Count() == 0)
 				{
 					int pickerChest = FindChest(topLeftPicker.X,topLeftPicker.Y);
 					int pickPower=Main.chest[pickerChest].item.Max(chestItem => chestItem.pick);
-
 					if(pickPower != 0 && canPick(picker.X,picker.Y,pickPower))
 					{
 						player.PickTile2(picker.X,picker.Y,100,this);
+						//Main.NewText(picker.X +","+picker.Y);
 						if(!Main.tile[picker.X,picker.Y].active())
 						{
-							Wiring.TripWire(topLeftRecever.X, topLeftRecever.Y, 2, 2);
+							//Wiring.TripWire(topLeftRecever.X, topLeftRecever.Y, 2, 2);
 							moveNext();
 						}
 					}
@@ -260,7 +260,12 @@ namespace AutoStacker.Tiles
 				}
 				else
 				{
-					moveNext();
+					Item item =Main.chest[fieldChest].item.Where(chestItem => chestItem.stack > 0).First();
+					if(!deposit(item.Clone()))
+					{
+						Item.NewItem(picker.X * 16, picker.Y * 16, 16, 16, item.type, item.stack, noBroadcast: false, -1);
+					}
+					item.SetDefaults(0, true);
 				}
 				
 			}
@@ -273,8 +278,11 @@ namespace AutoStacker.Tiles
 				||(picker.X + 3*direction > topLeftRecever.X && picker.X + 3*direction > topLeftPicker.X)
 			)
 			{
-				picker = new Point16((short)picker.X, (short)picker.Y +1);
-				direction *= -1;
+				if(picker.Y <= Main.Map.MaxHeight)
+				{
+					picker = new Point16((short)picker.X, (short)picker.Y +1);
+					direction *= -1;
+				}
 			}
 			else
 			{

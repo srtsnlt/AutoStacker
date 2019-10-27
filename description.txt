@@ -38,7 +38,20 @@ Items
      v4 Require v1 and 4 WormholePotions on WorkBench.
      v4 Require v1 and 4 TeleportationPotions on WorkBench.
  
- 
+[ Auto Picker (and Controller)] New!! 
+ Pick and collect item automatically when Hit Wire!
+
+ useage:
+   1.Place any Chest.
+   2.Click Chest by AutoPickerController.
+   3.Place AutoPicker and deposit any pickel.
+   4.Right Click AutoPicker by AutoPickerController.
+   5.Hit Wire AutoPicker.
+
+ recipie:
+   AutoPicker requires a normal chest and a wire on WorkBench.
+   AutoPickerController requires a RecieverChestSelector on WorkBench.
+
 [ Minion House ] 
  Minions are attack the enemies when you deposit summon weapon in this chest!
  So, You obtain the chance that you get items without adventure!
@@ -103,7 +116,7 @@ Items
      Require one normal chest on WorkBench.
  
  
-[ Item Vacuumer ] 
+[ Item Vacuumer ] Update!!
  When enemy drops items, the items track to you automatically!
  
  useage:
@@ -126,6 +139,12 @@ Items
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 v0.3.29
+ o Auto Picker
+    add
+
+o Auto Picker Controller 
+    add
+
  o Item Vacuumer
     add V2
  

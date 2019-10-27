@@ -88,7 +88,13 @@ namespace AutoStacker.Items
 			if (player.altFunctionUse == 0)
 			{
 				
-				if(GlobalItems.RecieverChestSelector.FindChest(origin.X,origin.Y) != -1 || (AutoStacker.modMagicStorage != null && callMagicStorageFindHeart(origin)))
+				if(
+					(
+						GlobalItems.RecieverChestSelector.FindChest(origin.X,origin.Y) != -1 
+						&& Main.tile[origin.X,origin.Y].type != ModContent.TileType<Tiles.AutoPicker>()
+					)
+					|| (AutoStacker.modMagicStorage != null && callMagicStorageFindHeart(origin))
+				)
 				{
 					topLeft=origin;
 					Main.NewText("Reciever Chest Selected to x:"+origin.X+", y:"+origin.Y + " !");
