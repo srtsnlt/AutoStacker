@@ -58,7 +58,4 @@ namespace AutoStacker.Players
 			}
 		}
 	}
-		public class ItemVacuumerV2_2 : ModPlayer
-	{
-	}
 }

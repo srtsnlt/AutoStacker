@@ -52,7 +52,7 @@ Items
    AutoPicker requires a normal chest and a wire on WorkBench.
    AutoPickerController requires a RecieverChestSelector on WorkBench.
 
-[ Minion House ] 
+[ Minion House ] Update!!
  Minions are attack the enemies when you deposit summon weapon in this chest!
  So, You obtain the chance that you get items without adventure!
  
@@ -106,7 +106,7 @@ Items
      Require 9999 Glass on WorkBench.
  
  
-[ Item Grower Chest ]
+[ Item Grower Chest ] 
  Per day, items in chest to be twice!
  
  useage:
@@ -116,7 +116,7 @@ Items
      Require one normal chest on WorkBench.
  
  
-[ Item Vacuumer ] Update!!
+[ Item Vacuumer ] 
  When enemy drops items, the items track to you automatically!
  
  useage:
@@ -126,7 +126,7 @@ Items
      Require ReinforcedFishingPole on WorkBench.
  
  
-[ Hit Wire Rod ]
+[ Hit Wire Rod ] 
  When you use this item to wire, trip signal insted of any switchs/lever!
  
  useage:
@@ -138,6 +138,10 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.31
+ o Minion House
+    bug fix
+
 v0.3.30
  o Item Vacuumer V2
     bug fix

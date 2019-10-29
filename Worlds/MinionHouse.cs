@@ -1,14 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Collections.Generic;
+﻿using System.Reflection;
+using System;
 using System.Linq;
-using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 namespace AutoStacker.Worlds
 {
@@ -55,7 +50,7 @@ namespace AutoStacker.Worlds
 					{
 						if(Main.player[playerNo]==null || !Main.player[playerNo].active)
 						{
-							Main.player[playerNo]        = (Player)Main.player[Main.myPlayer].Clone();
+							Main.player[playerNo] = (Player)Main.player[Main.myPlayer].clientClone();
 
 							minionHousePlayer[chestNo]   = Main.player[playerNo];
 							minionHousePlayerNo[chestNo] = playerNo;
@@ -127,7 +122,7 @@ namespace AutoStacker.Worlds
 					minionHousePlayer[chestNo].controlUseItem=false;
 					minionHousePlayer[chestNo].releaseUseItem=false;
 					
-					minionHousePlayer[chestNo].inventory[0] = playerItem.Clone();
+					//minionHousePlayer[chestNo].inventory[0] = playerItem.Clone();
 					Main.myPlayer = myPlayer;
 				}
 				minionHousePlayer[chestNo].controlUseItem=false;
