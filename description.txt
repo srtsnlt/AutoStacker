@@ -38,7 +38,7 @@ Items
      v4 Require v1 and 4 WormholePotions on WorkBench.
      v4 Require v1 and 4 TeleportationPotions on WorkBench.
  
-[ Auto Picker (and Controller)] New!! 
+[ Auto Picker (and Controller)] 
  Pick and collect item automatically when Hit Wire!
 
  useage:
@@ -46,7 +46,7 @@ Items
    2.Click Chest by AutoPickerController.
    3.Place AutoPicker and deposit any pickel.
    4.Right Click AutoPicker by AutoPickerController.
-   5.Hit Wire AutoPicker.
+   5.Hit Wire AutoPicker. AutoPicker pick block between Chest and AutoPicker!
 
  recipie:
    AutoPicker requires a normal chest and a wire on WorkBench.
@@ -86,7 +86,7 @@ Items
      Require one normal chest and Switch on WorkBench.
  
  
- [ Reflection Field ] Update!
+ [ Reflection Field ] 
  When set to accesary slot, Reflect monsters and attacks!
  
  useage:
@@ -138,6 +138,10 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.30
+ o Item Vacuumer V2
+    bug fix
+
 v0.3.29
  o Auto Picker
     add

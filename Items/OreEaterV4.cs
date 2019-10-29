@@ -15,7 +15,7 @@ namespace AutoStacker.Items
 			str +=       "speed                : 5\n";
 			str +=       "pick in water        : enable\n";
 			str +=       "pick in lava         : enable\n";
-			str +=       "through block        : disenable\n";
+			str +=       "through block        : enable\n";
 			str +=       "through unreveal map : disenable\n";
 			str +=       "light                : very bright";
 			Tooltip.SetDefault(str);

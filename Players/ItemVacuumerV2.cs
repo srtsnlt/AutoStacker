@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -11,9 +8,11 @@ namespace AutoStacker.Players
 {
 	public class ItemVacuumerV2 : ModPlayer
 	{
-		
+
+		//public static short[] ExcludeItemList = new short[10]{ItemID.CopperCoin, ItemID.SilverCoin, ItemID.GoldCoin, ItemID.PlatinumCoin, ItemID.Heart, ItemID.CandyApple, ItemID.CandyCane, ItemID.Star, ItemID.SugarPlum, ItemID.SoulCake };		
+		//public static short[] Coins = new short[4]{ItemID.CopperCoin, ItemID.SilverCoin, ItemID.GoldCoin, ItemID.PlatinumCoin};		
 		public static bool vacuumSwitch=false;
-		public static int serchNumber=0;
+		public int serchNumber=0;
 
 		public ItemVacuumerV2()
 		{
@@ -49,7 +48,7 @@ namespace AutoStacker.Players
 				Player player = Main.LocalPlayer;
 				if (item.active && item.noGrabDelay == 0 && !ItemLoader.GrabStyle(item, player) && ItemLoader.CanPickup(item, player))
 				{
-					Terraria.ModLoader.ItemLoader.OnPickup(item,Main.player[Main.myPlayer]);
+					item.position = player.Center;
 				}
 				serchNumber += 1;
 				if(serchNumber >= Main.item.Length )
@@ -58,5 +57,8 @@ namespace AutoStacker.Players
 				}
 			}
 		}
+	}
+		public class ItemVacuumerV2_2 : ModPlayer
+	{
 	}
 }
