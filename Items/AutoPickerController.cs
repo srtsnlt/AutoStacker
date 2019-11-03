@@ -73,19 +73,11 @@ namespace AutoStacker.Items
 			}
 		}
 		
-		
-		// UseItem
-		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		// public override bool AltFunctionUse(Player player)
-		// {
-		// 	return true;
-		// }
-		
 		public override bool UseItem(Player player)
 		{
 			//Players.AutoPicker modPlayer = (Players.AutoPicker)Main.LocalPlayer.GetModPlayer<Players.AutoPicker>();
 			Point16 origin = GetOrigin(Player.tileTargetX,Player.tileTargetY);
-			if (player.altFunctionUse == 0)
+            if (player.altFunctionUse == 0)
 			{
 				
 				if(

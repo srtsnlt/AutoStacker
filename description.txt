@@ -60,7 +60,7 @@ Items
      After placement, deposit summon weapon.
  
  recipie:
-     Require one normal chest and 9999 Wood on WorkBench.
+     Require one normal chest and 999 Wood on WorkBench.
  
  
  [ Witch's Cauldron ] 
@@ -138,6 +138,11 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.32
+ o Minion House
+    change recipe
+	bug fix
+
 v0.3.31
  o Minion House
     bug fix

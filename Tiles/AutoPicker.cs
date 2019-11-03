@@ -26,8 +26,8 @@ namespace AutoStacker.Tiles
 			Main.tileValue[Type] = 500;
 			TileID.Sets.HasOutlines[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
-			TileObjectData.newTile.Origin = new Point16(0, 0);
-			TileObjectData.newTile.CoordinateHeights = new int[] { 16,16 };
+			TileObjectData.newTile.Origin = new Point16(0, 1);
+			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
 			TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
 			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
 			TileObjectData.newTile.AnchorInvalidTiles = new int[] { 127 };
@@ -206,7 +206,7 @@ namespace AutoStacker.Tiles
 			}
 			else
 			{
-				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Witch's Pot";
+				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Auto Picker";
 				if (player.showItemIconText == "Auto Picker")
 				{
 					player.showItemIcon2 = mod.ItemType("AutoPicker");

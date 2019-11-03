@@ -30,7 +30,7 @@ namespace AutoStacker.Items
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Chest,1);
-			recipe.AddIngredient(ItemID.Wood,9999);
+			recipe.AddIngredient(ItemID.Wood,999);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
