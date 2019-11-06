@@ -52,7 +52,7 @@ Items
    AutoPicker requires a normal chest and a wire on WorkBench.
    AutoPickerController requires a RecieverChestSelector on WorkBench.
 
-[ Minion House ] Update!!
+[ Minion House ] 
  Minions are attack the enemies when you deposit summon weapon in this chest!
  So, You obtain the chance that you get items without adventure!
  
@@ -126,6 +126,16 @@ Items
      Require ReinforcedFishingPole on WorkBench.
  
  
+[ Map Shiner ] Update!!
+ When you use, mini Map has been to maximum bright!
+ 
+ useage:
+     use this : Map has been max bright.
+ 
+ recipie:
+     Requires notthing on WorkBench.
+ 
+ 
 [ Hit Wire Rod ] 
  When you use this item to wire, trip signal insted of any switchs/lever!
  
@@ -138,6 +148,14 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.34
+ o MapShiner
+    bugfix
+
+v0.3.33
+ o MapShiner
+    add
+
 v0.3.32
  o Minion House
     change recipe
