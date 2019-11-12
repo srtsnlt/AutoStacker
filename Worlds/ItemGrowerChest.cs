@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 namespace AutoStacker.Worlds
 {
@@ -101,7 +97,6 @@ namespace AutoStacker.Worlds
 						long totalGrowPassTime2 = chestItems[chest][itemNo].totalGrowPassTime2 + passTime2;
 						chestItems[chest][itemNo].totalGrowPassTime2 = totalGrowPassTime2;
 						
-						//int nextStack = (int)Math.Pow(2, (double)totalGrowPassTime2/86400);
 						int nextStack = (int)Math.Pow(2, (double)totalGrowPassTime2 * 0.0000115740740740741);
 						
 						chest.item[itemNo].stack        = nextStack;
@@ -111,19 +106,6 @@ namespace AutoStacker.Worlds
 			}
 			time2Prev=time2;
 			moonPhasePrev=moonPhase;
-			
-			/*
-			var deleteChests = chestItems.Keys.Except<Chest>(chests);
-			foreach(var deleteChest in deleteChests)
-			{
-				for(int itemNo=0; itemNo < chestItems[deleteChest].Count; itemNo++)
-				{
-					chestItems[deleteChest].RemoveAt(0);
-				}
-				chestItems.Remove(deleteChest);
-			}
-			*/
-			
 		}
 		
 		class ChestItem

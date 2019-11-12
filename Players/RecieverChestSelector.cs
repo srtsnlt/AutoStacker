@@ -1,17 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.ObjectData;
-using Terraria.Enums;
-using Terraria.Localization;
-using System.Threading.Tasks;
 
 namespace AutoStacker.Players
 {

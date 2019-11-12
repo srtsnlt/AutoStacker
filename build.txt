@@ -1,6 +1,6 @@
-author = srtsnlt
-version = 0.3.34
-displayName = AutoStacker
-weakReferences = MagicStorage
-homepage = https://github.com/srtsnlt/AutoStacker
-buildIgnore = obj\*, bin\*, .git\*, .vs\*, .vscode\*
+author=Yuica
+version=0.3.36
+displayName=AutoStacker
+weakReferences=MagicStorage
+homepage=https://github.com/srtsnlt/AutoStacker/
+buildIgnore=obj\*, bin\*, .git\*, .vscode\*

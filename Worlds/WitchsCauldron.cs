@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 namespace AutoStacker.Worlds
 {
@@ -20,7 +15,6 @@ namespace AutoStacker.Worlds
 		public override void PreUpdate()
 		{
 			int moonPhase=Main.moonPhase;
-			//time2 = Main.time + 16200 * Convert.ToInt32(Main.dayTime) + 70200 * (1-Convert.ToInt32(Main.dayTime))
 			int time2 = (int)Main.time + 70200 - 54000 * Convert.ToInt32(Main.dayTime);
 			int passTime2 = time2 - time2Prev + (moonPhase == moonPhasePrev ? 0 : 1) * 86400 ;
 			

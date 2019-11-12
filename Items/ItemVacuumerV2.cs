@@ -1,15 +1,6 @@
-using System;
-using System.Linq;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Terraria.Localization;
-using Terraria.ObjectData;
-using MagicStorage;
-using MagicStorage.Components;
 
 namespace AutoStacker.Items
 {

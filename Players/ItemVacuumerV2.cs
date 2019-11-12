@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -8,9 +6,6 @@ namespace AutoStacker.Players
 {
 	public class ItemVacuumerV2 : ModPlayer
 	{
-
-		//public static short[] ExcludeItemList = new short[10]{ItemID.CopperCoin, ItemID.SilverCoin, ItemID.GoldCoin, ItemID.PlatinumCoin, ItemID.Heart, ItemID.CandyApple, ItemID.CandyCane, ItemID.Star, ItemID.SugarPlum, ItemID.SoulCake };		
-		//public static short[] Coins = new short[4]{ItemID.CopperCoin, ItemID.SilverCoin, ItemID.GoldCoin, ItemID.PlatinumCoin};		
 		public static bool vacuumSwitch=false;
 		public int serchNumber=0;
 
@@ -22,16 +17,16 @@ namespace AutoStacker.Players
 		public override TagCompound Save()
 		{
 			TagCompound tag = new TagCompound();
-			tag.Set("vacuumSwitch", vacuumSwitch);
+			tag.Set("vacuumSwitchV2", vacuumSwitch);
 			
 			return tag;
 		}
 		
 		public override void Load(TagCompound tag)
 		{
-			if(tag.ContainsKey("vacuumSwitch"))
+			if(tag.ContainsKey("vacuumSwitchV2"))
 			{
-				vacuumSwitch=tag.GetBool("vacuumSwitch");
+				vacuumSwitch=tag.GetBool("vacuumSwitchV2");
 			}
 			else
 			{

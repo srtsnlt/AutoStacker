@@ -148,6 +148,12 @@ Items
  
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.36
+ Organized source code
+
+v0.3.35
+ for icon upload
+
 v0.3.34
  o MapShiner
     bugfix
@@ -159,113 +165,8 @@ v0.3.33
 v0.3.32
  o Minion House
     change recipe
-	bug fix
+    bug fix
 
 v0.3.31
  o Minion House
     bug fix
-
-v0.3.30
- o Item Vacuumer V2
-    bug fix
-
-v0.3.29
- o Auto Picker
-    add
-
-o Auto Picker Controller 
-    add
-
- o Item Vacuumer
-    add V2
- 
- o Reciever Chest Selector
-    bugfix
-
- o Reflection Field
-    bugfix
-
-v0.3.28
- o All Items
-    game balance - change recipie
-
- o Item Vacuumer
-    bugfix
- 
-v0.3.27
- o Reflection Field
-    bugfix
-
-v0.3.26
- o Ore Eater
-    loading speed up
-    bugfix
-    
- o Reflection Field
-    bugfix
-
-v0.3.25
- o Minion House
-    adjust spawn rate
- 
-v0.3.24
- o Minion House
-    New!!
- 
- o ReflectionField
-    bugfix
- 
-v0.3.23
- o Witch's Pot 
-    New!!
- 
- o ItemVacuumer
-    Vacuum Speed Up!
- 
-v0.3.22
- o RecieverChestSelector
-    bugfix
- 
-v0.3.21
- o Witch's Cauldron
-    New!!
- 
-v0.3.20
- o Ore Eater
-    Balance adjustment
- 
- o ReflectionField
-    more powerfuley reflect
- 
-v0.3.19
- o RecieverChestSelector
-    ItemCheckList Mod can check send item.
- 
-v0.3.18
- o Ore Eater
-    Subdividing version (and bugfix)
-    See Item tool tip
- 
- o ReflectionField
-    new!!
- 
-v0.3.17
- o Ore Eater
-    bugfix
- 
- o Ore Eater Ver.2
-    Changed AI to [Ore eater] base.
- 
-v0.3.16
- o Ore Eater
-    Performance improvement of item loading
- 
-v0.3.15
- o RecieverChestSelector
-    bugfix
- 
- o Ore Eater
-    AI program fix.
-    Be able to pick mod ores and show position in minimap.
-    "Ore Eater v2"'s version up is later. Sorry...
-    

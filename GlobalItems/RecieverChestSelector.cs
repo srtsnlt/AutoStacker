@@ -1,14 +1,9 @@
-using System;
 using System.Linq;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
-using Terraria.Enums;
-using Terraria.Localization;
 
 namespace AutoStacker.GlobalItems
 {
@@ -71,7 +66,7 @@ namespace AutoStacker.GlobalItems
 			Point16 topLeft=modPlayer.topLeft;
 			
 			//chest
-			int chestNo=FindChest(topLeft.X,topLeft.Y);
+			int chestNo=Common.AutoStacker.FindChest(topLeft.X,topLeft.Y);
 			if(chestNo != -1)
 			{
 				//stack item
@@ -115,18 +110,6 @@ namespace AutoStacker.GlobalItems
 				}
 			}
 			return false;
-		}
-		
-		public static int FindChest(int originX, int originY)
-		{
-			Tile tile = Main.tile[originX, originY];
-			if (tile == null || !tile.active())
-				return -1;
-
-			if (!Chest.isLocked(originX, originY))
-				return Chest.FindChest(originX, originY);
-			else
-				return -1;
 		}
 	}
 }

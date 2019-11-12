@@ -2,12 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
-using Terraria.DataStructures;
 
 namespace AutoStacker.Projectiles
 {
@@ -820,49 +817,6 @@ namespace AutoStacker.Projectiles
 				_statusAIndex[status].Add(rowNo);
 				rowNo += 1;
 			}
-		}
-		
-		public Point16 GetOrigin(int x, int y)
-		{
-			
-			Tile tile = Main.tile[x, y];
-			if (tile == null || !tile.active())
-				return new Point16(x, y);
-			
-			TileObjectData tileObjectData = TileObjectData.GetTileData(tile.type, 0);
-			if (tileObjectData == null)
-				return new Point16(x, y);
-			
-			//OneByOne
-			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			if (tileObjectData.Width == 1 && tileObjectData.Height == 1)
-				return new Point16(x, y);
-			
-			//xOffset
-			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			int xOffset = tile.frameX % tileObjectData.CoordinateFullWidth / tileObjectData.CoordinateWidth ;
-			
-			//yOffset
-			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			//Rectangle(single)
-			int yOffset;
-			if (tileObjectData.CoordinateHeights.Distinct().Count() == 1)
-			{
-				yOffset = tile.frameY % tileObjectData.CoordinateFullHeight / tileObjectData.CoordinateHeights[0] ;
-			}
-			
-			//Rectangle(complex)
-			else
-			{
-				yOffset = 0;
-				int FullY = tile.frameY % tileObjectData.CoordinateFullHeight;
-				for (int i = 0; i < tileObjectData.CoordinateHeights.Length && FullY >= tileObjectData.CoordinateHeights[i]; i++)
-				{
-					FullY -= tileObjectData.CoordinateHeights[i];
-					yOffset++;
-				}
-			}
-			return new Point16(x - xOffset, y - yOffset);
 		}
 	}
 }

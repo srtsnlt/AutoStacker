@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using System;
-using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -101,8 +98,6 @@ namespace AutoStacker.Worlds
 				{
 					Item item = chest.item[itemNo];
 					
-					
-					//if(item==null || item.IsAir || item.buffType == 0 || !item.summon)
 					if(item==null || item.IsAir || !item.summon)
 					{
 						continue;
@@ -122,7 +117,6 @@ namespace AutoStacker.Worlds
 					minionHousePlayer[chestNo].controlUseItem=false;
 					minionHousePlayer[chestNo].releaseUseItem=false;
 					
-					//minionHousePlayer[chestNo].inventory[0] = playerItem.Clone();
 					Main.myPlayer = myPlayer;
 				}
 				minionHousePlayer[chestNo].controlUseItem=false;

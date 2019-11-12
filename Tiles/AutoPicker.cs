@@ -111,8 +111,7 @@ namespace AutoStacker.Tiles
 				{
 					player.tileInteractionHappened = true;
 					
-					//topLeftPicker=new Point16((short)left,(short)top);
-					topLeftPicker=autoPickerController.GetOrigin(Player.tileTargetX,Player.tileTargetY);
+					topLeftPicker=Common.AutoStacker.GetOrigin(Player.tileTargetX,Player.tileTargetY);
 					topLeftRecever = autoPickerController.topLeft;
 					
 					picker = new Point16((short)topLeftPicker.X < topLeftRecever.X ? topLeftPicker.X +3 : topLeftPicker.X -2 , (short)topLeftPicker.Y > topLeftRecever.Y ? topLeftRecever.Y +2 : topLeftPicker.Y +2);
@@ -237,11 +236,11 @@ namespace AutoStacker.Tiles
 		{
 			if(topLeftRecever.X != -1 && topLeftRecever.Y != -1)
 			{
-				Point16 Origin = GetOrigin(picker.X,picker.Y);
-				int fieldChest = FindChest(Origin.X,Origin.Y);
+				Point16 Origin = Common.AutoStacker.GetOrigin(picker.X,picker.Y);
+				int fieldChest = Common.AutoStacker.FindChest(Origin.X,Origin.Y);
 				if(fieldChest == -1 || Main.chest[fieldChest].item.Where(chestItem => chestItem.stack > 0).Count() == 0)
 				{
-					int pickerChest = FindChest(topLeftPicker.X,topLeftPicker.Y);
+					int pickerChest = Common.AutoStacker.FindChest(topLeftPicker.X,topLeftPicker.Y);
 					int pickPower=Main.chest[pickerChest].item.Max(chestItem => chestItem.pick);
 					if(pickPower != 0 && canPick(picker.X,picker.Y,pickPower))
 					{
@@ -347,7 +346,7 @@ namespace AutoStacker.Tiles
 			Point16 topLeft=topLeftRecever;
 			
 			//chest
-			int chestNo=FindChest(topLeft.X,topLeft.Y);
+			int chestNo=Common.AutoStacker.FindChest(topLeft.X,topLeft.Y);
 			if(chestNo != -1)
 			{
 				//stack item
@@ -390,62 +389,6 @@ namespace AutoStacker.Tiles
 				}
 			}
 			return false;
-		}
-
-		public static int FindChest(int originX, int originY)
-		{
-			Tile tile = Main.tile[originX, originY];
-			if (tile == null || !tile.active())
-				return -1;
-
-			if (!Chest.isLocked(originX, originY))
-				return Chest.FindChest(originX, originY);
-			else
-				return -1;
-		}
-
-		public Point16 GetOrigin(int x, int y)
-		{
-			
-			Tile tile = Main.tile[x, y];
-			if (tile == null || !tile.active())
-				return new Point16(x, y);
-			
-			TileObjectData tileObjectData = TileObjectData.GetTileData(tile.type, 0);
-			if (tileObjectData == null)
-				return new Point16(x, y);
-			
-			//OneByOne
-			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			if (tileObjectData.Width == 1 && tileObjectData.Height == 1)
-				return new Point16(x, y);
-			
-			//xOffset
-			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			int xOffset = tile.frameX % tileObjectData.CoordinateFullWidth / tileObjectData.CoordinateWidth ;
-			
-			//yOffset
-			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			//Rectangle(single)
-			int yOffset;
-			if (tileObjectData.CoordinateHeights.Distinct().Count() == 1)
-			{
-				yOffset = tile.frameY % tileObjectData.CoordinateFullHeight / tileObjectData.CoordinateHeights[0] ;
-			}
-			
-			//Rectangle(complex)
-			else
-			{
-				yOffset = 0;
-				int FullY = tile.frameY % tileObjectData.CoordinateFullHeight;
-				for (int i = 0; i < tileObjectData.CoordinateHeights.Length && FullY >= tileObjectData.CoordinateHeights[i]; i++)
-				{
-					FullY -= tileObjectData.CoordinateHeights[i];
-					yOffset++;
-				}
-			}
-			return new Point16(x - xOffset, y - yOffset);
-			
 		}
 	}
 }

@@ -1,14 +1,10 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.Localization;
-using Terraria.ObjectData;
 
 namespace AutoStacker.Items
 {
@@ -32,13 +28,11 @@ namespace AutoStacker.Items
 			if(topLeft.X != -1 && topLeft.Y != -1)
 			{
 				TooltipLine lineH2 = new TooltipLine(mod, "head2", "ReceverChest [" + topLeft.X + "," + topLeft.Y + "]\n ");
-				//lineH2.overrideColor = new Color(100, 100, 255);
 				tooltips.Insert(2,lineH2);
 			}
 			else
 			{
 				TooltipLine lineH2 = new TooltipLine(mod, "head2", "Chest [ none ]\n ");
-				//lineH2.overrideColor = new Color(100, 100, 255);
 				tooltips.Insert(2,lineH2);
 			}
 			
@@ -76,13 +70,13 @@ namespace AutoStacker.Items
 		public override bool UseItem(Player player)
 		{
 			//Players.AutoPicker modPlayer = (Players.AutoPicker)Main.LocalPlayer.GetModPlayer<Players.AutoPicker>();
-			Point16 origin = GetOrigin(Player.tileTargetX,Player.tileTargetY);
+			Point16 origin = Common.AutoStacker.GetOrigin(Player.tileTargetX,Player.tileTargetY);
             if (player.altFunctionUse == 0)
 			{
 				
 				if(
 					(
-						GlobalItems.RecieverChestSelector.FindChest(origin.X,origin.Y) != -1 
+						Common.AutoStacker.FindChest(origin.X,origin.Y) != -1 
 						&& Main.tile[origin.X,origin.Y].type != ModContent.TileType<Tiles.AutoPicker>()
 					)
 					|| (AutoStacker.modMagicStorage != null && callMagicStorageFindHeart(origin))
@@ -111,51 +105,7 @@ namespace AutoStacker.Items
 				return true;
 			}
 		}
-		
-		public Point16 GetOrigin(int x, int y)
-		{
-			
-			Tile tile = Main.tile[x, y];
-			if (tile == null || !tile.active())
-				return new Point16(x, y);
-			
-			TileObjectData tileObjectData = TileObjectData.GetTileData(tile.type, 0);
-			if (tileObjectData == null)
-				return new Point16(x, y);
-			
-			//OneByOne
-			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			if (tileObjectData.Width == 1 && tileObjectData.Height == 1)
-				return new Point16(x, y);
-			
-			//xOffset
-			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			int xOffset = tile.frameX % tileObjectData.CoordinateFullWidth / tileObjectData.CoordinateWidth ;
-			
-			//yOffset
-			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			//Rectangle(single)
-			int yOffset;
-			if (tileObjectData.CoordinateHeights.Distinct().Count() == 1)
-			{
-				yOffset = tile.frameY % tileObjectData.CoordinateFullHeight / tileObjectData.CoordinateHeights[0] ;
-			}
-			
-			//Rectangle(complex)
-			else
-			{
-				yOffset = 0;
-				int FullY = tile.frameY % tileObjectData.CoordinateFullHeight;
-				for (int i = 0; i < tileObjectData.CoordinateHeights.Length && FullY >= tileObjectData.CoordinateHeights[i]; i++)
-				{
-					FullY -= tileObjectData.CoordinateHeights[i];
-					yOffset++;
-				}
-			}
-			return new Point16(x - xOffset, y - yOffset);
-			
-		}
-		
+				
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

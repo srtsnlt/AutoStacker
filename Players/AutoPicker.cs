@@ -1,5 +1,4 @@
-﻿// Terraria.Player
-using Terraria;
+﻿using Terraria;
 using Terraria.GameContent.Achievements;
 using Terraria.ID;
 using Terraria.ModLoader;
