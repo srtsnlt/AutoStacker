@@ -24,7 +24,6 @@ namespace AutoStacker.Mounts
 			mountData.swimSpeed = 0;
 			mountData.jumpHeight = 0;
 			mountData.jumpSpeed = 0;
-			//mountData.blockExtraJumps = true;
 			mountData.totalFrames = 1;
 			int[] array = new int[mountData.totalFrames];
 			for (int l = 0; l < array.Length; l++)

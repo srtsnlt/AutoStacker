@@ -10,7 +10,7 @@ namespace AutoStacker.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Map Shiner");
-			Tooltip.SetDefault("Useage\nClick : Map Shine");
+			Tooltip.SetDefault("Useage\nRight click this item : Map Shine");
 		}
 		
         public override void SetDefaults()
@@ -27,9 +27,14 @@ namespace AutoStacker.Items
 		
 		public static bool mapShiner=false;
 
-		// UseItem
+		// RightClick
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public override bool UseItem(Player player)
+		public override bool CanRightClick()
+		{
+			return true;
+		}
+		
+		public override void RightClick(Player player)
 		{
 			if(mapShiner)
 			{
@@ -41,9 +46,8 @@ namespace AutoStacker.Items
 				mapShiner=true;
 				Main.NewText("Map Shine ON!!");
 			}
-			return true;
+			item.stack++;
 		}
-
 		public override void UpdateInventory(Player player)
 		{
 			if(mapShiner)

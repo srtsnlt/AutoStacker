@@ -1,44 +1,44 @@
 Sorry, but this mod is Work In Progress...
- 
+
 Summary
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AutoStacker is a mod which make your item collection be more useful!
 For example, RecieverChestSelector is a item: when you pick up drop items, the items stack to chest directry!
 AutoStacker includes below Items!
- 
- 
+
+
 Items
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ Reciever Chest Selector ] 
+[ Reciever Chest Selector ]
  When you pick up drop items, the items stack to chest directry!
  * This item useable to MagicStorage(StorageHeart) insted of chest!
- 
+
  Also, wires on chests has been hit!
- 
+
  useage:
      Use to placed chest (left   click) : Select stack chest.
      Use to anything     (rigtht click) : Open selected chest.
      Right click this item              : On/Off chest stacking (or player inventry stacking).
- 
+
  recipie:
      Require one normal chest on WorkBench.
- 
- 
-[ Ore Eater ] 
+
+
+[ Ore Eater ]
  Summon a pet that serch ores and pick ores or treasures for you!
  Pets pick power is depend on pickel in your inventory.
- 
+
  useage:
      Set to pet slot.
- 
+
  recipie:
      v1 Require any IronPickaxe on WorkBench.
      v2 Require v1 and 4 GillsPotions on WorkBench.
      v3 Require v1 and 4 ObsidianSkinPotions on WorkBench.
      v4 Require v1 and 4 WormholePotions on WorkBench.
      v4 Require v1 and 4 TeleportationPotions on WorkBench.
- 
-[ Auto Picker (and Controller)] 
+
+[ Auto Picker (and Controller)]
  Pick and collect item automatically when Hit Wire!
 
  useage:
@@ -52,121 +52,109 @@ Items
    AutoPicker requires a normal chest and a wire on WorkBench.
    AutoPickerController requires a RecieverChestSelector on WorkBench.
 
-[ Minion House ] 
+[ Minion House ]
  Minions are attack the enemies when you deposit summon weapon in this chest!
  So, You obtain the chance that you get items without adventure!
- 
+
  useage:
      After placement, deposit summon weapon.
- 
+
  recipie:
      Require one normal chest and 999 Wood on WorkBench.
- 
- 
- [ Witch's Cauldron ] 
+
+
+ [ Witch's Cauldron ]
  This's chest item, 'about' day after you store(game time), change quite another item!
  * The item is reborn! So,I recommend to store worthless items(like a wooden arrow)...
- 
+
  useage:
      After placement, deposit worthless item.
- 
+
  recipie:
      Require one normal chest and any Counterweight on WorkBench.
- 
- 
- [ Witch's Pot ] 
+
+
+ [ Witch's Pot ]
  Only one use of "Witch's Cauldron"!
  When hit wire, chest items change quite another item!
  * After hit wire, Witch's Pot change to normal chest.
- 
+
  useage:
      After placement, deposit worthless item and Hit wire!
- 
+
  recipie:
      Require one normal chest and Switch on WorkBench.
- 
- 
- [ Reflection Field ] 
+
+
+ [ Reflection Field ]
  When set to accesary slot, Reflect monsters and attacks!
- 
+
  useage:
      Set to accesary slot.
- 
+
  recipie:
      Require 3 MagicMirrors on WorkBench.
- 
- 
-[ Mount Of Discord ] 
+
+
+[ Mount Of Discord ]
  Go through any blocks when you mount!
- 
+
  useage:
      Set to mount slot.
- 
+
  recipie:
-     Require 9999 Glass on WorkBench.
- 
- 
-[ Item Grower Chest ] 
+     Require 999 Glass on WorkBench.
+
+
+[ Item Grower Chest ]
  Per day, items in chest to be twice!
- 
+
  useage:
      Place chest and 99 GrassSeeds on ground and deposit in items.
- 
+
  recipie:
      Require one normal chest on WorkBench.
- 
- 
-[ Item Vacuumer ] 
+
+
+[ Item Vacuumer ]
  When enemy drops items, the items track to you automatically!
- 
+
  useage:
      Right click this  : On/Off tracking.
- 
+
  recipie:
      Require ReinforcedFishingPole on WorkBench.
- 
- 
+
+
 [ Map Shiner ] Update!!
  When you use, mini Map has been to maximum bright!
- 
+
  useage:
-     use this : Map has been max bright.
- 
+     Right click this  : Map has been max bright.
+
  recipie:
      Requires notthing on WorkBench.
- 
- 
-[ Hit Wire Rod ] 
+
+
+[ Hit Wire Rod ]
  When you use this item to wire, trip signal insted of any switchs/lever!
- 
+
  useage:
      Use to placed wire (left click) :Hit Wire!
- 
+
  recipie:
      Require ont wire on WorkBench.
- 
- 
+
+
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.37
+ o Map Shiner
+    Change how to use
+
+ o Item Vacuumer V2
+    Can get item while moving
+
 v0.3.36
  Organized source code
 
-v0.3.35
- for icon upload
-
-v0.3.34
- o MapShiner
-    bugfix
-
-v0.3.33
- o MapShiner
-    add
-
-v0.3.32
- o Minion House
-    change recipe
-    bug fix
-
-v0.3.31
- o Minion House
-    bug fix

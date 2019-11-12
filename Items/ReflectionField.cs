@@ -33,6 +33,7 @@ namespace AutoStacker.Items
 				if(
 					npc.townNPC
 					|| npc.friendly
+					|| npc.damage == 0
 				)
 				{
 					continue;
