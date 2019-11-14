@@ -126,7 +126,7 @@ Items
      Require ReinforcedFishingPole on WorkBench.
 
 
-[ Map Shiner ] Update!!
+[ Map Shiner ]
  When you use, mini Map has been to maximum bright!
 
  useage:
@@ -148,13 +148,13 @@ Items
 
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.38
+ o Reciever Chest Selector
+    more good feeling of use
+
 v0.3.37
  o Map Shiner
     Change how to use
 
  o Item Vacuumer V2
     Can get item while moving
-
-v0.3.36
- Organized source code
-

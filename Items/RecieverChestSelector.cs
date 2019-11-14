@@ -103,7 +103,7 @@ namespace AutoStacker.Items
 				if(Common.AutoStacker.FindChest(origin.X,origin.Y) != -1 || (AutoStacker.modMagicStorage != null && callMagicStorageFindHeart(origin)))
 				{
 					modPlayer.autoSendEnabled=true;
-					
+
 					active=true;
 					if(modPlayer.activeItem != null && modPlayer.activeItem.modItem != null && modPlayer.activeItem.modItem != null)
 					{
@@ -134,6 +134,12 @@ namespace AutoStacker.Items
 					player.chestX = topLeft.X;
 					player.chestY = topLeft.Y;
 					
+					modPlayer.notSmartCursor=true;
+					
+					Terraria.Main.SmartCursorEnabled=false;
+					Player.tileRangeX = Main.Map.MaxWidth;
+					Player.tileRangeY = Main.Map.MaxHeight;
+
 					Main.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
 				}
 			}
