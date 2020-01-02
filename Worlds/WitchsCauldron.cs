@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace AutoStacker.Worlds
 {
-	public class WitchsCauldron : ModWorld
+	public class WitchsCauldron : Terraria.ModLoader.ModWorld
 	{
 		private int moonPhasePrev;
 		private int time2Prev;

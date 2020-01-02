@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace AutoStacker.Worlds
 {
-	public class ItemGrowerChest : ModWorld
+	public class ItemGrowerChest : Terraria.ModLoader.ModWorld
 	{
 		
 		private int moonPhasePrev;

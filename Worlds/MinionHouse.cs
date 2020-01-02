@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace AutoStacker.Worlds
 {
-	public class MinionHouse : ModWorld
+	public class MinionHouse : Terraria.ModLoader.ModWorld
 	{
 		Dictionary<int, Player> minionHousePlayer   = new Dictionary<int, Player>();
 		Dictionary<int, int   > minionHousePlayerNo = new Dictionary<int, int   >();

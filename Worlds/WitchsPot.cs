@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace AutoStacker.Worlds
 {
-	public class WitchsPot : ModWorld
+	public class WitchsPot : Terraria.ModLoader.ModWorld
 	{
 		public List<int> chestNo =new List<int>();
 		

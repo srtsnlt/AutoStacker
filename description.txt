@@ -63,27 +63,26 @@ Items
      Require one normal chest and 999 Wood on WorkBench.
 
 
- [ Witch's Cauldron ]
- This's chest item, 'about' day after you store(game time), change quite another item!
+ [ Witch's Cauldron / Witch's Pot]
+ This's chest item which change stored items to quite another items!
+ Witch's Cauldron change items 'about' day after you store(game time).
+ Witch's Pot change items When hit wire.
  * The item is reborn! So,I recommend to store worthless items(like a wooden arrow)...
 
  useage:
      After placement, deposit worthless item.
 
  recipie:
-     Require one normal chest and any Counterweight on WorkBench.
+     Require one normal chest and any Counterweight / Switch  on WorkBench.
 
-
- [ Witch's Pot ]
- Only one use of "Witch's Cauldron"!
- When hit wire, chest items change quite another item!
- * After hit wire, Witch's Pot change to normal chest.
+ [ Quick Liquid ] New!!
+ Water,Lava,Honey falls to quickly!
 
  useage:
-     After placement, deposit worthless item and Hit wire!
+     Right click this  : On/Off Quick fall.
 
  recipie:
-     Require one normal chest and Switch on WorkBench.
+     Requires notthing on WorkBench.
 
 
  [ Reflection Field ]
@@ -148,13 +147,11 @@ Items
 
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.39
+ o Quick Liquid 
+    Add!!
+
 v0.3.38
  o Reciever Chest Selector
     more good feeling of use
 
-v0.3.37
- o Map Shiner
-    Change how to use
-
- o Item Vacuumer V2
-    Can get item while moving
