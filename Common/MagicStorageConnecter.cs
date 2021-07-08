@@ -8,62 +8,75 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.Enums;
 using Terraria.Localization;
-using MagicStorage;
-using MagicStorage.Components;
-
+using System.Text.RegularExpressions;
 
 namespace AutoStacker.Common
 {
 	class MagicStorageConnecter
 	{
-		
+
+		private static Regex regexMagicStorage = new Regex("^MagicStorage(?!Extra)");
+		private static Regex regexMagicStorageExtra = new Regex("^MagicStorageExtra");
+
 		//Magic Storage
-		public static TEStorageHeart FindHeart(Point16 origin)
+		public static TileEntity FindHeart(Point16 origin)
 		{
-			if( !TileEntity.ByPosition.ContainsKey(origin) )
-				return null;
-			
 			var tEStorageCenter = TileEntity.ByPosition[origin];
 			if(tEStorageCenter == null || tEStorageCenter.GetType().Name != "TEStorageHeart")
 				return null;
 			
-			TEStorageHeart heart = ((TEStorageCenter)tEStorageCenter).GetHeart();
-			return heart;
-			
+			return tEStorageCenter;
 		}
-		
+
 		public static bool InjectItem(Point16 origin, Item item)
 		{
-			int oldstack = item.stack;
-			
-			TEStorageHeart targetHeart = FindHeart(origin);
-			if (targetHeart == null)
+			TileEntity tEStorageCenter = FindHeart(origin);
+			if (tEStorageCenter == null)
 				return false;
+
+			// Main.NewText(tEStorageCenter.GetType().Assembly.GetName().Name);
 			
-			targetHeart.DepositItem(item);
-			
-			if (oldstack != item.stack)
+			int oldstack = item.stack;
+
+			if( regexMagicStorage.IsMatch(tEStorageCenter.GetType().Assembly.GetName().Name))
 			{
-				HandleStorageItemChange(targetHeart);
+				MagicStorage.Components.TEStorageHeart heart = ((MagicStorage.Components.TEStorageCenter)tEStorageCenter).GetHeart();
+				heart.DepositItem(item);
+
+				if (oldstack != item.stack)
+				{
+					if (Main.netMode == 2)
+					{
+						MagicStorage.NetHelper.SendRefreshNetworkItems(heart.ID);
+					}
+					else if (Main.netMode == 0)
+					{
+						MagicStorage.StorageGUI.RefreshItems();
+					}
+				}
 				return true;
-				
+			}
+
+			if(regexMagicStorageExtra.IsMatch(tEStorageCenter.GetType().Assembly.GetName().Name))
+			{
+				MagicStorageExtra.Components.TEStorageHeart heart = ((MagicStorageExtra.Components.TEStorageCenter)tEStorageCenter).GetHeart();
+				heart.DepositItem(item);
+
+				if (oldstack != item.stack)
+				{
+					if (Main.netMode == 2)
+					{
+						MagicStorageExtra.NetHelper.SendRefreshNetworkItems(heart.ID);
+					}
+					else if (Main.netMode == 0)
+					{
+						MagicStorageExtra.StorageGUI.RefreshItems();
+					}
+					
+				}
+				return true;
 			}
 			return false;
 		}
-		
-		private static void HandleStorageItemChange(TEStorageHeart heart)
-		{
-			if (Main.netMode == 2)
-			{
-				NetHelper.SendRefreshNetworkItems(heart.ID);
-			}
-			else if (Main.netMode == 0)
-			{
-				StorageGUI.RefreshItems();
-			}
-		}
 	}
 }
-
-
-

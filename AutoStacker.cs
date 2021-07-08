@@ -7,6 +7,7 @@ namespace AutoStacker
 		
 		internal static AutoStacker instance;
 		public static Mod modMagicStorage = null;
+		public static Mod modMagicStorageExtra = null;
 		
 		public AutoStacker()
 		{
@@ -20,6 +21,7 @@ namespace AutoStacker
 		{
 			instance = this;
 			modMagicStorage = ModLoader.GetMod("MagicStorage");
+			modMagicStorageExtra = ModLoader.GetMod("MagicStorageExtra");
 		}
 
 		public override void Unload()

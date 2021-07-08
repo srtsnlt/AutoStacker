@@ -147,11 +147,9 @@ Items
 
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.40
+ Support MagicStorageExtra!! 
+
 v0.3.39
  o Quick Liquid 
     Add!!
-
-v0.3.38
- o Reciever Chest Selector
-    more good feeling of use
-

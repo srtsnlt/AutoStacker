@@ -100,12 +100,12 @@ namespace AutoStacker.Items
 			{
 				Point16 origin = Common.AutoStacker.GetOrigin(Player.tileTargetX,Player.tileTargetY);
 				
-				if(Common.AutoStacker.FindChest(origin.X,origin.Y) != -1 || (AutoStacker.modMagicStorage != null && callMagicStorageFindHeart(origin)))
+				if(Common.AutoStacker.FindChest(origin.X,origin.Y) != -1 || ((AutoStacker.modMagicStorage != null || AutoStacker.modMagicStorageExtra != null)&& callMagicStorageFindHeart(origin)))
 				{
 					modPlayer.autoSendEnabled=true;
 
 					active=true;
-					if(modPlayer.activeItem != null && modPlayer.activeItem.modItem != null && modPlayer.activeItem.modItem != null)
+					if(modPlayer.activeItem != null && modPlayer.activeItem.modItem != null)
 					{
 						if(!modPlayer.activeItem.Equals(this.item))
 						{

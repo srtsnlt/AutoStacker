@@ -380,7 +380,7 @@ namespace AutoStacker.Tiles
 				}
 			}
 			//storage heart
-			else if(AutoStacker.modMagicStorage != null)
+			else if(AutoStacker.modMagicStorage != null || AutoStacker.modMagicStorageExtra != null)
 			{
 				if(Common.MagicStorageConnecter.InjectItem(topLeft, item))
 				{

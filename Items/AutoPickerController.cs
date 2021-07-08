@@ -79,7 +79,7 @@ namespace AutoStacker.Items
 						Common.AutoStacker.FindChest(origin.X,origin.Y) != -1 
 						&& Main.tile[origin.X,origin.Y].type != ModContent.TileType<Tiles.AutoPicker>()
 					)
-					|| (AutoStacker.modMagicStorage != null && callMagicStorageFindHeart(origin))
+					|| ((AutoStacker.modMagicStorage != null || AutoStacker.modMagicStorageExtra != null) && callMagicStorageFindHeart(origin))
 				)
 				{
 					topLeft=origin;
