@@ -34,7 +34,7 @@ namespace AutoStacker.Common
 			if (tEStorageCenter == null)
 				return false;
 
-			if( regexMagicStorage.IsMatch(tEStorageCenter.GetType().Assembly.GetName().Name))
+			if(regexMagicStorage.IsMatch(tEStorageCenter.GetType().Assembly.GetName().Name))
 			{
 				Common.MagicStorageAdapter.DepositItem(tEStorageCenter,item);
 				return true;

@@ -31,7 +31,7 @@ namespace AutoStacker.GlobalItems
 			}
 			
 			//Item depositItem=item.Clone();
-			if(deposit(item.Clone(), player))
+			if(deposit(item, player))
 			{
 				item.SetDefaults(0, true);
 				if(!deleteQue.ContainsKey(item.type))
@@ -39,10 +39,6 @@ namespace AutoStacker.GlobalItems
 					deleteQue[item.type] = new List<int>();
 				}
 				deleteQue[item.type].Add(item.stack);
-			}
-			else
-			{
-				player.GetItem(player.whoAmI, item.Clone(), false, false);
 			}
 			return true;
 		}
@@ -103,7 +99,8 @@ namespace AutoStacker.GlobalItems
 			//storage heart
 			else if(AutoStacker.modMagicStorage != null || AutoStacker.modMagicStorageExtra != null)
 			{
-				if(Common.MagicStorageConnecter.InjectItem(topLeft, item))
+				Common.MagicStorageConnecter.InjectItem(topLeft, item);
+				if(item.stack == 0)
 				{
 					item.SetDefaults(0, true);
 					return true;

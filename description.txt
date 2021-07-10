@@ -147,6 +147,10 @@ Items
 
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.42
+ o Reciever Chest Selector
+   Bug fix
+
 v0.3.41
  o Reciever Chest Selector
    Bug fix
