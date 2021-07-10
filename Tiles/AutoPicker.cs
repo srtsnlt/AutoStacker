@@ -116,7 +116,7 @@ namespace AutoStacker.Tiles
 					
 					picker = new Point16((short)topLeftPicker.X < topLeftRecever.X ? topLeftPicker.X +3 : topLeftPicker.X -2 , (short)topLeftPicker.Y > topLeftRecever.Y ? topLeftRecever.Y +2 : topLeftPicker.Y +2);
 					direction = topLeftPicker.X < topLeftRecever.X ? 1:-1;
-					Main.NewText("Auto Picker Selected to x:"+left+", y:"+top + " !");
+					Main.NewText("Auto Picker Selected to x:"+picker.X+", y:"+picker.Y + " !");
 				}
 				else
 				{
@@ -231,6 +231,8 @@ namespace AutoStacker.Tiles
 		public Point16 topLeftPicker = new Point16((short)-1,(short)-1);
 		public Point16 picker = new Point16((short)-1,(short)-1);
 		public int direction = 1;
+
+		private int renda=0;
 		static Players.AutoPicker player = new Players.AutoPicker();
 		public override void HitWire(int i, int j)
 		{
@@ -242,19 +244,28 @@ namespace AutoStacker.Tiles
 				{
 					int pickerChest = Common.AutoStacker.FindChest(topLeftPicker.X,topLeftPicker.Y);
 					int pickPower=Main.chest[pickerChest].item.Max(chestItem => chestItem.pick);
-					if(pickPower != 0 && canPick(picker.X,picker.Y,pickPower))
+					if(pickPower != 0 && Main.tile[picker.X,picker.Y].active() && canPick(picker.X,picker.Y,pickPower))
 					{
-						player.PickTile2(picker.X,picker.Y,100,this);
-						//Main.NewText(picker.X +","+picker.Y);
-						if(!Main.tile[picker.X,picker.Y].active())
+						if(renda<=20)
 						{
-							//Wiring.TripWire(topLeftRecever.X, topLeftRecever.Y, 2, 2);
-							moveNext();
+							player.PickTile2(picker.X,picker.Y,pickPower,this);
+							renda +=1;
+							if(!Main.tile[picker.X,picker.Y].active())
+							{
+								moveNext(pickPower);
+								renda=0;
+							}
+						}
+						else
+						{
+							moveNext(pickPower);
+							renda=0;
 						}
 					}
 					else
 					{
-						moveNext();
+						moveNext(pickPower);
+						renda=0;
 					}
 				}
 				else
@@ -265,28 +276,60 @@ namespace AutoStacker.Tiles
 						Item.NewItem(picker.X * 16, picker.Y * 16, 16, 16, item.type, item.stack, noBroadcast: false, -1);
 					}
 					item.SetDefaults(0, true);
+
+					renda=0;
 				}
 				
 			}
 		}
-		
-		private void moveNext()
+
+		private void moveNext(int pickPower)
 		{
-			if(
-				(picker.X + 4*direction < topLeftRecever.X && picker.X + 4*direction < topLeftPicker.X)
-				||(picker.X + 3*direction > topLeftRecever.X && picker.X + 3*direction > topLeftPicker.X)
-			)
+			// Main.NewText(picker.X +","+picker.Y);
+			// int pickerChest = Common.AutoStacker.FindChest(topLeftPicker.X,topLeftPicker.Y);
+			// int pickPower=Main.chest[pickerChest].item.Max(chestItem => chestItem.pick);
+
+			short x = picker.X;
+			short y = picker.Y;
+
+			for(;;)
 			{
-				if(picker.Y <= Main.Map.MaxHeight)
+				if(
+					(x + 4*direction < topLeftRecever.X && x + 4*direction < topLeftPicker.X)
+					||(x + 3*direction > topLeftRecever.X && x + 3*direction > topLeftPicker.X)
+				)
 				{
-					picker = new Point16((short)picker.X, (short)picker.Y +1);
+					y += 1;
 					direction *= -1;
+
+					if(picker.Y >= Main.Map.MaxHeight)
+					{
+						return;
+					}
+				}
+				else
+				{
+					x += (short)direction;
+				}
+
+				Point16 Origin = Common.AutoStacker.GetOrigin(x,y);
+				int fieldChest = Common.AutoStacker.FindChest(Origin.X,Origin.Y);
+
+				if(fieldChest == -1 || Main.chest[fieldChest].item.Where(chestItem => chestItem.stack > 0).Count() == 0)
+				{
+					if(pickPower != 0 && Main.tile[x,y].active() && canPick(x,y,pickPower))
+					{
+						break;
+					}
+				}
+				else
+				{
+					break;
 				}
 			}
-			else
-			{
-				picker = new Point16((short)picker.X +direction, (short)picker.Y);
-			}
+
+			picker = new Point16(x, y);
+			// Main.NewText(picker.X +","+picker.Y);
 		}
 
 		private bool canPick(int x, int y, int pickPower)

@@ -34,46 +34,15 @@ namespace AutoStacker.Common
 			if (tEStorageCenter == null)
 				return false;
 
-			// Main.NewText(tEStorageCenter.GetType().Assembly.GetName().Name);
-			
-			int oldstack = item.stack;
-
 			if( regexMagicStorage.IsMatch(tEStorageCenter.GetType().Assembly.GetName().Name))
 			{
-				MagicStorage.Components.TEStorageHeart heart = ((MagicStorage.Components.TEStorageCenter)tEStorageCenter).GetHeart();
-				heart.DepositItem(item);
-
-				if (oldstack != item.stack)
-				{
-					if (Main.netMode == 2)
-					{
-						MagicStorage.NetHelper.SendRefreshNetworkItems(heart.ID);
-					}
-					else if (Main.netMode == 0)
-					{
-						MagicStorage.StorageGUI.RefreshItems();
-					}
-				}
+				Common.MagicStorageAdapter.DepositItem(tEStorageCenter,item);
 				return true;
 			}
 
 			if(regexMagicStorageExtra.IsMatch(tEStorageCenter.GetType().Assembly.GetName().Name))
 			{
-				MagicStorageExtra.Components.TEStorageHeart heart = ((MagicStorageExtra.Components.TEStorageCenter)tEStorageCenter).GetHeart();
-				heart.DepositItem(item);
-
-				if (oldstack != item.stack)
-				{
-					if (Main.netMode == 2)
-					{
-						MagicStorageExtra.NetHelper.SendRefreshNetworkItems(heart.ID);
-					}
-					else if (Main.netMode == 0)
-					{
-						MagicStorageExtra.StorageGUI.RefreshItems();
-					}
-					
-				}
+				Common.MagicStorageExtraAdapter.DepositItem(tEStorageCenter,item);
 				return true;
 			}
 			return false;

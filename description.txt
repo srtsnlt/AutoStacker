@@ -75,7 +75,7 @@ Items
  recipie:
      Require one normal chest and any Counterweight / Switch  on WorkBench.
 
- [ Quick Liquid ] New!!
+ [ Quick Liquid ]
  Water,Lava,Honey falls to quickly!
 
  useage:
@@ -147,9 +147,15 @@ Items
 
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.41
+ o Reciever Chest Selector
+   Bug fix
+
+ o Auto Picker (and Controller)
+   Increased mining efficiency!!
+
+ o Quick Liquid V2 New!!
+   Caluculatable more amount of liquid!!
+
 v0.3.40
  Support MagicStorageExtra!! 
-
-v0.3.39
- o Quick Liquid 
-    Add!!
