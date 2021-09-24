@@ -147,19 +147,10 @@ Items
 
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.3.43
+ o Reciever Chest Selector
+   Bug fix (Removing linked StorageHeart is not hung)
+
 v0.3.42
  o Reciever Chest Selector
    Bug fix
-
-v0.3.41
- o Reciever Chest Selector
-   Bug fix
-
- o Auto Picker (and Controller)
-   Increased mining efficiency!!
-
- o Quick Liquid V2 New!!
-   Caluculatable more amount of liquid!!
-
-v0.3.40
- Support MagicStorageExtra!! 

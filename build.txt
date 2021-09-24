@@ -1,5 +1,5 @@
 author=Yuica
-version=0.3.42
+version=0.3.43
 displayName=AutoStacker
 weakReferences=MagicStorage,MagicStorageExtra
 homepage=https://github.com/srtsnlt/AutoStacker/

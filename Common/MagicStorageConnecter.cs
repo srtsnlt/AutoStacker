@@ -21,6 +21,9 @@ namespace AutoStacker.Common
 		//Magic Storage
 		public static TileEntity FindHeart(Point16 origin)
 		{
+			if(!TileEntity.ByPosition.ContainsKey(origin))
+				return null;
+
 			var tEStorageCenter = TileEntity.ByPosition[origin];
 			if(tEStorageCenter == null || tEStorageCenter.GetType().Name != "TEStorageHeart")
 				return null;
