@@ -148,10 +148,5 @@ In Progress
 
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-v0.3.43
- o Reciever Chest Selector
-   Bug fix (Removing linked StorageHeart is not hung)
-
-v0.3.42
- o Reciever Chest Selector
-   Bug fix
+v0.0.1
+Version 1.4 supported
