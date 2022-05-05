@@ -1,11 +1,8 @@
-Sorry, but this mod is Work In Progress...
-
 Summary
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AutoStacker is a mod which make your item collection be more useful!
 For example, RecieverChestSelector is a item: when you pick up drop items, the items stack to chest directry!
 AutoStacker includes below Items!
-
 
 Items
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,20 +20,6 @@ Items
  recipie:
      Require one normal chest on WorkBench.
 
-
-[ Ore Eater ]
- Summon a pet that serch ores and pick ores or treasures for you!
- Pets pick power is depend on pickel in your inventory.
-
- useage:
-     Set to pet slot.
-
- recipie:
-     v1 Require any IronPickaxe on WorkBench.
-     v2 Require v1 and 4 GillsPotions on WorkBench.
-     v3 Require v1 and 4 ObsidianSkinPotions on WorkBench.
-     v4 Require v1 and 4 WormholePotions on WorkBench.
-     v4 Require v1 and 4 TeleportationPotions on WorkBench.
 
 [ Auto Picker (and Controller)]
  Pick and collect item automatically when Hit Wire!
@@ -63,10 +46,9 @@ Items
      Require one normal chest and 999 Wood on WorkBench.
 
 
- [ Witch's Cauldron / Witch's Pot]
+ [ Witch's Cauldron]
  This's chest item which change stored items to quite another items!
  Witch's Cauldron change items 'about' day after you store(game time).
- Witch's Pot change items When hit wire.
  * The item is reborn! So,I recommend to store worthless items(like a wooden arrow)...
 
  useage:
@@ -144,6 +126,25 @@ Items
  recipie:
      Require ont wire on WorkBench.
 
+
+In Progress
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ Ore Eater ]
+ Summon a pet that serch ores and pick ores or treasures for you!
+ Pets pick power is depend on pickel in your inventory.
+
+ useage:
+     Set to pet slot.
+
+ recipie:
+     v1 Require any IronPickaxe on WorkBench.
+     v2 Require v1 and 4 GillsPotions on WorkBench.
+     v3 Require v1 and 4 ObsidianSkinPotions on WorkBench.
+     v4 Require v1 and 4 WormholePotions on WorkBench.
+     v4 Require v1 and 4 TeleportationPotions on WorkBench.
+
+ [ Witch's Pot]
+ Witch's Pot change items When hit wire.
 
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace AutoStacker.Worlds
 {
-	public class ItemGrowerChest : Terraria.ModLoader.ModWorld
+	public class ItemGrowerChest : ModSystem
 	{
 		
 		private int moonPhasePrev;
@@ -15,7 +15,7 @@ namespace AutoStacker.Worlds
 		private Dictionary<Chest,List<ChestItem>> chestItems = new Dictionary<Chest,List<ChestItem>>();
 		
 		
-		public override void PreUpdate()
+		public override void PreUpdateWorld()
 		{
 			int moonPhase=Main.moonPhase;
 			//time2 = Main.time + 16200 * Convert.ToInt32(Main.dayTime) + 70200 * (1-Convert.ToInt32(Main.dayTime))
@@ -32,14 +32,13 @@ namespace AutoStacker.Worlds
 				return;
 			}
 			
-			int itemGrowerChestType = mod.GetTile("ItemGrowerChest").Type;
+			int itemGrowerChestType = ModContent.TileType<Tiles.ItemGrowerChest>();
 			var chests = Main.chest.Where
 			(
 				chest => 
 					   chest != null 
 					&& Main.tile[chest.x, chest.y] != null 
-					&& Main.tile[chest.x, chest.y].active() 
-					&& Main.tile[chest.x, chest.y].type == itemGrowerChestType
+					&& Main.tile[chest.x, chest.y].TileType == itemGrowerChestType
 			);
 			
 			foreach(Chest chest in chests)

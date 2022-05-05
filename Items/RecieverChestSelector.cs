@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,23 +30,23 @@ namespace AutoStacker.Items
 		{
 			if( active )
 			{
-				TooltipLine lineH1 = new TooltipLine(mod, "head1", "Switch [ *** ON *** ]");
+				TooltipLine lineH1 = new TooltipLine(Mod, "head1", "Switch [ *** ON *** ]");
 				tooltips.Insert(1,lineH1);
 			}
 			else
 			{
-				TooltipLine lineH1 = new TooltipLine(mod, "head1", "Switch [ ]");
+				TooltipLine lineH1 = new TooltipLine(Mod, "head1", "Switch [ ]");
 				tooltips.Insert(1,lineH1);
 			}
 			
 			if(topLeft.X != -1 && topLeft.Y != -1)
 			{
-				TooltipLine lineH2 = new TooltipLine(mod, "head2", "Chest [" + topLeft.X + "," + topLeft.Y + "]\n ");
+				TooltipLine lineH2 = new TooltipLine(Mod, "head2", "Chest [" + topLeft.X + "," + topLeft.Y + "]\n ");
 				tooltips.Insert(2,lineH2);
 			}
 			else
 			{
-				TooltipLine lineH2 = new TooltipLine(mod, "head2", "Chest [ none ]\n ");
+				TooltipLine lineH2 = new TooltipLine(Mod, "head2", "Chest [ none ]\n ");
 				tooltips.Insert(2,lineH2);
 			}
 			
@@ -53,27 +54,25 @@ namespace AutoStacker.Items
 		
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 20;
-			item.maxStack = 1;
-			item.value = 100;
-			item.rare = 1;
-			item.useStyle = 1;
-			item.useAnimation = 28;
-			item.useTime = 28;
+			Item.width = 20;
+			Item.height = 20;
+			Item.maxStack = 1;
+			Item.value = 100;
+			Item.rare = 1;
+			Item.useStyle = 1;
+			Item.useAnimation = 28;
+			Item.useTime = 28;
 			
 		}
 		
-		public override TagCompound Save()
+		public override void SaveData(TagCompound tag)
 		{
-			TagCompound tag = new TagCompound();
-			tag.Set("active", active);
-			tag.Set("topLeftX", topLeft.X);
-			tag.Set("topLeftY", topLeft.Y);
-			return tag;
+			tag["active"]=active;
+			tag["topLeftX"]=topLeft.X;
+			tag["topLeftY"]=topLeft.Y;
 		}
-		
-		public override void Load(TagCompound tag)
+
+		public override void LoadData(TagCompound tag)
 		{
 			if(tag.ContainsKey("active"))
 			{
@@ -93,26 +92,26 @@ namespace AutoStacker.Items
 			return true;
 		}
 		
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)
 		{
 			Players.RecieverChestSelector modPlayer = (Players.RecieverChestSelector)Main.LocalPlayer.GetModPlayer<Players.RecieverChestSelector>();
 			if (player.altFunctionUse == 0)
 			{
 				Point16 origin = Common.AutoStacker.GetOrigin(Player.tileTargetX,Player.tileTargetY);
 				
-				if(Common.AutoStacker.FindChest(origin.X,origin.Y) != -1 || ((AutoStacker.modMagicStorage != null || AutoStacker.modMagicStorageExtra != null)&& callMagicStorageFindHeart(origin)))
+				if(Common.AutoStacker.FindChest(origin.X,origin.Y) != -1 || (AutoStacker.modMagicStorage != null && callMagicStorageFindHeart(origin)))
 				{
 					modPlayer.autoSendEnabled=true;
 
 					active=true;
-					if(modPlayer.activeItem != null && modPlayer.activeItem.modItem != null)
+					if(modPlayer.activeItem != null && modPlayer.activeItem.ModItem != null)
 					{
-						if(!modPlayer.activeItem.Equals(this.item))
+						if(!modPlayer.activeItem.Equals(this.Item))
 						{
-							((RecieverChestSelector)modPlayer.activeItem.modItem).active = false;
+							((RecieverChestSelector)modPlayer.activeItem.ModItem).active = false;
 						}
 					}
-					modPlayer.activeItem = this.item;
+					modPlayer.activeItem = this.Item;
 					
 					topLeft=origin;
 					modPlayer.topLeft = origin;
@@ -136,11 +135,11 @@ namespace AutoStacker.Items
 					
 					modPlayer.notSmartCursor=true;
 					
-					Terraria.Main.SmartCursorEnabled=false;
+					Terraria.Main.SmartCursorWanted=false;
 					Player.tileRangeX = Main.Map.MaxWidth;
 					Player.tileRangeY = Main.Map.MaxHeight;
 
-					Main.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
+					SoundEngine.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
 				}
 			}
 			return true;
@@ -174,7 +173,7 @@ namespace AutoStacker.Items
 			}
 			else if(  modPlayer.autoSendEnabled  &&  !(topLeft.X == -1 && topLeft.Y == -1) )
 			{
-				if(this.item.Equals( modPlayer.activeItem ))
+				if(this.Item.Equals( modPlayer.activeItem ))
 				{
 					modPlayer.autoSendEnabled = false;
 					
@@ -184,11 +183,11 @@ namespace AutoStacker.Items
 				else
 				{
 					active=true;
-					if(modPlayer.activeItem != null && modPlayer.activeItem.modItem != null)
+					if(modPlayer.activeItem != null && modPlayer.activeItem.ModItem != null)
 					{
-						((RecieverChestSelector)modPlayer.activeItem.modItem).active = false;
+						((RecieverChestSelector)modPlayer.activeItem.ModItem).active = false;
 					}
-					modPlayer.activeItem = this.item;
+					modPlayer.activeItem = this.Item;
 					
 					modPlayer.topLeft = topLeft;
 					Main.NewText("Reciever Chest Selected to x:" + modPlayer.topLeft.X + ", y:" + modPlayer.topLeft.Y + " !");
@@ -204,34 +203,24 @@ namespace AutoStacker.Items
 				modPlayer.autoSendEnabled = true;
 				
 				active=true;
-				modPlayer.activeItem=this.item;
+				modPlayer.activeItem=this.Item;
 				
 				modPlayer.topLeft = topLeft;
 				Main.NewText("Reciever Chest Selected to x:" + modPlayer.topLeft.X + ", y:" + modPlayer.topLeft.Y + " !");
 			}
 			
-			item.stack++;
+			Item.stack++;
 		}
-		
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-		
-		public override ModItem Clone()
-		{
-			RecieverChestSelector newItem =(RecieverChestSelector)base.MemberwiseClone();
-			newItem.topLeft = this.topLeft;
-			newItem.active  = this.active;
-			return (ModItem)newItem;
-		}
+
+		public override void AddRecipes() {
+			CreateRecipe(1)
+				.AddTile(TileID.WorkBenches)
+				.Register();
+		}		
 		
 		public override ModItem Clone(Item item)
 		{
-			RecieverChestSelector newItem = (RecieverChestSelector)this.NewInstance(item);
+			RecieverChestSelector newItem = (RecieverChestSelector)base.Clone(item);
 			newItem.topLeft = this.topLeft;
 			newItem.active  = this.active;
 			return (ModItem)newItem;

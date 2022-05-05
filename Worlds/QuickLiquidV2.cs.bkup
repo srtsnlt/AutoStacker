@@ -6,13 +6,14 @@ using Terraria.Localization;
 using Terraria.GameContent.NetModules;
 using Terraria.Net;
 using Terraria.ObjectData;
-using Microsoft.Xna.Framework;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Microsoft.Xna.Framework;
 
 namespace AutoStacker.ModWorld
 {
-	public class QuickLiquidV2 : Terraria.ModLoader.ModWorld
+	public class QuickLiquidV2 : ModSystem
 	{
 		public static Liquid2[] liquid2;
 		int count=0;
@@ -28,11 +29,11 @@ namespace AutoStacker.ModWorld
 			Liquid2.ReInit();
 		}
 
-		public override void Load(TagCompound tag)
-		{
-			Liquid2.ReInit();
-		}
-		public override void PreUpdate()
+		// public override void LoadData(TagCompound tag)
+		// {
+		// 	Liquid2.ReInit();
+		// }
+		public override void PreUpdateWorld()
 		{
 			
 			if(quickSwitch)

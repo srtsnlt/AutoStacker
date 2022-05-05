@@ -11,17 +11,17 @@ namespace AutoStacker.Items
 		{
 			DisplayName.SetDefault("Item Vacuumer");
 			Tooltip.SetDefault("Useage\nRight click this item : ON/OFF Vaccume ");
+
 		}
 		
-		public override void SetDefaults()
-		{
-			item.width = 20;
-			item.height = 20;
-			item.maxStack = 1;
-			item.value = 100;
-			item.rare = 1;
+		public override void SetDefaults() {
+			Item.width = 20;
+			Item.height = 20;
+			Item.maxStack = 1;
+			Item.value = 100;
+			Item.rare = 1;
 		}
-		
+
 		// RightClick
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public override bool CanRightClick()
@@ -38,19 +38,14 @@ namespace AutoStacker.Items
 				Players.ItemVacuumer.vacuumSwitch=true;
 				Main.NewText("Vacuume ON!!");
 			}
-			item.stack++;
+			Item.stack++;
 		}
 		
-		public override void AddRecipes()
-		{
-			ModRecipe recipe;
-
-			recipe = new ModRecipe(mod);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.AddIngredient(ItemID.ReinforcedFishingPole,1);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-
+		public override void AddRecipes() {
+			CreateRecipe(1)
+				.AddIngredient(ItemID.ReinforcedFishingPole,1)
+				.AddTile(TileID.WorkBenches)
+				.Register();
 		}
 	}
 }

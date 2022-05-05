@@ -6,11 +6,11 @@ using Terraria.ModLoader;
 
 namespace AutoStacker.Worlds
 {
-	public class WitchsPot : Terraria.ModLoader.ModWorld
+	public class WitchsPot : ModSystem
 	{
 		public List<int> chestNo =new List<int>();
 		
-		public override void PreUpdate()
+		public override void PreUpdateWorld()
 		{
 			if(chestNo.Count() <= 0)
 			{
@@ -32,7 +32,7 @@ namespace AutoStacker.Worlds
 					{
 						try
 						{
-							chest.item[itemNo].SetDefaults( (int)(rand.Next( Main.itemTexture.Length -1 ) +1) );
+							chest.item[itemNo].SetDefaults( (int)(rand.Next( Main.item.Length -1 ) +1) );
 						}
 						finally
 						{

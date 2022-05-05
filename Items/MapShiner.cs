@@ -15,14 +15,14 @@ namespace AutoStacker.Items
 		
         public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 20;
-			item.maxStack = 1;
-			item.value = 100;
-			item.rare = 1;
-			item.useStyle = 5;
-			item.useAnimation = 28;
-			item.useTime = 28;
+			Item.width = 20;
+			Item.height = 20;
+			Item.maxStack = 1;
+			Item.value = 100;
+			Item.rare = 1;
+			Item.useStyle = 5;
+			Item.useAnimation = 28;
+			Item.useTime = 28;
 		}
 		
 		public static bool mapShiner=false;
@@ -46,7 +46,7 @@ namespace AutoStacker.Items
 				mapShiner=true;
 				Main.NewText("Map Shine ON!!");
 			}
-			item.stack++;
+			Item.stack++;
 		}
 		public override void UpdateInventory(Player player)
 		{
@@ -62,12 +62,10 @@ namespace AutoStacker.Items
 			}
 		}
 		
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+		public override void AddRecipes() {
+			CreateRecipe(1)
+				.AddTile(TileID.WorkBenches)
+				.Register();
 		}
 	}
 }

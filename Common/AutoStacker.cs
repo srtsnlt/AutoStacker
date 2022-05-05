@@ -9,11 +9,15 @@ namespace AutoStacker.Common
 	{
 		public static int FindChest(int originX, int originY)
 		{
+			if(originX < 0 || originY < 0 )
+			{
+				return -1;
+			}
 			Tile tile = Main.tile[originX, originY];
-			if (tile == null || !tile.active())
+			if (tile == null)
 				return -1;
 
-			if (!Chest.isLocked(originX, originY))
+			if (!Chest.IsLocked(originX, originY))
 				return Chest.FindChest(originX, originY);
 			else
 				return -1;
@@ -23,10 +27,10 @@ namespace AutoStacker.Common
 		{
 			
 			Tile tile = Main.tile[x, y];
-			if (tile == null || !tile.active())
+			if (tile == null)
 				return new Point16(x, y);
 			
-			TileObjectData tileObjectData = TileObjectData.GetTileData(tile.type, 0);
+			TileObjectData tileObjectData = TileObjectData.GetTileData(tile.TileType, 0);
 			if (tileObjectData == null)
 				return new Point16(x, y);
 			
@@ -37,7 +41,7 @@ namespace AutoStacker.Common
 			
 			//xOffset
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			int xOffset = tile.frameX % tileObjectData.CoordinateFullWidth / tileObjectData.CoordinateWidth ;
+			int xOffset = tile.TileFrameX % tileObjectData.CoordinateFullWidth / tileObjectData.CoordinateWidth ;
 			
 			//yOffset
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -45,14 +49,14 @@ namespace AutoStacker.Common
 			int yOffset;
 			if (tileObjectData.CoordinateHeights.Distinct().Count() == 1)
 			{
-				yOffset = tile.frameY % tileObjectData.CoordinateFullHeight / tileObjectData.CoordinateHeights[0] ;
+				yOffset = tile.TileFrameY % tileObjectData.CoordinateFullHeight / tileObjectData.CoordinateHeights[0] ;
 			}
 			
 			//Rectangle(complex)
 			else
 			{
 				yOffset = 0;
-				int FullY = tile.frameY % tileObjectData.CoordinateFullHeight;
+				int FullY = tile.TileFrameY % tileObjectData.CoordinateFullHeight;
 				for (int i = 0; i < tileObjectData.CoordinateHeights.Length && FullY >= tileObjectData.CoordinateHeights[i]; i++)
 				{
 					FullY -= tileObjectData.CoordinateHeights[i];

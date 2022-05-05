@@ -14,32 +14,30 @@ namespace AutoStacker.Items
 		
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 20;
-			item.maxStack = 1;
-			item.value = 100;
-			item.rare = 1;
-			item.useStyle = 5;
-			item.useAnimation = 28;
-			item.useTime = 28;
+			Item.width = 20;
+			Item.height = 20;
+			Item.maxStack = 1;
+			Item.value = 100;
+			Item.rare = 1;
+			Item.useStyle = 5;
+			Item.useAnimation = 28;
+			Item.useTime = 28;
 		}
 		
 		
 		// UseItem
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)
 		{
 			Wiring.TripWire(Player.tileTargetX,Player.tileTargetY, 1, 1);
 			return true;
 		}
 		
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Wire,100);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+		public override void AddRecipes() {
+			CreateRecipe(1)
+				.AddIngredient(ItemID.Wire,100)
+				.AddTile(TileID.WorkBenches)
+				.Register();
 		}
 		
 	}

@@ -21,17 +21,20 @@ namespace AutoStacker.Players
 			oreEaterEnable = false;
 		}
 		
-		public override TagCompound Save()
+		public override void SaveData(TagCompound tag)
 		{
-			
 			foreach(var npc in Main.npc.Where( npc => npc.type == this.type ))
 			{
 				npc.active = false;
 			}
-			
-			return null;
 		}
-		
+
+		public override void LoadData(TagCompound tag)
+		{
+			foreach(var npc in Main.npc.Where( npc => npc.type == this.type ))
+			{
+				npc.active = false;
+			}
+		}
 	}
-	
 }

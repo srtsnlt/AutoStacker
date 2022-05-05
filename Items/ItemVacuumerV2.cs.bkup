@@ -15,11 +15,11 @@ namespace AutoStacker.Items
 		
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 20;
-			item.maxStack = 1;
-			item.value = 100;
-			item.rare = 1;
+			Item.width = 20;
+			Item.height = 20;
+			Item.maxStack = 1;
+			Item.value = 100;
+			Item.rare = 1;
 		}
 		
 		// RightClick
@@ -38,19 +38,14 @@ namespace AutoStacker.Items
 				Players.ItemVacuumerV2.vacuumSwitch=true;
 				Main.NewText("Vacuume ON!!");
 			}
-			item.stack++;
+			Item.stack++;
 		}
-		
-		public override void AddRecipes()
-		{
-			ModRecipe recipe;
 
-			recipe = new ModRecipe(mod);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.AddIngredient(ItemID.ReinforcedFishingPole,1);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-
+		public override void AddRecipes() {
+			CreateRecipe(1)
+				.AddIngredient(ItemID.ReinforcedFishingPole,1)
+				.AddTile(TileID.WorkBenches)
+				.Register();
 		}
 	}
 }

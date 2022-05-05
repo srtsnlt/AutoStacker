@@ -14,11 +14,11 @@ namespace AutoStacker.NPCs
 			}
 		}
 		
-		public override bool Autoload(ref string name)
-		{
-			name = "Ore Eater Ver.2";
-			return true;
-		}
+		// public override bool Autoload(ref string name)
+		// {
+		// 	name = "Ore Eater Ver.2";
+		// 	return true;
+		// }
 
 		
 		public override void SetStaticDefaults()
@@ -29,34 +29,34 @@ namespace AutoStacker.NPCs
 		
 		public override void SetDefaults()
 		{
-			npc.townNPC = true;
-			npc.aiStyle=0;
-			npc.friendly = true;
-			npc.hide=true;
-			npc.homeless = true;
-			npc.width = 0;
-			npc.height = 0;
-			npc.defense = 10000000;
-			npc.lifeMax = 10000000;
-			npc.noGravity=true;
-			npc.noTileCollide = true;
+			NPC.townNPC = true;
+			NPC.aiStyle=0;
+			NPC.friendly = true;
+			NPC.hide=true;
+			NPC.homeless = true;
+			NPC.width = 0;
+			NPC.height = 0;
+			NPC.defense = 10000000;
+			NPC.lifeMax = 10000000;
+			NPC.noGravity=true;
+			NPC.noTileCollide = true;
 		}
 		
-		public override string[] AltTextures
-		{
-			get
-			{
-				return new string[0];
-			}
-		}
+		// public override string[] AltTextures
+		// {
+		// 	get
+		// 	{
+		// 		return new string[0];
+		// 	}
+		// }
 		
-		public override string BossHeadTexture
-		{
-			get
-			{
-				return "";
-			}
-		}
+		// public override string BossHeadTexture
+		// {
+		// 	get
+		// 	{
+		// 		return "";
+		// 	}
+		// }
 		
 		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
 		{

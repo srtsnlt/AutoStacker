@@ -16,7 +16,7 @@ namespace AutoStacker.Common
 	{
 
 		private static Regex regexMagicStorage = new Regex("^MagicStorage(?!Extra)");
-		private static Regex regexMagicStorageExtra = new Regex("^MagicStorageExtra");
+		// private static Regex regexMagicStorageExtra = new Regex("^MagicStorageExtra");
 
 		//Magic Storage
 		public static TileEntity FindHeart(Point16 origin)
@@ -43,11 +43,11 @@ namespace AutoStacker.Common
 				return true;
 			}
 
-			if(regexMagicStorageExtra.IsMatch(tEStorageCenter.GetType().Assembly.GetName().Name))
-			{
-				Common.MagicStorageExtraAdapter.DepositItem(tEStorageCenter,item);
-				return true;
-			}
+			// if(regexMagicStorageExtra.IsMatch(tEStorageCenter.GetType().Assembly.GetName().Name))
+			// {
+			// 	Common.MagicStorageExtraAdapter.DepositItem(tEStorageCenter,item);
+			// 	return true;
+			// }
 			return false;
 		}
 	}

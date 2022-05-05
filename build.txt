@@ -1,6 +1,6 @@
 author=Yuica
-version=0.3.43
+version=0.0.1
 displayName=AutoStacker
-weakReferences=MagicStorage,MagicStorageExtra
+weakReferences=MagicStorage
 homepage=https://github.com/srtsnlt/AutoStacker/
 buildIgnore=obj\*, bin\*, .git\*, .vscode\*

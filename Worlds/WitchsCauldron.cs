@@ -5,14 +5,21 @@ using Terraria.ModLoader;
 
 namespace AutoStacker.Worlds
 {
-	public class WitchsCauldron : Terraria.ModLoader.ModWorld
+	public class WitchsCauldron : ModSystem
 	{
 		private int moonPhasePrev;
 		private int time2Prev;
 		private int timeStep=10;
 		System.Random rand = new System.Random();
+
+		private System.Reflection.FieldInfo[] propList;
 		
-		public override void PreUpdate()
+		public WitchsCauldron()
+		{
+			propList = typeof(Terraria.ID.ItemID).GetFields();
+		}
+
+		public override void PreUpdateWorld()
 		{
 			int moonPhase=Main.moonPhase;
 			int time2 = (int)Main.time + 70200 - 54000 * Convert.ToInt32(Main.dayTime);
@@ -27,14 +34,14 @@ namespace AutoStacker.Worlds
 			if(passTime2 < timeStep ){
 				return;
 			}
-			int WitchsCauldronChestType = mod.GetTile("WitchsCauldron").Type;
+			int WitchsCauldronChestType = ModContent.TileType<Tiles.WitchsCauldron>();
 			var chests = Main.chest.Where
 			(
 				chest => 
 					   chest != null 
 					&& Main.tile[chest.x, chest.y] != null 
-					&& Main.tile[chest.x, chest.y].active() 
-					&& Main.tile[chest.x, chest.y].type == WitchsCauldronChestType
+					&& !Main.tile[chest.x, chest.y].IsActuated
+					&& Main.tile[chest.x, chest.y].TileType == WitchsCauldronChestType
 			);
 			
 			
@@ -59,7 +66,10 @@ namespace AutoStacker.Worlds
 							{
 								try
 								{
-									chest.item[itemNo].SetDefaults( (int)(rand.Next( Main.itemTexture.Length -1 ) +1) );
+									Int32 randomNo=Convert.ToInt32(rand.Next( propList.Length ));
+									System.Reflection.FieldInfo prop = propList[randomNo];
+									Int32 propValue = Convert.ToInt32(prop.GetValue(prop));
+									chest.item[itemNo].SetDefaults( propValue );
 								}
 								finally
 								{

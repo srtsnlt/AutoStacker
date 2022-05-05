@@ -12,7 +12,7 @@ using Terraria.Localization;
 
 namespace AutoStacker.ModWorld
 {
-	public class QuickLiquid : Terraria.ModLoader.ModWorld
+	public class QuickLiquid : ModSystem
 	{
 		public static LiquidBuffer2[] liquidBuffer2 = new LiquidBuffer2[100000];
 		//int count=0;
@@ -26,12 +26,12 @@ namespace AutoStacker.ModWorld
 			}
 		}
 
-		public override void PreUpdate()
+		public override void PreUpdateWorld()
 		{
 			/*
 			count++;
 			if(count >= 100)
-			{
+			{ 
 				count = 0;
 				Main.NewText(Liquid.numLiquid +","+ LiquidBuffer.numLiquidBuffer + "," + LiquidBuffer2.numLiquidBuffer);
 			}

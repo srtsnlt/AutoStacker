@@ -5,7 +5,7 @@ namespace AutoStacker.Buffs
 {
 	public class MountOfDiscord : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("MountOfDiscord");
 			Description.SetDefault("");

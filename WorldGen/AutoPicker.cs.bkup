@@ -2,6 +2,7 @@
 
 // Terraria.WorldGen
 using Microsoft.Xna.Framework;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.Achievements;
@@ -81,26 +82,26 @@ namespace AutoStacker.WorldGen
             {
                if (tile.type == 127)
                {
-                  Main.PlaySound(SoundID.Item27, i * 16, j * 16);
+                  SoundEngine.PlaySound(SoundID.Item27, i * 16, j * 16);
                }
                else if (tile.type == 147 || tile.type == 224)
                {
                   if (genRand.Next(2) == 0)
                   {
-                     Main.PlaySound(SoundID.Item48, i * 16, j * 16);
+                     SoundEngine.PlaySound(SoundID.Item48, i * 16, j * 16);
                   }
                   else
                   {
-                     Main.PlaySound(SoundID.Item49, i * 16, j * 16);
+                     SoundEngine.PlaySound(SoundID.Item49, i * 16, j * 16);
                   }
                }
                else if (tile.type == 161 || tile.type == 163 || tile.type == 164 || tile.type == 200)
                {
-                  Main.PlaySound(SoundID.Item50, i * 16, j * 16);
+                  SoundEngine.PlaySound(SoundID.Item50, i * 16, j * 16);
                }
                else if (tile.type == 3 || tile.type == 110)
                {
-                  Main.PlaySound(6, i * 16, j * 16);
+                  SoundEngine.PlaySound(6, i * 16, j * 16);
                   if (tile.frameX == 144)
                   {
                      if(!autoPicker.deposit(i * 16, j * 16, 16, 16, 5))
@@ -111,11 +112,11 @@ namespace AutoStacker.WorldGen
                }
                else if (tile.type == 254)
                {
-                  Main.PlaySound(6, i * 16, j * 16);
+                  SoundEngine.PlaySound(6, i * 16, j * 16);
                }
                else if (tile.type == 24)
                {
-                  Main.PlaySound(6, i * 16, j * 16);
+                  SoundEngine.PlaySound(6, i * 16, j * 16);
                   if (tile.frameX == 144)
                   {
                      if(!autoPicker.deposit(i * 16, j * 16, 16, 16, 60))
@@ -126,11 +127,11 @@ namespace AutoStacker.WorldGen
                }
                else if (Main.tileAlch[tile.type] || tile.type == 384 || tile.type == 227 || tile.type == 32 || tile.type == 51 || tile.type == 52 || tile.type == 61 || tile.type == 62 || tile.type == 69 || tile.type == 71 || tile.type == 73 || tile.type == 74 || tile.type == 113 || tile.type == 115 || tile.type == 184 || tile.type == 192 || tile.type == 205 || tile.type == 233 || tile.type == 352 || tile.type == 382)
                {
-                  Main.PlaySound(6, i * 16, j * 16);
+                  SoundEngine.PlaySound(6, i * 16, j * 16);
                }
                else if (tile.type == 201)
                {
-                  Main.PlaySound(6, i * 16, j * 16);
+                  SoundEngine.PlaySound(6, i * 16, j * 16);
                   if (tile.frameX == 270)
                   {
                      if(!autoPicker.deposit(i * 16, j * 16, 16, 16, 2887))
@@ -141,32 +142,32 @@ namespace AutoStacker.WorldGen
                }
                else if (tile.type == 1 || tile.type == 6 || tile.type == 7 || tile.type == 8 || tile.type == 9 || tile.type == 22 || tile.type == 140 || tile.type == 25 || tile.type == 37 || tile.type == 38 || tile.type == 39 || tile.type == 41 || tile.type == 43 || tile.type == 44 || tile.type == 45 || tile.type == 46 || tile.type == 47 || tile.type == 48 || tile.type == 56 || tile.type == 58 || tile.type == 63 || tile.type == 64 || tile.type == 65 || tile.type == 66 || tile.type == 67 || tile.type == 68 || tile.type == 75 || tile.type == 76 || tile.type == 107 || tile.type == 108 || tile.type == 111 || tile.type == 117 || tile.type == 118 || tile.type == 119 || tile.type == 120 || tile.type == 121 || tile.type == 122 || tile.type == 150 || tile.type == 151 || tile.type == 152 || tile.type == 153 || tile.type == 154 || tile.type == 155 || tile.type == 156 || tile.type == 160 || tile.type == 161 || tile.type == 166 || tile.type == 167 || tile.type == 168 || tile.type == 169 || tile.type == 175 || tile.type == 176 || tile.type == 177 || tile.type == 203 || tile.type == 202 || tile.type == 204 || tile.type == 206 || tile.type == 211 || tile.type == 221 || tile.type == 222 || tile.type == 223 || tile.type == 226 || tile.type == 248 || tile.type == 249 || tile.type == 250 || tile.type == 272 || tile.type == 273 || tile.type == 274 || tile.type == 284 || tile.type == 325 || tile.type == 346 || tile.type == 347 || tile.type == 348 || tile.type == 350 || tile.type == 367 || tile.type == 357 || tile.type == 368 || tile.type == 369 || tile.type == 370 || tile.type == 407)
                {
-                  Main.PlaySound(21, i * 16, j * 16);
+                  SoundEngine.PlaySound(21, i * 16, j * 16);
                }
                else if (tile.type == 231 || tile.type == 195)
                {
-                  Main.PlaySound(4, i * 16, j * 16);
+                  SoundEngine.PlaySound(4, i * 16, j * 16);
                }
                else if (tile.type == 26 && tile.frameX >= 54)
                {
-                  Main.PlaySound(4, i * 16, j * 16);
+                  SoundEngine.PlaySound(4, i * 16, j * 16);
                }
                else if (tile.type == 314)
                {
-                  Main.PlaySound(SoundID.Item52, i * 16, j * 16);
+                  SoundEngine.PlaySound(SoundID.Item52, i * 16, j * 16);
                }
                else if (tile.type >= 330 && tile.type <= 333)
                {
-                  Main.PlaySound(18, i * 16, j * 16);
+                  SoundEngine.PlaySound(18, i * 16, j * 16);
                }
                else if (tile.type != 138)
                {
-                  Main.PlaySound(0, i * 16, j * 16);
+                  SoundEngine.PlaySound(0, i * 16, j * 16);
                }
             }
             if ((tile.type == 162 || tile.type == 385 || tile.type == 129 || (tile.type == 165 && tile.frameX < 54)) && !fail)
             {
-               Main.PlaySound(SoundID.Item27, i * 16, j * 16);
+               SoundEngine.PlaySound(SoundID.Item27, i * 16, j * 16);
             }
          }
          if (tile.type == 128 || tile.type == 269)
@@ -1084,37 +1085,37 @@ namespace AutoStacker.WorldGen
             else if (tile.type == 326)
             {
                num63 = 2693;
-               Main.PlaySound(13, i * 16, j * 16);
+               SoundEngine.PlaySound(13, i * 16, j * 16);
             }
             else if (tile.type == 327)
             {
                num63 = 2694;
-               Main.PlaySound(13, i * 16, j * 16);
+               SoundEngine.PlaySound(13, i * 16, j * 16);
             }
             else if (tile.type == 458)
             {
                num63 = 3754;
-               Main.PlaySound(13, i * 16, j * 16);
+               SoundEngine.PlaySound(13, i * 16, j * 16);
             }
             else if (tile.type == 459)
             {
                num63 = 3755;
-               Main.PlaySound(13, i * 16, j * 16);
+               SoundEngine.PlaySound(13, i * 16, j * 16);
             }
             else if (tile.type == 345)
             {
                num63 = 2787;
-               Main.PlaySound(13, i * 16, j * 16);
+               SoundEngine.PlaySound(13, i * 16, j * 16);
             }
             else if (tile.type == 328)
             {
                num63 = 2695;
-               Main.PlaySound(13, i * 16, j * 16);
+               SoundEngine.PlaySound(13, i * 16, j * 16);
             }
             else if (tile.type == 329)
             {
                num63 = 2697;
-               Main.PlaySound(13, i * 16, j * 16);
+               SoundEngine.PlaySound(13, i * 16, j * 16);
             }
             else if (tile.type == 346)
             {
@@ -1484,7 +1485,7 @@ namespace AutoStacker.WorldGen
             }
             else if (tile.type == 13)
             {
-               Main.PlaySound(13, i * 16, j * 16);
+               SoundEngine.PlaySound(13, i * 16, j * 16);
                switch (tile.frameX / 18)
                {
                case 1:
@@ -1809,7 +1810,7 @@ namespace AutoStacker.WorldGen
             else if (tile.type == 54)
             {
                num63 = 170;
-               Main.PlaySound(13, i * 16, j * 16);
+               SoundEngine.PlaySound(13, i * 16, j * 16);
             }
             else if (tile.type == 56)
             {

@@ -12,20 +12,17 @@ namespace AutoStacker.Players
 		public Item activeItem;
 		public Point16 topLeft = new Point16((short)-1,(short)-1);
 		
-		public override TagCompound Save()
+		public override void SaveData(TagCompound tag)
 		{
-			TagCompound tag = new TagCompound();
-			tag.Set("autoSendEnabled", autoSendEnabled);
-			
-			int index = Array.IndexOf(this.player.inventory, activeItem);
-			tag.Set("activeItem", index);
-			
-			tag.Set("topLeftX", topLeft.X);
-			tag.Set("topLeftY", topLeft.Y);
-			return tag;
+			tag["autoSendEnabled"] = autoSendEnabled;
+			int index = Array.IndexOf(this.Player.inventory, activeItem);
+			tag["activeItem"] = index;
+			tag["topLeftX"] = topLeft.X;
+			tag["topLeftY"] = topLeft.Y;
+
 		}
 		
-		public override void Load(TagCompound tag)
+		public override void LoadData(TagCompound tag)
 		{
 			int itemNo;
 			
@@ -37,9 +34,9 @@ namespace AutoStacker.Players
 			{
 				itemNo = tag.GetInt("activeItem");
 				
-				if( itemNo >= 0 && itemNo < this.player.inventory.Length && this.player.inventory[itemNo].type == ModContent.ItemType<Items.RecieverChestSelector>() )
+				if( itemNo >= 0 && itemNo < this.Player.inventory.Length && this.Player.inventory[itemNo].type == ModContent.ItemType<Items.RecieverChestSelector>() )
 				{
-					activeItem = this.player.inventory[itemNo];
+					activeItem = this.Player.inventory[itemNo];
 				}
 			}
 			
@@ -56,14 +53,14 @@ namespace AutoStacker.Players
 			
 			Item item = Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem];
 			
-			if(!Main.playerInventory || item.type != mod.ItemType("RecieverChestSelector"))
+			if(!Main.playerInventory || item.type != ModContent.ItemType<Items.RecieverChestSelector>())
 			{
 				notSmartCursor=false;
 			}
 			
 			if(notSmartCursor)
 			{
-				Terraria.Main.SmartCursorEnabled=false;
+				Terraria.Main.SmartCursorWanted=false;
 				Player.tileRangeX = Main.Map.MaxWidth;
 				Player.tileRangeY = Main.Map.MaxHeight;
 			}

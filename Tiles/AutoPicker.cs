@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
@@ -9,59 +11,58 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
+
 namespace AutoStacker.Tiles
 {
 	public class AutoPicker : ModTile
 	{
-		
-		
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
+			// Properties
 			Main.tileSpelunker[Type] = true;
 			Main.tileContainer[Type] = true;
 			Main.tileShine2[Type] = true;
 			Main.tileShine[Type] = 1200;
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
-			Main.tileValue[Type] = 500;
+			Main.tileOreFinderPriority[Type] = 500;
 			TileID.Sets.HasOutlines[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
-			TileObjectData.newTile.Origin = new Point16(0, 1);
-			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
-			TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
-			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
-			TileObjectData.newTile.AnchorInvalidTiles = new int[] { 127 };
-			TileObjectData.newTile.StyleHorizontal = true;
-			TileObjectData.newTile.LavaDeath = false;
-			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide , TileObjectData.newTile.Width, 0);
-			TileObjectData.addTile(Type);
+			TileID.Sets.BasicChest[Type] = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+
+			AdjTiles = new int[] { TileID.Containers };
+			ChestDrop = ModContent.ItemType<Items.AutoPicker>();
+
+			// Names
+			ContainerName.SetDefault("Auto Picker");
+
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Auto Picker");
 			AddMapEntry(new Color(200, 200, 200), name, MapChestName);
-			dustType = mod.DustType("Sparkle");
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Containers };
-			chest = "Auto Picker";
-			chestDrop = mod.ItemType("AutoPicker");
-		}
-		
-		
-		
-		public override bool HasSmartInteract()
-		{
-			return true;
-		}
 
+			// Placement
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
+			TileObjectData.newTile.Origin = new Point16(0, 1);
+			TileObjectData.newTile.CoordinateHeights = new[] { 16, 18 };
+			TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(Chest.FindEmptyChest, -1, 0, true);
+			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(Chest.AfterPlacement_Hook, -1, 0, false);
+			TileObjectData.newTile.AnchorInvalidTiles = new int[] { TileID.MagicalIceBlock };
+			TileObjectData.newTile.StyleHorizontal = true;
+			TileObjectData.newTile.LavaDeath = false;
+			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
+			TileObjectData.addTile(Type);
+		}
+		
 		public string MapChestName(string name, int i, int j)
 		{
 			int left = i;
 			int top = j;
 			Tile tile = Main.tile[i, j];
-			if (tile.frameX % 36 != 0)
+			if (tile.TileFrameX % 36 != 0)
 			{
 				left--;
 			}
-			if (tile.frameY != 0)
+			if (tile.TileFrameY != 0)
 			{
 				top--;
 			}
@@ -83,30 +84,29 @@ namespace AutoStacker.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 32, 32, chestDrop);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, ChestDrop);
 			Chest.DestroyChest(i, j);
 		}
 
-		[Obsolete]
-		public override void RightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
 			Main.mouseRightRelease = false;
 			int left = i;
 			int top = j;
-			if (tile.frameX % 36 != 0)
+			if (tile.TileFrameX % 36 != 0)
 			{
 				left--;
 			}
-			if (tile.frameY != 0)
+			if (tile.TileFrameX != 0)
 			{
 				top--;
 			}
 			Item item = player.inventory[player.selectedItem];
-			if (item.type == mod.ItemType("AutoPickerController"))
+			if (item.type == ModContent.ItemType<Items.AutoPickerController>())
 			{
-				Items.AutoPickerController autoPickerController = (Items.AutoPickerController)item.modItem;
+				Items.AutoPickerController autoPickerController = (Items.AutoPickerController)item.ModItem;
 				if(autoPickerController.topLeft.X != -1 && autoPickerController.topLeft.Y != -1 )
 				{
 					player.tileInteractionHappened = true;
@@ -127,14 +127,14 @@ namespace AutoStacker.Tiles
 			{
 				if (player.sign >= 0)
 				{
-					Main.PlaySound(SoundID.MenuClose);
+					SoundEngine.PlaySound(SoundID.MenuClose);
 					player.sign = -1;
 					Main.editSign = false;
 					Main.npcChatText = "";
 				}
 				if (Main.editChest)
 				{
-					Main.PlaySound(SoundID.MenuTick);
+					SoundEngine.PlaySound(SoundID.MenuTick);
 					Main.editChest = false;
 					Main.npcChatText = "";
 				}
@@ -149,7 +149,7 @@ namespace AutoStacker.Tiles
 					{
 						player.chest = -1;
 						Recipe.FindRecipes();
-						Main.PlaySound(SoundID.MenuClose);
+						SoundEngine.PlaySound(SoundID.MenuClose);
 					}
 					else
 					{
@@ -166,7 +166,7 @@ namespace AutoStacker.Tiles
 						if (chest == player.chest)
 						{
 							player.chest = -1;
-							Main.PlaySound(SoundID.MenuClose);
+							SoundEngine.PlaySound(SoundID.MenuClose);
 						}
 						else
 						{
@@ -175,12 +175,13 @@ namespace AutoStacker.Tiles
 							Main.recBigList = false;
 							player.chestX = left;
 							player.chestY = top;
-							Main.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
+							SoundEngine.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
 						}
 						Recipe.FindRecipes();
 					}
 				}
 			}
+			return true;
 		}
 
 		public override void MouseOver(int i, int j)
@@ -189,41 +190,41 @@ namespace AutoStacker.Tiles
 			Tile tile = Main.tile[i, j];
 			int left = i;
 			int top = j;
-			if (tile.frameX % 36 != 0)
+			if (tile.TileFrameX % 36 != 0)
 			{
 				left--;
 			}
-			if (tile.frameY != 0)
+			if (tile.TileFrameY != 0)
 			{
 				top--;
 			}
 			int chest = Chest.FindChest(left, top);
-			player.showItemIcon2 = -1;
+			player.cursorItemIconID = -1;
 			if (chest < 0)
 			{
-				player.showItemIconText = Language.GetTextValue("LegacyChestType.0");
+				player.cursorItemIconText = Language.GetTextValue("LegacyChestType.0");
 			}
 			else
 			{
-				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Auto Picker";
-				if (player.showItemIconText == "Auto Picker")
+				player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Auto Picker";
+				if (player.cursorItemIconText == "Auto Picker")
 				{
-					player.showItemIcon2 = mod.ItemType("AutoPicker");
-					player.showItemIconText = "";
+					player.cursorItemIconID = ModContent.ItemType<Items.AutoPicker>();
+					player.cursorItemIconText = "";
 				}
 			}
 			player.noThrow = 2;
-			player.showItemIcon = true;
+			player.cursorItemIconEnabled = true;
 		}
 
 		public override void MouseOverFar(int i, int j)
 		{
 			MouseOver(i, j);
 			Player player = Main.LocalPlayer;
-			if (player.showItemIconText == "")
+			if (player.cursorItemIconText == "")
 			{
-				player.showItemIcon = false;
-				player.showItemIcon2 = 0;
+				player.cursorItemIconEnabled = false;
+				player.cursorItemIconID = 0;
 			}
 		}
 		
@@ -232,52 +233,69 @@ namespace AutoStacker.Tiles
 		public Point16 picker = new Point16((short)-1,(short)-1);
 		public int direction = 1;
 
-		private int renda=0;
-		static Players.AutoPicker player = new Players.AutoPicker();
+		static Player player = new Player();
 		public override void HitWire(int i, int j)
 		{
+			if((short)picker.X == (short)-1 || (short)picker.Y == (short)-1)
+			{
+				return;
+			}
+			int pickerChest = Common.AutoStacker.FindChest(topLeftPicker.X,topLeftPicker.Y);
+			if(pickerChest == -1)
+			{
+				return;
+			}
+			int pickPower=Main.chest[pickerChest].item.Max(chestItem => chestItem.pick);
+			if(pickPower <= 0)
+			{
+				return;
+			}
+
 			if(topLeftRecever.X != -1 && topLeftRecever.Y != -1)
 			{
 				Point16 Origin = Common.AutoStacker.GetOrigin(picker.X,picker.Y);
 				int fieldChest = Common.AutoStacker.FindChest(Origin.X,Origin.Y);
 				if(fieldChest == -1 || Main.chest[fieldChest].item.Where(chestItem => chestItem.stack > 0).Count() == 0)
 				{
-					int pickerChest = Common.AutoStacker.FindChest(topLeftPicker.X,topLeftPicker.Y);
-					int pickPower=Main.chest[pickerChest].item.Max(chestItem => chestItem.pick);
-					if(pickPower != 0 && Main.tile[picker.X,picker.Y].active() && canPick(picker.X,picker.Y,pickPower))
+					if(canPick(picker.X,picker.Y,pickPower))
 					{
-						if(renda<=20)
+						Tile tile = Main.tile[picker.X,picker.Y];
+						int dropItem;
+						int dropItemStack;
+						int secondaryItem;
+						int secondaryItemStack;
+						WorldGen.KillTile_GetItemDrops(picker.X, picker.Y, tile, out dropItem, out dropItemStack, out secondaryItem, out secondaryItemStack, true);
+						if (!Main.getGoodWorld  )
 						{
-							player.PickTile2(picker.X,picker.Y,pickPower,this);
-							renda +=1;
-							if(!Main.tile[picker.X,picker.Y].active())
+							if (dropItem > 0)
 							{
-								moveNext(pickPower);
-								renda=0;
+								Item item = new Item();
+								item.SetDefaults(dropItem);
+								item.stack=dropItemStack;
+								tryDeposit(item);
+							}
+							if (secondaryItem > 0)
+							{
+								Item item = new Item();
+								item.SetDefaults(secondaryItem);
+								item.stack=secondaryItemStack;
+								tryDeposit(item);
 							}
 						}
-						else
-						{
-							moveNext(pickPower);
-							renda=0;
-						}
+
+						WorldGen.KillTile(picker.X,picker.Y,false,false,true);
+						moveNext(pickPower);
+
 					}
 					else
 					{
 						moveNext(pickPower);
-						renda=0;
 					}
 				}
 				else
 				{
 					Item item =Main.chest[fieldChest].item.Where(chestItem => chestItem.stack > 0).First();
-					if(!deposit(item.Clone()))
-					{
-						Item.NewItem(picker.X * 16, picker.Y * 16, 16, 16, item.type, item.stack, noBroadcast: false, -1);
-					}
-					item.SetDefaults(0, true);
-
-					renda=0;
+					tryDeposit(item);
 				}
 				
 			}
@@ -285,13 +303,9 @@ namespace AutoStacker.Tiles
 
 		private void moveNext(int pickPower)
 		{
-			// Main.NewText(picker.X +","+picker.Y);
-			// int pickerChest = Common.AutoStacker.FindChest(topLeftPicker.X,topLeftPicker.Y);
-			// int pickPower=Main.chest[pickerChest].item.Max(chestItem => chestItem.pick);
-
 			short x = picker.X;
 			short y = picker.Y;
-
+			
 			for(;;)
 			{
 				if(
@@ -302,9 +316,11 @@ namespace AutoStacker.Tiles
 					y += 1;
 					direction *= -1;
 
-					if(picker.Y >= Main.Map.MaxHeight)
+					if(y >= Main.maxTilesY )
 					{
-						return;
+						y -= 1;
+						x += (short)direction;
+						break;						
 					}
 				}
 				else
@@ -317,7 +333,7 @@ namespace AutoStacker.Tiles
 
 				if(fieldChest == -1 || Main.chest[fieldChest].item.Where(chestItem => chestItem.stack > 0).Count() == 0)
 				{
-					if(pickPower != 0 && Main.tile[x,y].active() && canPick(x,y,pickPower))
+					if(canPick(x,y,pickPower))
 					{
 						break;
 					}
@@ -329,29 +345,33 @@ namespace AutoStacker.Tiles
 			}
 
 			picker = new Point16(x, y);
-			// Main.NewText(picker.X +","+picker.Y);
 		}
 
 		private bool canPick(int x, int y, int pickPower)
 		{
+			if(pickPower == 0 || Main.tile[x,y].IsActuated)
+			{
+				return false;
+			}
+
 			Tile tile = Main.tile[x,y];
-			if ((tile.type == 211 && pickPower <= 200)
-				|| ((tile.type == 25 || tile.type == 203) && pickPower <= 65)
-				|| (tile.type == 117 && pickPower <= 65)
-				|| (tile.type == 37 && pickPower <= 50)
-				|| (tile.type == 404 && pickPower <= 65)
-//				|| ((tile.type == 22 || tile.type == 204) && (double)AY[index] > Main.worldSurface && pickPower < 55)
-				|| (tile.type == 56 && pickPower <= 65)
-				|| (tile.type == 58 && pickPower <= 65)
-				|| ((tile.type == 226 || tile.type == 237) && pickPower <= 210)
-				|| (Main.tileDungeon[tile.type] && pickPower <= 65)
+			if ((tile.TileType == 211 && pickPower <= 200)
+				|| ((tile.TileType == 25 || tile.TileType == 203) && pickPower <= 65)
+				|| (tile.TileType == 117 && pickPower <= 65)
+				|| (tile.TileType == 37 && pickPower <= 50)
+				|| (tile.TileType == 404 && pickPower <= 65)
+//				|| ((tile.TileType == 22 || tile.TileType == 204) && (double)AY[index] > Main.worldSurface && pickPower < 55)
+				|| (tile.TileType == 56 && pickPower <= 65)
+				|| (tile.TileType == 58 && pickPower <= 65)
+				|| ((tile.TileType == 226 || tile.TileType == 237) && pickPower <= 210)
+				|| (Main.tileDungeon[tile.TileType] && pickPower <= 65)
 //				|| ((double)AX[index] < (double)Main.maxTilesX * 0.35 || (double)AX[index] > (double)Main.maxTilesX * 0.65)
-				|| (tile.type == 107 && pickPower <= 100)
-				|| (tile.type == 108 && pickPower <= 110)
-				|| (tile.type == 111 && pickPower <= 150)
-				|| (tile.type == 221 && pickPower <= 100)
-				|| (tile.type == 222 && pickPower <= 110)
-				|| (tile.type == 223 && pickPower <= 150)
+				|| (tile.TileType == 107 && pickPower <= 100)
+				|| (tile.TileType == 108 && pickPower <= 110)
+				|| (tile.TileType == 111 && pickPower <= 150)
+				|| (tile.TileType == 221 && pickPower <= 100)
+				|| (tile.TileType == 222 && pickPower <= 110)
+				|| (tile.TileType == 223 && pickPower <= 150)
 			)
 			{
 				return false;
@@ -366,17 +386,28 @@ namespace AutoStacker.Tiles
 
 			Tile tileUpper = Main.tile[x, y -1];
 			if(
-				tileUpper.type == TileID.Containers
-				||tileUpper.type == TileID.DemonAltar
+				tileUpper.TileType == TileID.Containers
+				||tileUpper.TileType == TileID.DemonAltar
 			)
 			{
 				return false;
 			}
 
-			return true;
+			return WorldGen.CanKillTile(x,y);
 		}
 
-		public bool deposit(int X, int Y, int Width, int Height, int Type, int Stack = 1, bool noBroadcast = false, int pfix = 0, bool noGrabDelay = false, bool reverseLookup = false)
+
+		private void tryDeposit(Item item)
+		{
+			if(!deposit(item))
+			{
+				int num =Item.NewItem(new EntitySource_Wiring(picker.X,picker.Y),picker.X * 16, picker.Y * 16, 16, 16, item.type, item.stack, noBroadcast: false, -1);
+				Main.item[num].TryCombiningIntoNearbyItems(num);
+			}
+			item.SetDefaults(0, true);
+		}
+
+		private bool deposit(int X, int Y, int Width, int Height, int Type, int Stack = 1, bool noBroadcast = false, int pfix = 0, bool noGrabDelay = false, bool reverseLookup = false)
 		{
 			Item item = new Item();
 			item.SetDefaults(Type);
@@ -384,12 +415,10 @@ namespace AutoStacker.Tiles
 			return deposit(item);
 		}
 
-		public bool deposit(Item item)
+		private bool deposit(Item item)
 		{
-			Point16 topLeft=topLeftRecever;
-			
 			//chest
-			int chestNo=Common.AutoStacker.FindChest(topLeft.X,topLeft.Y);
+			int chestNo=Common.AutoStacker.FindChest(topLeftRecever.X,topLeftRecever.Y);
 			if(chestNo != -1)
 			{
 				//stack item
@@ -399,19 +428,19 @@ namespace AutoStacker.Tiles
 					{
 						Main.chest[chestNo].item[slot] = item.Clone();
 						item.SetDefaults(0, true);
-						Wiring.TripWire(topLeft.X, topLeft.Y, 2, 2);
+						Wiring.TripWire(topLeftRecever.X, topLeftRecever.Y, 2, 2);
 						return true;
 					}
 					
 					Item chestItem = Main.chest[chestNo].item[slot];
-					if (item.IsTheSameAs(chestItem) && chestItem.stack < chestItem.maxStack)
+					if (item.type == chestItem.type && chestItem.stack < chestItem.maxStack)
 					{
 						int spaceLeft = chestItem.maxStack - chestItem.stack;
 						if (spaceLeft >= item.stack)
 						{
 							chestItem.stack += item.stack;
 							item.SetDefaults(0, true);
-							Wiring.TripWire(topLeft.X, topLeft.Y, 2, 2);
+							Wiring.TripWire(topLeftRecever.X, topLeftRecever.Y, 2, 2);
 							return true;
 						}
 						else
@@ -423,9 +452,10 @@ namespace AutoStacker.Tiles
 				}
 			}
 			//storage heart
-			else if(AutoStacker.modMagicStorage != null || AutoStacker.modMagicStorageExtra != null)
+			// else if(AutoStacker.modMagicStorage != null || AutoStacker.modMagicStorageExtra != null)
+			else if(AutoStacker.modMagicStorage != null)
 			{
-				if(Common.MagicStorageConnecter.InjectItem(topLeft, item))
+				if(Common.MagicStorageConnecter.InjectItem(topLeftRecever, item))
 				{
 					item.SetDefaults(0, true);
 					return true;

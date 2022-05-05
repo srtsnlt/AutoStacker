@@ -27,12 +27,12 @@ namespace AutoStacker.Items
 		{
 			if(topLeft.X != -1 && topLeft.Y != -1)
 			{
-				TooltipLine lineH2 = new TooltipLine(mod, "head2", "ReceverChest [" + topLeft.X + "," + topLeft.Y + "]\n ");
+				TooltipLine lineH2 = new TooltipLine(Mod, "head2", "ReceverChest [" + topLeft.X + "," + topLeft.Y + "]\n ");
 				tooltips.Insert(2,lineH2);
 			}
 			else
 			{
-				TooltipLine lineH2 = new TooltipLine(mod, "head2", "Chest [ none ]\n ");
+				TooltipLine lineH2 = new TooltipLine(Mod, "head2", "Chest [ none ]\n ");
 				tooltips.Insert(2,lineH2);
 			}
 			
@@ -40,34 +40,32 @@ namespace AutoStacker.Items
 		
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 20;
-			item.maxStack = 1;
-			item.value = 100;
-			item.rare = 1;
-			item.useStyle = 1;
-			item.useAnimation = 28;
-			item.useTime = 28;
+			Item.width = 20;
+			Item.height = 20;
+			Item.maxStack = 1;
+			Item.value = 100;
+			Item.rare = 1;
+			Item.useStyle = 1;
+			Item.useAnimation = 28;
+			Item.useTime = 28;
 			
 		}
 		
-		public override TagCompound Save()
-		{
-			TagCompound tag = new TagCompound();
-			tag.Set("topLeftXR", topLeft.X);
-			tag.Set("topLeftYR", topLeft.Y);
-			return tag;
-		}
+		// public override void SaveData(TagCompound tag)
+		// {
+		// 	tag["topLeftXR"] = topLeft.X;
+		// 	tag["topLeftYR"] = topLeft.Y;
+		// }
 		
-		public override void Load(TagCompound tag)
-		{
-			if(tag.ContainsKey("topLeftXR") && tag.ContainsKey("topLeftYR"))
-			{
-				topLeft = new Point16(tag.GetShort("topLeftX"), tag.GetShort("topLeftY"));
-			}
-		}
+		// public override void LoadData(TagCompound tag)
+		// {
+		// 	if(tag.ContainsKey("topLeftXR") && tag.ContainsKey("topLeftYR"))
+		// 	{
+		// 		topLeft = new Point16(tag.GetShort("topLeftX"), tag.GetShort("topLeftY"));
+		// 	}
+		// }
 		
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)
 		{
 			//Players.AutoPicker modPlayer = (Players.AutoPicker)Main.LocalPlayer.GetModPlayer<Players.AutoPicker>();
 			Point16 origin = Common.AutoStacker.GetOrigin(Player.tileTargetX,Player.tileTargetY);
@@ -77,9 +75,10 @@ namespace AutoStacker.Items
 				if(
 					(
 						Common.AutoStacker.FindChest(origin.X,origin.Y) != -1 
-						&& Main.tile[origin.X,origin.Y].type != ModContent.TileType<Tiles.AutoPicker>()
+						&& Main.tile[origin.X,origin.Y].TileType != ModContent.TileType<Tiles.AutoPicker>()
 					)
-					|| ((AutoStacker.modMagicStorage != null || AutoStacker.modMagicStorageExtra != null) && callMagicStorageFindHeart(origin))
+					// || ((AutoStacker.modMagicStorage != null || AutoStacker.modMagicStorageExtra != null) && callMagicStorageFindHeart(origin))
+					|| (AutoStacker.modMagicStorage != null && callMagicStorageFindHeart(origin))
 				)
 				{
 					topLeft=origin;
@@ -105,27 +104,19 @@ namespace AutoStacker.Items
 				return true;
 			}
 		}
-				
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null,"RecieverChestSelector", 1);
-			recipe.AddIngredient(ItemID.Wire,1);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+
+		public override void AddRecipes() {
+			CreateRecipe(1)
+				.AddIngredient(null,"RecieverChestSelector", 1)
+				.AddIngredient(ItemID.Wire, 1)
+				.AddTile(TileID.WorkBenches)
+				.Register();
 		}
 		
-		public override ModItem Clone()
-		{
-			AutoPickerController newItem =(AutoPickerController)base.MemberwiseClone();
-			newItem.topLeft = this.topLeft;
-			return (ModItem)newItem;
-		}
-		
+
 		public override ModItem Clone(Item item)
 		{
-			AutoPickerController newItem = (AutoPickerController)this.NewInstance(item);
+			AutoPickerController newItem = (AutoPickerController)base.Clone(item);
 			newItem.topLeft = this.topLeft;
 			return (ModItem)newItem;
 		}

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "SlDveomhX9DTrIZrpZkHMjGRDFZvJnwyJqcm9vcbECmgUJVb7pDM+ejk3BICQF/mejhGlNCBxL/8zRC8R8r5oQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\tsubasa\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AutoStacker\\AutoStacker.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tsubasa\\.nuget\\packages\\tmodloader.codeassist\\0.1.5\\tmodloader.codeassist.0.1.5.nupkg.sha512"
+  ],
+  "logs": []
+}

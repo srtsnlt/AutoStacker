@@ -14,22 +14,22 @@ namespace AutoStacker.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault(displayName);
-			Main.projFrames[projectile.type] = 1;
-			Main.projPet[projectile.type] = true;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			Main.projFrames[Projectile.type] = 1;
+			Main.projPet[Projectile.type] = true;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 		
 		public override void SetDefaults()
 		{
-			projectile.width = 30;
-			projectile.height = 30;
-			projectile.penetrate = -1;
-			projectile.netImportant = true;
-			projectile.timeLeft *= 5;
-			projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.scale = 0.8f;
-			projectile.tileCollide = false;
+			Projectile.width = 30;
+			Projectile.height = 30;
+			Projectile.penetrate = -1;
+			Projectile.netImportant = true;
+			Projectile.timeLeft *= 5;
+			Projectile.friendly = true;
+			Projectile.ignoreWater = true;
+			Projectile.scale = 0.8f;
+			Projectile.tileCollide = false;
 		}
 		
 		const int fadeInTicks = 30;
@@ -54,17 +54,17 @@ namespace AutoStacker.Projectiles
 		public int speed = 16*3;
 		public float light = 0f;
 		
-		public override ModProjectile Clone()
+		public override ModProjectile Clone(Projectile projectile)
 		{
-			OreEaterBase newInstance=(OreEaterBase)base.MemberwiseClone();
-			newInstance.originX=this.originX;
-			newInstance.originY=this.originY;
-			newInstance.route_count=this.route_count;
-			newInstance.route_count_shift=this.route_count_shift;
-			newInstance.prevLoop=this.prevLoop;
-			newInstance.targetPrev=this.targetPrev;
-			
-			return (ModProjectile)newInstance;
+			OreEaterBase modProjectile = (OreEaterBase)base.MemberwiseClone();
+			modProjectile.originX=this.originX;
+			modProjectile.originY=this.originY;
+			modProjectile.route_count=this.route_count;
+			modProjectile.route_count_shift=this.route_count_shift;
+			modProjectile.prevLoop=this.prevLoop;
+			modProjectile.targetPrev=this.targetPrev;
+			// modProjectile.Projectile = projectile;
+			return (ModProjectile)modProjectile;
 		}
 		
 		//public override void AI()
@@ -74,7 +74,7 @@ namespace AutoStacker.Projectiles
 		//		return;
 		//	}
 		//	
-		//	Player player = Main.player[projectile.owner];
+		//	Player player = Main.player[Projectile.owner];
 		//	Players.OreEater modPlayer = player.GetModPlayer<Players.OreEater>(mod);
 		//	
 		//	if(modPlayer.pet == null)
@@ -92,11 +92,11 @@ namespace AutoStacker.Projectiles
 			if (!player.active)
 			{
 				Main.npc[modPlayer.index].active=false;
-				projectile.active = false;
+				Projectile.active = false;
 				pet.initListA();
 				pet.routeListX.Clear();
 				pet.routeListY.Clear();
-				projectile.position=player.position;
+				Projectile.position=player.position;
 				return;
 			}
 			
@@ -107,7 +107,7 @@ namespace AutoStacker.Projectiles
 			
 			if (modPlayer.oreEaterEnable)
 			{
-				projectile.timeLeft = 2;
+				Projectile.timeLeft = 2;
 			}
 			else
 			{
@@ -116,7 +116,7 @@ namespace AutoStacker.Projectiles
 				pet.initListA();
 				pet.routeListX.Clear();
 				pet.routeListY.Clear();
-				projectile.position=player.position;
+				Projectile.position=player.position;
 			}
 			
 			//scan pickel
@@ -142,7 +142,7 @@ namespace AutoStacker.Projectiles
 			
 			
 			//light
-			Lighting.AddLight(projectile.position, 0.9f * light, 0.1f * light, 0.3f * light);
+			Lighting.AddLight(Projectile.position, 0.9f * light, 0.1f * light, 0.3f * light);
 			
 			
 			//ore scan & move & pick 
@@ -153,11 +153,11 @@ namespace AutoStacker.Projectiles
 					if(pet.latestLoop >= maxSerchNum || prevLoop == pet.latestLoop)
 					//if(prevLoop == pet.latestLoop)
 					{
-						projectile.position=player.position;
-						modPlayer.npc.position=projectile.position;
+						Projectile.position=player.position;
+						modPlayer.npc.position=Projectile.position;
 					}
-					originX=(int)projectile.position.X/16;
-					originY=(int)projectile.position.Y/16;
+					originX=(int)Projectile.position.X/16;
+					originY=(int)Projectile.position.Y/16;
 					prevLoop=0;
 					route_count_shift=0;
 					pet.serchA(originX,originY , 12, 2, 3, pickPower, true);
@@ -198,9 +198,9 @@ namespace AutoStacker.Projectiles
 				}
 				
 				//set velocity
-				projectile.velocity.X = pet.routeListX[route_count]*16 - projectile.position.X -8;
-				projectile.velocity.Y = pet.routeListY[route_count]*16 - projectile.position.Y -8;
-				modPlayer.npc.position=projectile.position;
+				Projectile.velocity.X = pet.routeListX[route_count]*16 - Projectile.position.X -8;
+				Projectile.velocity.Y = pet.routeListY[route_count]*16 - Projectile.position.Y -8;
+				modPlayer.npc.position=Projectile.position;
 				
 				//next cell
 				if(route_count >= 0 && rand.Next( route_count * pickSpeed) <= speed )
@@ -212,13 +212,13 @@ namespace AutoStacker.Projectiles
 				//end route
 				if(route_count == -1)
 				{
-					projectile.position.X=pet.routeListX[0]*16;
-					projectile.position.Y=pet.routeListY[0]*16;
-					projectile.velocity.X = 0;
-					projectile.velocity.Y = 0;
+					Projectile.position.X=pet.routeListX[0]*16;
+					Projectile.position.Y=pet.routeListY[0]*16;
+					Projectile.velocity.X = 0;
+					Projectile.velocity.Y = 0;
 					if(target == 3)
 					{
-						modPlayer.player.PickTile(pet.AX[pet.statusAIndex[3][0]], pet.AY[pet.statusAIndex[3][0]], pickPower);
+						modPlayer.Player.PickTile(pet.AX[pet.statusAIndex[3][0]], pet.AY[pet.statusAIndex[3][0]], pickPower);
 						pet.initListA();
 						pet.routeListX.Clear();
 						pet.routeListY.Clear();
@@ -280,7 +280,7 @@ namespace AutoStacker.Projectiles
 				_oreTile[TileID.Obsidian] =true;
 			}
 			
-			if(_tileId < Main.tileTexture.Length)
+			if(_tileId < Main.tileTable.Length)
 			{
 				ModTile _tile = TileLoader.GetTile(_tileId);
 				if(
@@ -291,7 +291,7 @@ namespace AutoStacker.Projectiles
 					_oreTile[_tileId] =true;
 				}
 				_tileId += 1;
-				if(_tileId == Main.tileTexture.Length)
+				if(_tileId == Main.tileTable.Length)
 				{
 					//Main.recipe.Where( recipe => recipe.createItem.modItem != null && recipe.createItem.modItem.DisplayName != null && gemRegex.IsMatch( recipe.createItem.modItem.DisplayName.GetDefault() )).SelectMany( recipe => recipe.requiredItem ).Where(item => item.createTile != null && item.createTile != -1 ).Any(item => _oreTile[item.createTile] = true );
 					Main.NewText("AutoStacker[Ore Eater]: Item data loading Complete!");
@@ -561,11 +561,11 @@ namespace AutoStacker.Projectiles
 						tile != null 
 						&&
 						(
-							!tile.active()
+							tile.IsActuated
 							||
 							(
-								tile.active() 
-								&& _oreTile.ContainsKey(tile.type)
+								!tile.IsActuated
+								&& _oreTile.ContainsKey(tile.TileType)
 							)
 						)
 					)
@@ -578,23 +578,23 @@ namespace AutoStacker.Projectiles
 				return false;
 			}
 
-			if ((tile.type == 211 && pickPower <= 200)
-				|| ((tile.type == 25 || tile.type == 203) && pickPower <= 65)
-				|| (tile.type == 117 && pickPower <= 65)
-				|| (tile.type == 37 && pickPower <= 50)
-				|| (tile.type == 404 && pickPower <= 65)
-				//|| ((tile.type == 22 || tile.type == 204) && (double)_AY[index] > Main.worldSurface && pickPower <= 55)
-				|| (tile.type == 56 && pickPower <= 65)
-				|| (tile.type == 58 && pickPower <= 65)
-				|| ((tile.type == 226 || tile.type == 237) && pickPower <= 210)
-				|| (Main.tileDungeon[tile.type] && pickPower <= 65)
+			if ((tile.TileType == 211 && pickPower <= 200)
+				|| ((tile.TileType == 25 || tile.TileType == 203) && pickPower <= 65)
+				|| (tile.TileType == 117 && pickPower <= 65)
+				|| (tile.TileType == 37 && pickPower <= 50)
+				|| (tile.TileType == 404 && pickPower <= 65)
+				//|| ((tile.TileType == 22 || tile.TileType == 204) && (double)_AY[index] > Main.worldSurface && pickPower <= 55)
+				|| (tile.TileType == 56 && pickPower <= 65)
+				|| (tile.TileType == 58 && pickPower <= 65)
+				|| ((tile.TileType == 226 || tile.TileType == 237) && pickPower <= 210)
+				|| (Main.tileDungeon[tile.TileType] && pickPower <= 65)
 				//|| ((double)_AX[index] < (double)Main.maxTilesX * 0.35 || (double)_AX[index] > (double)Main.maxTilesX * 0.65)
-				|| (tile.type == 107 && pickPower <= 100)
-				|| (tile.type == 108 && pickPower <= 110)
-				|| (tile.type == 111 && pickPower <= 150)
-				|| (tile.type == 221 && pickPower <= 100)
-				|| (tile.type == 222 && pickPower <= 110)
-				|| (tile.type == 223 && pickPower <= 150)
+				|| (tile.TileType == 107 && pickPower <= 100)
+				|| (tile.TileType == 108 && pickPower <= 110)
+				|| (tile.TileType == 111 && pickPower <= 150)
+				|| (tile.TileType == 221 && pickPower <= 100)
+				|| (tile.TileType == 222 && pickPower <= 110)
+				|| (tile.TileType == 223 && pickPower <= 150)
 			)
 			{
 				return false;
@@ -626,23 +626,23 @@ namespace AutoStacker.Projectiles
 			}
 
 			//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-			if ((tile.type == 211 && pickPower <= 200)
-				|| ((tile.type == 25 || tile.type == 203) && pickPower <= 65)
-				|| (tile.type == 117 && pickPower <= 65)
-				|| (tile.type == 37 && pickPower <= 50)
-				|| (tile.type == 404 && pickPower <= 65)
-//				|| ((tile.type == 22 || tile.type == 204) && (double)_AY[index] > Main.worldSurface && pickPower < 55)
-				|| (tile.type == 56 && pickPower <= 65)
-				|| (tile.type == 58 && pickPower <= 65)
-				|| ((tile.type == 226 || tile.type == 237) && pickPower <= 210)
-				|| (Main.tileDungeon[tile.type] && pickPower <= 65)
+			if ((tile.TileType == 211 && pickPower <= 200)
+				|| ((tile.TileType == 25 || tile.TileType == 203) && pickPower <= 65)
+				|| (tile.TileType == 117 && pickPower <= 65)
+				|| (tile.TileType == 37 && pickPower <= 50)
+				|| (tile.TileType == 404 && pickPower <= 65)
+//				|| ((tile.TileType == 22 || tile.TileType == 204) && (double)_AY[index] > Main.worldSurface && pickPower < 55)
+				|| (tile.TileType == 56 && pickPower <= 65)
+				|| (tile.TileType == 58 && pickPower <= 65)
+				|| ((tile.TileType == 226 || tile.TileType == 237) && pickPower <= 210)
+				|| (Main.tileDungeon[tile.TileType] && pickPower <= 65)
 //				|| ((double)_AX[index] < (double)Main.maxTilesX * 0.35 || (double)_AX[index] > (double)Main.maxTilesX * 0.65)
-				|| (tile.type == 107 && pickPower <= 100)
-				|| (tile.type == 108 && pickPower <= 110)
-				|| (tile.type == 111 && pickPower <= 150)
-				|| (tile.type == 221 && pickPower <= 100)
-				|| (tile.type == 222 && pickPower <= 110)
-				|| (tile.type == 223 && pickPower <= 150)
+				|| (tile.TileType == 107 && pickPower <= 100)
+				|| (tile.TileType == 108 && pickPower <= 110)
+				|| (tile.TileType == 111 && pickPower <= 150)
+				|| (tile.TileType == 221 && pickPower <= 100)
+				|| (tile.TileType == 222 && pickPower <= 110)
+				|| (tile.TileType == 223 && pickPower <= 150)
 			)
 			{
 				return false;
@@ -657,15 +657,15 @@ namespace AutoStacker.Projectiles
 			//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
 			if (
-				tile.active() 
-				&& _oreTile.ContainsKey(tile.type) 
+				!tile.IsActuated
+				&& _oreTile.ContainsKey(tile.TileType) 
 				&&
 				(
 					tileUpper ==  null
 					||
 					(
-						tileUpper.type != TileID.Containers
-						&&tileUpper.type != TileID.DemonAltar
+						tileUpper.TileType != TileID.Containers
+						&&tileUpper.TileType != TileID.DemonAltar
 					)
 				)
 			)

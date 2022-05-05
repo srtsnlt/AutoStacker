@@ -1,6 +1,8 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
@@ -12,51 +14,59 @@ namespace AutoStacker.Tiles
 {
 	public class ItemGrowerChest : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
+			// Properties
 			Main.tileSpelunker[Type] = true;
 			Main.tileContainer[Type] = true;
 			Main.tileShine2[Type] = true;
 			Main.tileShine[Type] = 1200;
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
-			Main.tileValue[Type] = 500;
+			Main.tileOreFinderPriority[Type] = 500;
 			TileID.Sets.HasOutlines[Type] = true;
+			TileID.Sets.BasicChest[Type] = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+
+			AdjTiles = new int[] { TileID.Containers };
+			ChestDrop = ModContent.ItemType<Items.ItemGrowerChest>();
+
+			// Names
+			ContainerName.SetDefault("Item Grower Chest");
+
+			ModTranslation name = CreateMapEntryName();
+			name.SetDefault("Item Grower Chest");
+			AddMapEntry(new Color(200, 200, 200), name, MapChestName);
+
+			// Placement
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
-			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
-			TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
-			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
-			TileObjectData.newTile.AnchorInvalidTiles = new int[] { 127 };
+			TileObjectData.newTile.CoordinateHeights = new[] { 16, 18 };
+			TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(Chest.FindEmptyChest, -1, 0, true);
+			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(Chest.AfterPlacement_Hook, -1, 0, false);
+			TileObjectData.newTile.AnchorInvalidTiles = new int[] { TileID.MagicalIceBlock };
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Item Grower Chest");
-			AddMapEntry(new Color(200, 200, 200), name, MapChestName);
-			dustType = mod.DustType("Sparkle");
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Containers };
-			chest = "Item Grower Chest";
-			chestDrop = mod.ItemType("ItemGrowerChest");
 		}
 
-		public override bool HasSmartInteract()
-		{
-			return true;
-		}
+		// public override bool HasSmartInteract()
+		// {
+		// 	return true;
+		// }
+		// public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
 		public string MapChestName(string name, int i, int j)
 		{
 			int left = i;
 			int top = j;
 			Tile tile = Main.tile[i, j];
-			if (tile.frameX % 36 != 0)
+			if (tile.TileFrameX % 36 != 0)
 			{
 				left--;
 			}
-			if (tile.frameY != 0)
+			if (tile.TileFrameY != 0)
 			{
 				top--;
 			}
@@ -78,81 +88,63 @@ namespace AutoStacker.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 32, 32, chestDrop);
+			Item.NewItem(new EntitySource_TileBreak(i, j),i * 16, j * 16, 32, 32, ChestDrop);
 			Chest.DestroyChest(i, j);
 		}
 
-		[Obsolete]
-		public override void RightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
 			Main.mouseRightRelease = false;
 			int left = i;
 			int top = j;
-			if (tile.frameX % 36 != 0)
-			{
+			if (tile.TileFrameX % 36 != 0) {
 				left--;
 			}
-			if (tile.frameY != 0)
-			{
+
+			if (tile.TileFrameY != 0) {
 				top--;
 			}
-			if (player.sign >= 0)
-			{
-				Main.PlaySound(SoundID.MenuClose);
+
+			if (player.sign >= 0) {
+				SoundEngine.PlaySound(SoundID.MenuClose);
 				player.sign = -1;
 				Main.editSign = false;
 				Main.npcChatText = "";
 			}
-			if (Main.editChest)
-			{
-				Main.PlaySound(SoundID.MenuTick);
+
+			if (Main.editChest) {
+				SoundEngine.PlaySound(SoundID.MenuTick);
 				Main.editChest = false;
 				Main.npcChatText = "";
 			}
-			if (player.editedChestName)
-			{
-				NetMessage.SendData(33, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
+
+			if (player.editedChestName) {
+				NetMessage.SendData(MessageID.SyncPlayerChest, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f);
 				player.editedChestName = false;
 			}
-			if (Main.netMode == 1)
-			{
-				if (left == player.chestX && top == player.chestY && player.chest >= 0)
-				{
+
+			int chest = Chest.FindChest(left, top);
+			if (chest >= 0) {
+				Main.stackSplit = 600;
+				if (chest == player.chest) {
 					player.chest = -1;
-					Recipe.FindRecipes();
-					Main.PlaySound(SoundID.MenuClose);
+					SoundEngine.PlaySound(SoundID.MenuClose);
 				}
-				else
-				{
-					NetMessage.SendData(31, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
-					Main.stackSplit = 600;
+				else {
+					player.chest = chest;
+					Main.playerInventory = true;
+					Main.recBigList = false;
+					player.chestX = left;
+					player.chestY = top;
+					SoundEngine.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
 				}
+
+				Recipe.FindRecipes();
 			}
-			else
-			{
-				int chest = Chest.FindChest(left, top);
-				if (chest >= 0)
-				{
-					Main.stackSplit = 600;
-					if (chest == player.chest)
-					{
-						player.chest = -1;
-						Main.PlaySound(SoundID.MenuClose);
-					}
-					else
-					{
-						player.chest = chest;
-						Main.playerInventory = true;
-						Main.recBigList = false;
-						player.chestX = left;
-						player.chestY = top;
-						Main.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
-					}
-					Recipe.FindRecipes();
-				}
-			}
+
+			return true;
 		}
 
 		public override void MouseOver(int i, int j)
@@ -161,41 +153,41 @@ namespace AutoStacker.Tiles
 			Tile tile = Main.tile[i, j];
 			int left = i;
 			int top = j;
-			if (tile.frameX % 36 != 0)
+			if (tile.TileFrameX % 36 != 0)
 			{
 				left--;
 			}
-			if (tile.frameY != 0)
+			if (tile.TileFrameY != 0)
 			{
 				top--;
 			}
 			int chest = Chest.FindChest(left, top);
-			player.showItemIcon2 = -1;
+			player.cursorItemIconID = -1;
 			if (chest < 0)
 			{
-				player.showItemIconText = Language.GetTextValue("LegacyChestType.0");
+				player.cursorItemIconText = Language.GetTextValue("LegacyChestType.0");
 			}
 			else
 			{
-				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Item Grower Chest";
-				if (player.showItemIconText == "Item Grower Chest")
+				player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Item Grower Chest";
+				if (player.cursorItemIconText == "Item Grower Chest")
 				{
-					player.showItemIcon2 = mod.ItemType("ItemGrowerChest");
-					player.showItemIconText = "";
+					player.cursorItemIconID = ModContent.ItemType<Items.ItemGrowerChest>();
+					player.cursorItemIconText = "";
 				}
 			}
 			player.noThrow = 2;
-			player.showItemIcon = true;
+			player.cursorItemIconEnabled = true;
 		}
 
 		public override void MouseOverFar(int i, int j)
 		{
 			MouseOver(i, j);
 			Player player = Main.LocalPlayer;
-			if (player.showItemIconText == "")
+			if (player.cursorItemIconText == "")
 			{
-				player.showItemIcon = false;
-				player.showItemIcon2 = 0;
+				player.cursorItemIconEnabled = false;
+				player.cursorItemIconID = 0;
 			}
 		}
 	}

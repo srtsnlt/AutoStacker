@@ -77,7 +77,7 @@ namespace AutoStacker.GlobalItems
 					}
 					
 					Item chestItem = Main.chest[chestNo].item[slot];
-					if (item.IsTheSameAs(chestItem) && chestItem.stack < chestItem.maxStack)
+					if (!item.IsNotSameTypePrefixAndStack(chestItem) && chestItem.stack < chestItem.maxStack)
 					{
 						int spaceLeft = chestItem.maxStack - chestItem.stack;
 						if (spaceLeft >= item.stack)
@@ -97,7 +97,8 @@ namespace AutoStacker.GlobalItems
 			}
 			
 			//storage heart
-			else if(AutoStacker.modMagicStorage != null || AutoStacker.modMagicStorageExtra != null)
+			// else if(AutoStacker.modMagicStorage != null || AutoStacker.modMagicStorageExtra != null)
+			else if(AutoStacker.modMagicStorage != null)
 			{
 				Common.MagicStorageConnecter.InjectItem(topLeft, item);
 				if(item.stack == 0)

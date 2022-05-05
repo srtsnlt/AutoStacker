@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace AutoStacker.Worlds
 {
-	public class MinionHouse : Terraria.ModLoader.ModWorld
+	public class MinionHouse : ModSystem
 	{
 		Dictionary<int, Player> minionHousePlayer   = new Dictionary<int, Player>();
 		Dictionary<int, int   > minionHousePlayerNo = new Dictionary<int, int   >();
@@ -18,14 +18,15 @@ namespace AutoStacker.Worlds
 		}
 		
 		
-		public override void PreUpdate()
+		public override void PreUpdateWorld()
 		{
-			if(!Terraria.Program.LoadedEverything )
+			if(!Terraria.Program.LoadedEverything || !Terraria.Main.PlayerLoaded)
 			{
 				return;
 			}
 			
-			int minionHouseChestType = mod.GetTile("MinionHouse").Type;
+			// int minionHouseChestType = mod.GetTile("MinionHouse").Type;
+			int minionHouseChestType = ModContent.TileType<Tiles.MinionHouse>();
 			
 			for(int chestNo = 0; chestNo < Main.chest.Length; chestNo ++)
 			{
@@ -33,8 +34,8 @@ namespace AutoStacker.Worlds
 				if(
 					chest == null 
 					|| Main.tile[chest.x, chest.y] == null 
-					|| !Main.tile[chest.x, chest.y].active()
-					|| Main.tile[chest.x, chest.y].type != minionHouseChestType
+					|| Main.tile[chest.x, chest.y].IsActuated
+					|| Main.tile[chest.x, chest.y].TileType != minionHouseChestType
 				)
 				{
 					continue;
@@ -47,15 +48,18 @@ namespace AutoStacker.Worlds
 					{
 						if(Main.player[playerNo]==null || !Main.player[playerNo].active)
 						{
-							Main.player[playerNo] = (Player)Main.player[Main.myPlayer].clientClone();
+							Main.player[playerNo] = (Player)Main.player[Main.myPlayer].Clone();
+
+							
+
 
 							minionHousePlayer[chestNo]   = Main.player[playerNo];
 							minionHousePlayerNo[chestNo] = playerNo;
-							minionHousePlayerAi[chestNo] = 0;
+							minionHousePlayerAi[chestNo] = 10;
 							
 							Main.player[playerNo].active               =true;
 							Main.player[playerNo].dead                 =false;
-							Main.player[playerNo].activeNPCs           =1f;
+							Main.player[playerNo].nearbyActiveNPCs     =1f;
 							Main.player[playerNo].townNPCs             =1f;
 							Main.player[playerNo].name                 ="Minion House Keeper";
 							Main.player[playerNo].velocity.X           =0f;
@@ -98,7 +102,7 @@ namespace AutoStacker.Worlds
 				{
 					Item item = chest.item[itemNo];
 					
-					if(item==null || item.IsAir || !item.summon)
+					if(item==null || item.IsAir || item.DamageType != DamageClass.Summon )
 					{
 						continue;
 					}
@@ -117,6 +121,8 @@ namespace AutoStacker.Worlds
 					minionHousePlayer[chestNo].controlUseItem=false;
 					minionHousePlayer[chestNo].releaseUseItem=false;
 					
+					minionHousePlayer[chestNo].inventory[0] = playerItem;
+
 					Main.myPlayer = myPlayer;
 				}
 				minionHousePlayer[chestNo].controlUseItem=false;
