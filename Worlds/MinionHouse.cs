@@ -64,7 +64,6 @@ namespace AutoStacker.Worlds
 						{
 							Main.player[playerNo] = (Player)Main.player[Main.myPlayer].Clone();
 
-
 							minionHousePlayer[chestNo]   = Main.player[playerNo];
 							minionHousePlayerNo[chestNo] = playerNo;
 							minionHousePlayerAi[chestNo] = 10;
@@ -109,8 +108,7 @@ namespace AutoStacker.Worlds
 					minionHousePlayerAi[chestNo] -= 1;
 					continue;
 				}
-				minionHousePlayerAi[chestNo] = 1000;
-				
+
 				for(int itemNo = 0; itemNo < chest.item.Length; itemNo++)
 				{
 					Item item = chest.item[itemNo];
@@ -120,6 +118,8 @@ namespace AutoStacker.Worlds
 						continue;
 					}
 					
+					minionHousePlayerAi[chestNo] = 1000;
+				
 					int myPlayer = Main.myPlayer;
 					Main.myPlayer = minionHousePlayerNo[chestNo];
 					
@@ -135,6 +135,7 @@ namespace AutoStacker.Worlds
 					minionHousePlayer[chestNo].inventory[0] = playerItem;
 
 					Main.myPlayer = myPlayer;
+					break;
 				}
 			}
 			
