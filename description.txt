@@ -6,7 +6,8 @@ AutoStacker includes below Items!
 
 Items
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ Reciever Chest Selector ]
+Reciever Chest Selector
+~~~~~~~~~~~~~~~~~~~~~~~~
  When you pick up drop items, the items stack to chest directry!
  * This item useable to MagicStorage(StorageHeart) insted of chest!
 
@@ -21,7 +22,8 @@ Items
      Require one normal chest on WorkBench.
 
 
-[ Auto Picker (and Controller)]
+Auto Picker (and Controller)
+~~~~~~~~~~~~~~~~~~~~~~~~
  Pick and collect item automatically when Hit Wire!
 
  useage:
@@ -35,7 +37,8 @@ Items
    AutoPicker requires a normal chest and a wire on WorkBench.
    AutoPickerController requires a RecieverChestSelector on WorkBench.
 
-[ Minion House ]
+Minion House
+~~~~~~~~~~~~~~~~~~~~~~~~
  Minions are attack the enemies when you deposit summon weapon in this chest!
  So, You obtain the chance that you get items without adventure!
 
@@ -46,7 +49,8 @@ Items
      Require one normal chest and 999 Wood on WorkBench.
 
 
- [ Witch's Cauldron]
+ Witch's Cauldron
+ ~~~~~~~~~~~~~~~~~~~~~~~~
  This's chest item which change stored items to quite another items!
  Witch's Cauldron change items 'about' day after you store(game time).
  * The item is reborn! So,I recommend to store worthless items(like a wooden arrow)...
@@ -57,7 +61,8 @@ Items
  recipie:
      Require one normal chest and any Counterweight / Switch  on WorkBench.
 
- [ Quick Liquid ]
+ Quick Liquid
+ ~~~~~~~~~~~~~~~~~~~~~~~~
  Water,Lava,Honey falls to quickly!
 
  useage:
@@ -67,7 +72,8 @@ Items
      Requires notthing on WorkBench.
 
 
- [ Reflection Field ]
+ Reflection Field
+ ~~~~~~~~~~~~~~~~~~~~~~~~
  When set to accesary slot, Reflect monsters and attacks!
 
  useage:
@@ -77,7 +83,8 @@ Items
      Require 3 MagicMirrors on WorkBench.
 
 
-[ Mount Of Discord ]
+Mount Of Discord
+~~~~~~~~~~~~~~~~~~~~~~~~
  Go through any blocks when you mount!
 
  useage:
@@ -87,7 +94,8 @@ Items
      Require 999 Glass on WorkBench.
 
 
-[ Item Grower Chest ]
+Item Grower Chest
+~~~~~~~~~~~~~~~~~~~~~~~~
  Per day, items in chest to be twice!
 
  useage:
@@ -97,7 +105,8 @@ Items
      Require one normal chest on WorkBench.
 
 
-[ Item Vacuumer ]
+Item Vacuumer
+~~~~~~~~~~~~~~~~~~~~~~~~
  When enemy drops items, the items track to you automatically!
 
  useage:
@@ -107,7 +116,8 @@ Items
      Require ReinforcedFishingPole on WorkBench.
 
 
-[ Map Shiner ]
+Map Shiner
+~~~~~~~~~~~~~~~~~~~~~~~~
  When you use, mini Map has been to maximum bright!
 
  useage:
@@ -117,7 +127,8 @@ Items
      Requires notthing on WorkBench.
 
 
-[ Hit Wire Rod ]
+Hit Wire Rod
+~~~~~~~~~~~~~~~~~~~~~~~~
  When you use this item to wire, trip signal insted of any switchs/lever!
 
  useage:
@@ -129,7 +140,8 @@ Items
 
 In Progress
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ Ore Eater ]
+Ore Eater
+~~~~~~~~~~~~~~~~~~~~~~~~
  Summon a pet that serch ores and pick ores or treasures for you!
  Pets pick power is depend on pickel in your inventory.
 
@@ -143,10 +155,14 @@ In Progress
      v4 Require v1 and 4 WormholePotions on WorkBench.
      v4 Require v1 and 4 TeleportationPotions on WorkBench.
 
- [ Witch's Pot]
+ Witch's Pot
+ ~~~~~~~~~~~~~~~~~~~~~~~~
  Witch's Pot change items When hit wire.
 
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.0.2
+Correction of description
+
 v0.0.1
 Version 1.4 supported
