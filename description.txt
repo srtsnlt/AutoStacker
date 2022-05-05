@@ -161,6 +161,9 @@ Ore Eater
 
 History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v0.0.3
+Organize Sources
+
 v0.0.2
 Correction of description
 
