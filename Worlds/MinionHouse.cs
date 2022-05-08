@@ -20,16 +20,30 @@ namespace AutoStacker.Worlds
 		
 		public override void PreUpdate()
 		{
-			if(!Terraria.Program.LoadedEverything )
+			if(!Terraria.Program.LoadedEverything || !Terraria.Main.playerLoaded)
 			{
 				return;
 			}
 			
-			int minionHouseChestType = mod.GetTile("MinionHouse").Type;
+			// int minionHouseChestType = mod.GetTile("MinionHouse").Type;
+			int minionHouseChestType = ModContent.TileType<Tiles.MinionHouse>();
 			
 			for(int chestNo = 0; chestNo < Main.chest.Length; chestNo ++)
 			{
 				Chest chest = Main.chest[chestNo];
+
+				// check destroyed chest -> player delete
+				if(Main.chest[chestNo]==null && minionHousePlayerNo.ContainsKey(chestNo))
+				{
+					Main.player[minionHousePlayerNo[chestNo]] = new Player();
+					Main.player[minionHousePlayerNo[chestNo]].active=false;
+					
+					minionHousePlayer.Remove(chestNo);
+					minionHousePlayerNo.Remove(chestNo);
+					minionHousePlayerAi.Remove(chestNo);
+					break;
+				}
+
 				if(
 					chest == null 
 					|| Main.tile[chest.x, chest.y] == null 
@@ -47,16 +61,16 @@ namespace AutoStacker.Worlds
 					{
 						if(Main.player[playerNo]==null || !Main.player[playerNo].active)
 						{
-							Main.player[playerNo] = (Player)Main.player[Main.myPlayer].clientClone();
+							Main.player[playerNo] = (Player)Main.player[Main.myPlayer].Clone();
 
 							minionHousePlayer[chestNo]   = Main.player[playerNo];
 							minionHousePlayerNo[chestNo] = playerNo;
-							minionHousePlayerAi[chestNo] = 0;
+							minionHousePlayerAi[chestNo] = 10;
 							
 							Main.player[playerNo].active               =true;
 							Main.player[playerNo].dead                 =false;
-							Main.player[playerNo].activeNPCs           =1f;
-							Main.player[playerNo].townNPCs             =1f;
+							// Main.player[playerNo].nearbyActiveNPCs     =1f;
+							// Main.player[playerNo].townNPCs             =1f;
 							Main.player[playerNo].name                 ="Minion House Keeper";
 							Main.player[playerNo].velocity.X           =0f;
 							Main.player[playerNo].velocity.Y           =0f;
@@ -75,9 +89,9 @@ namespace AutoStacker.Worlds
 							Main.player[playerNo].releaseSmart         =false;
 							Main.player[playerNo].releaseThrow         =false;
 							Main.player[playerNo].releaseUp            =false;
-							Main.player[playerNo].releaseUseItem       =false;
 							Main.player[playerNo].releaseUseTile       =false;
 							Main.player[playerNo].selectedItem=0;
+							Main.player[playerNo].whoAmI = playerNo;
 							
 							Main.player[playerNo].position.X =chest.x * 16 - 16*2;
 							Main.player[playerNo].position.Y =chest.y * 16 - 16*4;
@@ -93,18 +107,19 @@ namespace AutoStacker.Worlds
 					minionHousePlayerAi[chestNo] -= 1;
 					continue;
 				}
-				
+
 				for(int itemNo = 0; itemNo < chest.item.Length; itemNo++)
 				{
 					Item item = chest.item[itemNo];
 					
-					if(item==null || item.IsAir || !item.summon)
+					if(item==null || item.IsAir || !item.summon || item.stack==0 )
 					{
+						minionHousePlayerAi[chestNo] = 10;
 						continue;
 					}
 					
-					minionHousePlayerAi[chestNo] = 2 * 1000;
-					
+					minionHousePlayerAi[chestNo] = 1000;
+				
 					int myPlayer = Main.myPlayer;
 					Main.myPlayer = minionHousePlayerNo[chestNo];
 					
@@ -117,23 +132,22 @@ namespace AutoStacker.Worlds
 					minionHousePlayer[chestNo].controlUseItem=false;
 					minionHousePlayer[chestNo].releaseUseItem=false;
 					
+					minionHousePlayer[chestNo].inventory[0] = playerItem;
+
 					Main.myPlayer = myPlayer;
+					break;
 				}
-				minionHousePlayer[chestNo].controlUseItem=false;
-				minionHousePlayer[chestNo].releaseUseItem=false;
 			}
 			
 			
-			//take damage
+			// take damage
 			for(int projectileNo = 0; projectileNo < Main.projectile.Length; projectileNo++)
 			{
 				Projectile projectile=Main.projectile[projectileNo];
-				
 				if(!minionHousePlayerNo.ContainsValue(projectile.owner))
 				{
 					continue;
 				}
-				Player player = Main.player[projectile.owner];
 				
 				for(int npcNo=0; npcNo < Main.npc.Length; npcNo++)
 				{
@@ -148,21 +162,6 @@ namespace AutoStacker.Worlds
 					{
 						npc.StrikeNPC( projectile.damage, projectile.knockBack, (int)projectile.rotation, false, false, false);
 					}
-				}
-			}
-			
-			//check destroyed chest -> player delete
-			foreach(int chestNo in minionHousePlayer.Keys)
-			{
-				if(Main.chest[chestNo]==null)
-				{
-					foreach(int chestNo2 in minionHousePlayer.Keys)
-					{
-						Main.player[minionHousePlayerNo[chestNo2]] = new Player();
-						Main.player[minionHousePlayerNo[chestNo2]].active=false;
-					}
-					this.init();
-					break;
 				}
 			}
 		}

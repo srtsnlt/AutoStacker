@@ -233,51 +233,46 @@ namespace AutoStacker.Tiles
 		public int direction = 1;
 
 		private int renda=0;
-		static Players.AutoPicker player = new Players.AutoPicker();
 		public override void HitWire(int i, int j)
 		{
+			if((short)picker.X == (short)-1 || (short)picker.Y == (short)-1)
+			{
+				return;
+			}
+			int pickerChest = Common.AutoStacker.FindChest(topLeftPicker.X,topLeftPicker.Y);
+			if(pickerChest == -1)
+			{
+				return;
+			}
+			int pickPower=Main.chest[pickerChest].item.Max(chestItem => chestItem.pick);
+			if(pickPower <= 0)
+			{
+				return;
+			}
+
 			if(topLeftRecever.X != -1 && topLeftRecever.Y != -1)
 			{
 				Point16 Origin = Common.AutoStacker.GetOrigin(picker.X,picker.Y);
 				int fieldChest = Common.AutoStacker.FindChest(Origin.X,Origin.Y);
 				if(fieldChest == -1 || Main.chest[fieldChest].item.Where(chestItem => chestItem.stack > 0).Count() == 0)
 				{
-					int pickerChest = Common.AutoStacker.FindChest(topLeftPicker.X,topLeftPicker.Y);
-					int pickPower=Main.chest[pickerChest].item.Max(chestItem => chestItem.pick);
-					if(pickPower != 0 && Main.tile[picker.X,picker.Y].active() && canPick(picker.X,picker.Y,pickPower))
+					if(canPick(picker.X,picker.Y,pickPower))
 					{
-						if(renda<=20)
-						{
-							player.PickTile2(picker.X,picker.Y,pickPower,this);
-							renda +=1;
-							if(!Main.tile[picker.X,picker.Y].active())
-							{
-								moveNext(pickPower);
-								renda=0;
-							}
-						}
-						else
-						{
-							moveNext(pickPower);
-							renda=0;
-						}
+						Tile tile = Main.tile[picker.X,picker.Y];
+						WorldGen.KillTile(picker.X,picker.Y,false,false,false);
+						Main.item.Where(item => item.active && item.spawnTime == 0 && item.stack > 0).ToList().ForEach(item => tryDeposit(item));
+						moveNext(pickPower);
+
 					}
 					else
 					{
 						moveNext(pickPower);
-						renda=0;
 					}
 				}
 				else
 				{
 					Item item =Main.chest[fieldChest].item.Where(chestItem => chestItem.stack > 0).First();
-					if(!deposit(item.Clone()))
-					{
-						Item.NewItem(picker.X * 16, picker.Y * 16, 16, 16, item.type, item.stack, noBroadcast: false, -1);
-					}
-					item.SetDefaults(0, true);
-
-					renda=0;
+					tryDeposit(item);
 				}
 				
 			}
@@ -285,13 +280,9 @@ namespace AutoStacker.Tiles
 
 		private void moveNext(int pickPower)
 		{
-			// Main.NewText(picker.X +","+picker.Y);
-			// int pickerChest = Common.AutoStacker.FindChest(topLeftPicker.X,topLeftPicker.Y);
-			// int pickPower=Main.chest[pickerChest].item.Max(chestItem => chestItem.pick);
-
 			short x = picker.X;
 			short y = picker.Y;
-
+			
 			for(;;)
 			{
 				if(
@@ -302,9 +293,11 @@ namespace AutoStacker.Tiles
 					y += 1;
 					direction *= -1;
 
-					if(picker.Y >= Main.Map.MaxHeight)
+					if(y >= Main.maxTilesY )
 					{
-						return;
+						y -= 1;
+						x += (short)direction;
+						break;						
 					}
 				}
 				else
@@ -317,7 +310,7 @@ namespace AutoStacker.Tiles
 
 				if(fieldChest == -1 || Main.chest[fieldChest].item.Where(chestItem => chestItem.stack > 0).Count() == 0)
 				{
-					if(pickPower != 0 && Main.tile[x,y].active() && canPick(x,y,pickPower))
+					if(canPick(x,y,pickPower))
 					{
 						break;
 					}
@@ -329,11 +322,15 @@ namespace AutoStacker.Tiles
 			}
 
 			picker = new Point16(x, y);
-			// Main.NewText(picker.X +","+picker.Y);
 		}
 
 		private bool canPick(int x, int y, int pickPower)
 		{
+			if(pickPower == 0 || !Main.tile[x,y].active())
+			{
+				return false;
+			}
+
 			Tile tile = Main.tile[x,y];
 			if ((tile.type == 211 && pickPower <= 200)
 				|| ((tile.type == 25 || tile.type == 203) && pickPower <= 65)
@@ -373,15 +370,20 @@ namespace AutoStacker.Tiles
 				return false;
 			}
 
-			return true;
+			return WorldGen.CanKillTile(x,y);
 		}
 
-		public bool deposit(int X, int Y, int Width, int Height, int Type, int Stack = 1, bool noBroadcast = false, int pfix = 0, bool noGrabDelay = false, bool reverseLookup = false)
+		private void tryDeposit(Item item)
 		{
-			Item item = new Item();
-			item.SetDefaults(Type);
-			item.stack=Stack;
-			return deposit(item);
+			if(!deposit(item))
+			{
+				Item.NewItem(picker.X * 16, picker.Y * 16, 16, 16, item.type, item.stack, noBroadcast: false, -1);
+				// int num =
+				// Main.item[num].TryCombiningIntoNearbyItems(num);
+			}
+			item.SetDefaults(0, true);
+			item.active=false;
+			item.stack=0;
 		}
 
 		public bool deposit(Item item)
@@ -399,6 +401,8 @@ namespace AutoStacker.Tiles
 					{
 						Main.chest[chestNo].item[slot] = item.Clone();
 						item.SetDefaults(0, true);
+						item.active=false;
+						item.stack=0;
 						Wiring.TripWire(topLeft.X, topLeft.Y, 2, 2);
 						return true;
 					}
@@ -411,6 +415,8 @@ namespace AutoStacker.Tiles
 						{
 							chestItem.stack += item.stack;
 							item.SetDefaults(0, true);
+							item.active=false;
+							item.stack=0;
 							Wiring.TripWire(topLeft.X, topLeft.Y, 2, 2);
 							return true;
 						}
@@ -428,6 +434,8 @@ namespace AutoStacker.Tiles
 				if(Common.MagicStorageConnecter.InjectItem(topLeft, item))
 				{
 					item.SetDefaults(0, true);
+					item.active=false;
+					item.stack=0;
 					return true;
 				}
 			}

@@ -28,10 +28,15 @@ namespace AutoStacker.Items
 		
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
+			NPC targetNpc = null;
+			float distanceMin = float.MaxValue;
+
 			foreach(NPC npc in Main.npc)
 			{
 				if(
-					npc.townNPC
+					npc == null
+					|| !npc.active
+					|| npc.townNPC
 					|| npc.friendly
 					|| npc.damage == 0
 				)
@@ -39,39 +44,32 @@ namespace AutoStacker.Items
 					continue;
 				}
 				Vector2 distance= player.Center - npc.Center;
-				float distanceOffset = (float)(Math.Max(npc.width, npc.height) * 0.5);
-				
-				if(distanceOffset > Math.Abs(distance.X))
-				{
-					distance.X += (float)((distance.X >= 0 ? -1 : 1));
-				}
-				else
-				{
-					distance.X += (float)((distance.X >= 0 ? -1 : 1) * distanceOffset);
-				}
-				
-				if(distanceOffset > Math.Abs(distance.Y))
-				{
-					distance.Y += (float)((distance.Y >= 0 ? -1 : 1));
-				}
-				else
-				{
-					distance.Y += (float)((distance.Y >= 0 ? -1 : 1) * distanceOffset);
-				}
-				
+
+				distance.X -= (float)(Math.Sign(distance.X) * npc.width);
+				distance.Y -= (float)(Math.Sign(distance.Y) * npc.height);
+
 				float distanceSum = Math.Abs(distance.X) + Math.Abs(distance.Y);
+				if(distanceSum < distanceMin && npc.active)
+				{
+					targetNpc = npc;
+					distanceMin = distanceSum;
+				}
+
 				if(distanceSum <= reflectDictance)
 				{
-					npc.velocity.X = distance.X >= 0 ? -1 * Math.Abs(npc.velocity.X) : Math.Abs(npc.velocity.X);
-					npc.velocity.Y = distance.Y >= 0 ? -1 * Math.Abs(npc.velocity.Y) : Math.Abs(npc.velocity.Y);
 					if(distanceSum <= awayDictance)
 					{
-						npc.velocity.X  = distance.X >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
-						npc.velocity.Y  = distance.Y >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
+						npc.velocity.X  = -Math.Sign(distance.X) * (32 - (distanceSum/awayDictance)*32);
+						npc.velocity.Y  = -Math.Sign(distance.Y) * (32 - (distanceSum/awayDictance)*32);
 						
-						npc.position.X += distance.X >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
-						npc.position.Y += distance.Y >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
+						npc.position.X += -Math.Sign(distance.X) * (32 - (distanceSum/awayDictance)*32);
+						npc.position.Y += -Math.Sign(distance.Y) * (32 - (distanceSum/awayDictance)*32);
 						
+					}
+					else
+					{
+						npc.velocity.X = -Math.Sign(distance.X) * Math.Abs(npc.velocity.X);
+						npc.velocity.Y = -Math.Sign(distance.Y) * Math.Abs(npc.velocity.Y);
 					}
 				}
 			}
@@ -79,9 +77,10 @@ namespace AutoStacker.Items
 			foreach(Projectile projectile in Main.projectile)
 			{
 				if( 
-					projectile.whoAmI == Main.myPlayer 
+					projectile == null
+					|| !projectile.active
 					|| projectile.damage == 0 
-					|| projectile.friendly 
+					|| !projectile.hostile
 					|| (
 							projectile.minion 
 							&& projectile.OwnerMinionAttackTargetNPC is null
@@ -92,43 +91,37 @@ namespace AutoStacker.Items
 				}
 
 				Vector2 distance= player.Center - projectile.Center;
-				float distanceOffset = (float)(Math.Max(projectile.width, projectile.height) * 0.5);
-				
-				if(distanceOffset > Math.Abs(distance.X))
-				{
-					distance.X += (float)((distance.X >= 0 ? -1 : 1));
-				}
-				else
-				{
-					distance.X += (float)((distance.X >= 0 ? -1 : 1) * distanceOffset);
-				}
-				
-				if(distanceOffset > Math.Abs(distance.Y))
-				{
-					distance.Y += (float)((distance.Y >= 0 ? -1 : 1));
-				}
-				else
-				{
-					distance.Y += (float)((distance.Y >= 0 ? -1 : 1) * distanceOffset);
-				}
-				
+				distance.X -= (float)(Math.Sign(distance.X) * projectile.width);
+				distance.Y -= (float)(Math.Sign(distance.Y) * projectile.height);
+
 				float distanceSum = Math.Abs(distance.X) + Math.Abs(distance.Y);
-				if(distanceSum <= reflectDictance)
+				if(projectile.friendly)
 				{
-					projectile.velocity.X = distance.X >= 0 ? -1 * Math.Abs(projectile.velocity.X) : Math.Abs(projectile.velocity.X);
-					projectile.velocity.Y = distance.Y >= 0 ? -1 * Math.Abs(projectile.velocity.Y) : Math.Abs(projectile.velocity.Y);
-					if(distanceSum <= awayDictance)
+					if(targetNpc != null)
 					{
-						projectile.velocity.X  = distance.X >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
-						projectile.velocity.Y  = distance.Y >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
-						
-						projectile.position.X += distance.X >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
-						projectile.position.Y += distance.Y >= 0 ? -32 + (distanceSum/awayDictance)*32 : 32 - (distanceSum/awayDictance)*32;
-						
+						Vector2 distanceNPC= targetNpc.Center - projectile.Center;
+						float distanceNPCSum = Math.Abs(distanceNPC.X) + Math.Abs(distanceNPC.Y);
+						distanceNPC.X -= (float)(Math.Sign(distanceNPC.X) * projectile.width);
+						distanceNPC.Y -= (float)(Math.Sign(distanceNPC.Y) * projectile.height);
+
+						projectile.velocity.X = (float)( projectile.velocity.X * 0.9875 + distanceNPC.X * 0.00125 );
+						projectile.velocity.Y = (float)( projectile.velocity.Y * 0.9875 + distanceNPC.Y * 0.00125 );
 					}
-					projectile.owner = player.whoAmI;
-					projectile.whoAmI = player.whoAmI;
-					projectile.damage *= 2;
+				}
+				else
+				{
+					if(distanceSum <= reflectDictance)
+					{
+						projectile.velocity.X = -Math.Sign(distance.X) * Math.Abs(projectile.velocity.X);
+						projectile.velocity.Y = -Math.Sign(distance.Y) * Math.Abs(projectile.velocity.Y);
+						projectile.friendly = true;
+						projectile.penetrate = 1;
+					}
+					else
+					{
+						projectile.velocity.X = (float)( projectile.velocity.X * 0.9875 + distance.X * 0.00125 );
+						projectile.velocity.Y = (float)( projectile.velocity.Y * 0.9875 + distance.Y * 0.00125 );
+					}
 				}
 			}
 		}

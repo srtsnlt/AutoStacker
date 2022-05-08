@@ -13,26 +13,6 @@ namespace AutoStacker.Players
 		{
 			vacuumSwitch = false;
 		}
-
-		public override TagCompound Save()
-		{
-			TagCompound tag = new TagCompound();
-			tag.Set("vacuumSwitch", vacuumSwitch);
-			
-			return tag;
-		}
-		
-		public override void Load(TagCompound tag)
-		{
-			if(tag.ContainsKey("vacuumSwitch"))
-			{
-				vacuumSwitch=tag.GetBool("vacuumSwitch");
-			}
-			else
-			{
-				vacuumSwitch=false;
-			}
-		}
 		
 		public override void PreUpdate()
 		{

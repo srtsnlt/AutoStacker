@@ -16,26 +16,6 @@ namespace AutoStacker.Players
 			vacuumSwitch = false;
 		}
 
-		public override TagCompound Save()
-		{
-			TagCompound tag = new TagCompound();
-			tag.Set("vacuumSwitchV2", vacuumSwitch);
-			
-			return tag;
-		}
-		
-		public override void Load(TagCompound tag)
-		{
-			if(tag.ContainsKey("vacuumSwitchV2"))
-			{
-				vacuumSwitch=tag.GetBool("vacuumSwitchV2");
-			}
-			else
-			{
-				vacuumSwitch=false;
-			}
-		}
-		
 		public override void PreUpdate()
 		{
 			if(vacuumSwitch)
