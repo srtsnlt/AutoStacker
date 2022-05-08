@@ -14,7 +14,6 @@ namespace AutoStacker.Projectiles
         {
 			if(Main.LocalPlayer.armor.Count( item => item.type == ModContent.ItemType<Items.ReflectionField>()) >= 1)
 			{
-	            // return base.CanHitPlayer(projectile, target);
 				return false;
 			}else{
 	            return base.CanHitPlayer(projectile, target);

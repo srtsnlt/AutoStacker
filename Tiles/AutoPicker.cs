@@ -405,14 +405,9 @@ namespace AutoStacker.Tiles
 				Main.item[num].TryCombiningIntoNearbyItems(num);
 			}
 			item.SetDefaults(0, true);
-		}
+			item.active=false;
+			item.stack=0;
 
-		private bool deposit(int X, int Y, int Width, int Height, int Type, int Stack = 1, bool noBroadcast = false, int pfix = 0, bool noGrabDelay = false, bool reverseLookup = false)
-		{
-			Item item = new Item();
-			item.SetDefaults(Type);
-			item.stack=Stack;
-			return deposit(item);
 		}
 
 		private bool deposit(Item item)
@@ -428,6 +423,8 @@ namespace AutoStacker.Tiles
 					{
 						Main.chest[chestNo].item[slot] = item.Clone();
 						item.SetDefaults(0, true);
+						item.active=false;
+						item.stack=0;
 						Wiring.TripWire(topLeftRecever.X, topLeftRecever.Y, 2, 2);
 						return true;
 					}
@@ -440,6 +437,8 @@ namespace AutoStacker.Tiles
 						{
 							chestItem.stack += item.stack;
 							item.SetDefaults(0, true);
+							item.active=false;
+							item.stack=0;
 							Wiring.TripWire(topLeftRecever.X, topLeftRecever.Y, 2, 2);
 							return true;
 						}
@@ -458,6 +457,8 @@ namespace AutoStacker.Tiles
 				if(Common.MagicStorageConnecter.InjectItem(topLeftRecever, item))
 				{
 					item.SetDefaults(0, true);
+					item.active=false;
+					item.stack=0;
 					return true;
 				}
 			}

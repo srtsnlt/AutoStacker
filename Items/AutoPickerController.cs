@@ -51,23 +51,8 @@ namespace AutoStacker.Items
 			
 		}
 		
-		// public override void SaveData(TagCompound tag)
-		// {
-		// 	tag["topLeftXR"] = topLeft.X;
-		// 	tag["topLeftYR"] = topLeft.Y;
-		// }
-		
-		// public override void LoadData(TagCompound tag)
-		// {
-		// 	if(tag.ContainsKey("topLeftXR") && tag.ContainsKey("topLeftYR"))
-		// 	{
-		// 		topLeft = new Point16(tag.GetShort("topLeftX"), tag.GetShort("topLeftY"));
-		// 	}
-		// }
-		
 		public override bool? UseItem(Player player)
 		{
-			//Players.AutoPicker modPlayer = (Players.AutoPicker)Main.LocalPlayer.GetModPlayer<Players.AutoPicker>();
 			Point16 origin = Common.AutoStacker.GetOrigin(Player.tileTargetX,Player.tileTargetY);
             if (player.altFunctionUse == 0)
 			{

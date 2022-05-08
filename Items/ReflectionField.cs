@@ -77,11 +77,8 @@ namespace AutoStacker.Items
 				}
 			}
 			
-			// for(int index = 0; index < Main.projectile.Length; index ++)
 			foreach(Projectile projectile in Main.projectile)
 			{
-				// Projectile projectile = Main.projectile[index];
-				
 				if( 
 					projectile == null
 					|| !projectile.active
@@ -95,11 +92,6 @@ namespace AutoStacker.Items
 				{
 					continue;
 				}
-
-				
-
-				
-				// projectile.maxPenetrate = 1;
 
 				Vector2 distance= player.Center - projectile.Center;
 				distance.X -= (float)(Math.Sign(distance.X) * projectile.width);

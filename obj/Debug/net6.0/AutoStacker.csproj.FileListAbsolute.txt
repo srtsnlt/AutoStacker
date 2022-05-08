@@ -1,5 +1,0 @@
-C:\Users\tsubasa\Documents\My Games\Terraria\tModLoader\ModSources\AutoStacker\obj\Debug\net6.0\AutoStacker.csproj.AssemblyReference.cache
-C:\Users\tsubasa\Documents\My Games\Terraria\tModLoader\ModSources\AutoStacker\obj\Debug\net6.0\AutoStacker.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\tsubasa\Documents\My Games\Terraria\tModLoader\ModSources\AutoStacker\obj\Debug\net6.0\AutoStacker.AssemblyInfoInputs.cache
-C:\Users\tsubasa\Documents\My Games\Terraria\tModLoader\ModSources\AutoStacker\obj\Debug\net6.0\AutoStacker.AssemblyInfo.cs
-C:\Users\tsubasa\Documents\My Games\Terraria\tModLoader\ModSources\AutoStacker\obj\Debug\net6.0\AutoStacker.csproj.CoreCompileInputs.cache

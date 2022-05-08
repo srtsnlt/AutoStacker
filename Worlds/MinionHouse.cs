@@ -115,6 +115,7 @@ namespace AutoStacker.Worlds
 					
 					if(item==null || item.IsAir || item.DamageType != DamageClass.Summon || item.stack==0 )
 					{
+						minionHousePlayerAi[chestNo] = 10;
 						continue;
 					}
 					
