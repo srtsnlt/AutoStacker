@@ -19,7 +19,7 @@ namespace AutoStacker.Items
 			Item.useStyle = 1;
 			Item.value = 30000;
 			Item.rare = 2;
-			Item.UseSound = SoundID.Item79;
+			Item.UseSound = SoundID.Item2;
 			Item.noMelee = true;
 			Item.mountType = ModContent.MountType<Mounts.MountOfDiscord>();
 		}
