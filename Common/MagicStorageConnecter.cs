@@ -12,43 +12,43 @@ using System.Text.RegularExpressions;
 
 namespace AutoStacker.Common
 {
-	class MagicStorageConnecter
-	{
+    class MagicStorageConnecter
+    {
 
-		private static Regex regexMagicStorage = new Regex("^MagicStorage(?!Extra)");
-		// private static Regex regexMagicStorageExtra = new Regex("^MagicStorageExtra");
+        private static Regex regexMagicStorage = new Regex("^MagicStorage(?!Extra)");
+        // private static Regex regexMagicStorageExtra = new Regex("^MagicStorageExtra");
 
-		//Magic Storage
-		public static TileEntity FindHeart(Point16 origin)
-		{
-			if(!TileEntity.ByPosition.ContainsKey(origin))
-				return null;
+        //Magic Storage
+        public static TileEntity FindHeart(Point16 origin)
+        {
+            if (!TileEntity.ByPosition.ContainsKey(origin))
+                return null;
 
-			var tEStorageCenter = TileEntity.ByPosition[origin];
-			if(tEStorageCenter == null || tEStorageCenter.GetType().Name != "TEStorageHeart")
-				return null;
-			
-			return tEStorageCenter;
-		}
+            var tEStorageCenter = TileEntity.ByPosition[origin];
+            if (tEStorageCenter == null || tEStorageCenter.GetType().Name != "TEStorageHeart")
+                return null;
 
-		public static bool InjectItem(Point16 origin, Item item)
-		{
-			TileEntity tEStorageCenter = FindHeart(origin);
-			if (tEStorageCenter == null)
-				return false;
+            return tEStorageCenter;
+        }
 
-			if(regexMagicStorage.IsMatch(tEStorageCenter.GetType().Assembly.GetName().Name))
-			{
-				Common.MagicStorageAdapter.DepositItem(tEStorageCenter,item);
-				return true;
-			}
+        public static bool InjectItem(Point16 origin, Item item)
+        {
+            TileEntity tEStorageCenter = FindHeart(origin);
+            if (tEStorageCenter == null)
+                return false;
 
-			// if(regexMagicStorageExtra.IsMatch(tEStorageCenter.GetType().Assembly.GetName().Name))
-			// {
-			// 	Common.MagicStorageExtraAdapter.DepositItem(tEStorageCenter,item);
-			// 	return true;
-			// }
-			return false;
-		}
-	}
+            if (regexMagicStorage.IsMatch(tEStorageCenter.GetType().Assembly.GetName().Name))
+            {
+                global::AutoStacker.Common.MagicStorageAdapter.DepositItem(tEStorageCenter, item);
+                return true;
+            }
+
+            // if(regexMagicStorageExtra.IsMatch(tEStorageCenter.GetType().Assembly.GetName().Name))
+            // {
+            // 	Common.MagicStorageExtraAdapter.DepositItem(tEStorageCenter,item);
+            // 	return true;
+            // }
+            return false;
+        }
+    }
 }
